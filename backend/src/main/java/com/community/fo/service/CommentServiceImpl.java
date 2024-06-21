@@ -2,53 +2,48 @@ package com.community.fo.service;
 
 import java.util.List;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 import org.springframework.stereotype.Service;
+
+import com.community.fo.jpa.entity.AnswerEntity;
+import com.community.fo.jpa.entity.BoardEntity;
 import com.community.fo.jpa.entity.CommentEntity;
 import com.community.fo.jpa.repository.CommentRepository;
-import com.community.fo.mybatis.mapper.CommentMapper;
 
-import lombok.RequiredArgsConstructor;
-
-@MapperScan("com.community.fo.mybatis.mapper")
 @Service
-@RequiredArgsConstructor
-public class CommentServiceImpl implements CommentService  {
-
+public class CommentServiceImpl implements CommentService {
+	
 	@Autowired
-	private final CommentRepository cr;
-	@Autowired
-	private final CommentMapper cm;
-
-	public List<CommentEntity> commentList(){ 
-		
-		List<CommentEntity>	commentList = cr.findAll();
+	private CommentRepository commentRepository;
 	
-			return commentList;
+	@Override
+	public List<CommentEntity> getCommentList(BoardEntity boardEntity) {
+		return commentRepository.findByBoardEntityOrderByInsrtDtmDesc(boardEntity);
 	}
 	
-	public CommentEntity commentDetail(int commentSq) {
-		
-		CommentEntity commentDetail = cr.findById(commentSq).orElse(null);
-		
-		return commentDetail;
+	@Override
+	public List<CommentEntity> getCommentList(AnswerEntity answerEntity) {
+		return commentRepository.findByAnswerEntityOrderByInsrtDtmDesc(answerEntity);
 	}
 	
-	public CommentEntity CommentInsert(CommentEntity commentEntity) {
-		
-		return cr.save(commentEntity);
-	}
-	public void CommentUptate(CommentEntity commentEntity) {
-		
-		cr.save(commentEntity);
-	}
-	public void CommentDelete(int commentSq) {
-		
-		cr.deleteById(commentSq);
+	@Override
+	public void insertComment(CommentEntity commentEntity) {
+		commentRepository.save(commentEntity);
 	}
 	
+	@Override
+	public void deleteComment(int cmntSq) {
+		commentRepository.deleteById(cmntSq);
+	}
 	
+	@Override
+	public CommentEntity getComment(int cmntSq) {
+		return commentRepository.findById(cmntSq).get();
+	}
 	
+	@Override
+	public CommentEntity findById(int cmntSq) {
+		CommentEntity comment = commentRepository.findById(cmntSq).get();
+		return comment;
+	}
 }

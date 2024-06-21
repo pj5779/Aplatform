@@ -1,81 +1,105 @@
 package com.community.fo.jpa.entity;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
-import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "TBL_BOARD_COMMENT_S")
 @Entity
-@DynamicInsert
+@Table(name = "TBL_COMMENT")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CommentEntity {
+   
+   // 댓글_순번
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "cmnt_sq", nullable = false)
+   private int cmntSq;
+   
+   // 게시판_순번
+   @ManyToOne
+   @JoinColumn(name = "brd_sq")
+   @JsonBackReference("board-comment")
+   private BoardEntity boardEntity;
+   
+   // 답변_순번
+   @ManyToOne
+   @JoinColumn(name = "answr_sq")
+   @JsonBackReference("answer-comment")
+   private AnswerEntity answerEntity;
+   
+   // 회원_순번
+   @ManyToOne
+   @JoinColumn(name = "mbr_sq")
+   private MemberEntity memberEntity;
+   
+   // 댓글_내용
+   @Column(name="cmnt_cntnt", nullable = false, columnDefinition = "varchar(10000)")
+   private String cmntCntnt;
+   
+   // 등록_회원_순번
+   @ManyToOne
+   @JoinColumn(name = "insrt_mbr_sq", referencedColumnName = "mbr_sq")
+   private MemberEntity insrtMbrSq;
 
-	@Id
-	@GeneratedValue(generator = "sequence")
-	@SequenceGenerator(name = "sequence", sequenceName = "SEQ_FILE_Comm", allocationSize = 1)
-	@Column(name = "COMMENT_SQ")
-	private int commentSq;
-	
-	@Column(name = "CONTENTS")
-	private String contents;
-	
-	@Column(name = "SELECTION_YN")
-	private String selectionYn;
+   // 등록_일시
+   @CreationTimestamp // 해당 필드가 DB에 삽입될 때 현재 시간으로 자동 설정됨
+   @Column(name = "insrt_dtm", updatable = false) // 해당 필드는 저장된 값 이후에 변경, 수정되지 않도록 보장
+   private LocalDateTime insrtDtm;
 
-	@Column(name = "MAJOR_KEYWORD")
-	private String majorKeyword;
-	
-	@Column(name = "USE_YN")
-	private String useYn;
-	
-	@Column(name = "NICKNAME")
-	private String nickname;
-	
-	@Column(name = "DEL_YN")
-	private String delYn;
-	
-	@Column(name = "REGIST_DATE")
-	private Date registDate;
-	
-	
-	@Column(name = "MODIFY_MBR_SQ")
-	private int modifyMbrSq;
-	
-	@Column(name = "MODIFY_DATE")
-	private Date modifyDate;
-	
-	@Column(name = "BOARD_SQ")
-	private int boardSq;
-	
-	@Column(name = "MBR_SQ")
-	private int mbrSq;
+   // 수정_회원_순번
+   @Column(name = "updt_mbr_sq", nullable = true)
+   private Integer updtMbrSq;
 
-//	@ManyToOne
-//	@JoinColumn(name = "BOARD_SQ")
-//	private BoardEntity boardEntity;	
-//	
-//	@ManyToOne
-//	@JoinColumn(name = "MBR_SQ")
-//	private MemberEntity memberEntity;	
+   // 수정_일시
+   @LastModifiedDate // 해당 필드가 DB에 저장되거나 업데이트될 때마다 현재 시간으로 업데이트
+   @Column(name = "updt_dtm")
+   private LocalDateTime updtDtm;
 
-	
-	
+   // 삭제_회원_순번
+   @Column(name = "dlt_mbr_sq", nullable = true)
+   private Integer dltMbrSq;
+
+   // 삭제_일시
+   @LastModifiedDate // 해당 필드가 DB에 저장되거나 업데이트될 때마다 현재 시간으로 업데이트
+   @Column(name = "dlt_dtm")
+   private LocalDateTime dltDtm;
+
+   // 삭제_여부
+   @ColumnDefault("false")
+   @Column(name = "dlt_chck", nullable = false)
+   private Boolean dltChck;
+
+   // 사용_여부
+   @ColumnDefault("true")
+   @Column(name = "use_chck", nullable = false)
+   private Boolean useChck;
+   
+   @OneToMany(mappedBy = "commentEntity", cascade = CascadeType.ALL)
+   @JsonManagedReference("comment-nestedComment")
+   private List<NestedCommentEntity> nestedCommentEntity;
+   
 }

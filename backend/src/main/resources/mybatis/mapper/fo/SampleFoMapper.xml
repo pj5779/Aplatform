@@ -70,4 +70,5 @@
 		WHERE ST_NUM = #{ST_NUM}
 		
 	</update>
+	
 </mapper>
