@@ -2,21 +2,24 @@ package com.community.fo.service;
 
 import java.util.List;
 
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.community.fo.jpa.entity.AnswerEntity;
+import com.community.fo.jpa.entity.BoardEntity;
 import com.community.fo.jpa.entity.CommentEntity;
-import com.community.fo.jpa.repository.CommentRepository;
-import com.community.fo.mybatis.mapper.CommentMapper;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 public interface CommentService {
-
-
 	
+	public List<CommentEntity> getCommentList(BoardEntity boardEntity);
 	
+	public List<CommentEntity> getCommentList(AnswerEntity answerEntity);
+	
+	public void insertComment(CommentEntity commentEntity);
+	
+	public void deleteComment(int cmntSq);
+	
+	public CommentEntity getComment(int cmntSq);
+	
+	public CommentEntity findById(int cmntSq);
 }

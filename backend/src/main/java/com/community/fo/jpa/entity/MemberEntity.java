@@ -2,150 +2,107 @@ package com.community.fo.jpa.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
-import com.community.common.security.Role;
-
-import groovy.transform.builder.Builder;
+import org.springframework.data.annotation.LastModifiedDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@DynamicUpdate 
-@DynamicInsert
-@Table(name = "TBL_MBR_M")
 @Entity
+@Table(name = "TBL_MEMBER")
+@Data
+@DynamicInsert
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MemberEntity {
-	
 
+	// 회원_순번
 	@Id
-	@GeneratedValue(generator = "sequence")
-	@SequenceGenerator(name = "sequence", sequenceName = "MBR_SQ", allocationSize = 1)
-	@Column(name="MBR_SQ")
-	private Integer mbrSq;
-	
-	@Column(name="ID")
-	private String id;
-	
-	@Column(name="NICKNM")
-	private String nicknm;
-	
-	@Column(name="PW")
-	private String pw;
-	
-	@Column(name="PW_ENCRYP")
-	private String pwEncryp;
-	
-	@Column(name="NAME")
-	private String name;
-	
-	@ColumnDefault("1")
-	@Column(name="DIV_CD")
-	private String divCd;
-	
-	@Column(name="EMAIL")
-	private String email;
-	
-	@Column(name="ADDRESS")
-	private String address;
-	
-	@Column(name="PHONE")
-	private String phone;
-	
-	@ColumnDefault("N")
-	@Column(name="SMS_CERTIFI_YN")
-	private String smsCertifiYn;
-	
-	
-	@Column(name="SMS_CERTIFI_DATETIME")
-	private String smsCertifiDatetime;
-	
-	@Column(name="PROFILE_IMAGE_URL")
-	private String profileImageUrl;
-	
-	
-	@Column(name="SECESS_YN")
-	private String secessYn;
-	
-	@ColumnDefault("N")
-	@Column(name="SOCIAL_LINK_YN")
-	private String socialLinkYn;
-	
-	@ColumnDefault("N")
-	@Column(name="SOCIAL_JOIN_DIV_CD")
-	private String socialJoinDivCd;
-	
-	@ColumnDefault("Y")
-	@Column(name="USE_YN")
-	private String useYn;
-	
-	@ColumnDefault("N")
-	@Column(name="DEL_YN")
-	private String delYn;
-	
-	@ColumnDefault("1")
-	@Column(name="REGIST_MBR_SQ")
-	private String registMbrSq;
-	
-	@CreationTimestamp
-	@Column(name="REGIST_DATETIME")
-	private LocalDateTime registDatetime  = LocalDateTime.now();;
-	
-	@Column(name="MODIFY_MBR_SQ")
-	private String modifyMbrSq;
-	
-	@CreationTimestamp
-	@Column(name="MODIFY_DATETIME")
-	private String modifyDatetime;	 
-	
-	@Column(name="POST_CODE")
-	private String postCode;	 
-	
-	@Column(name="ADDRESS_DETAIL")
-	private String addressDetail;	
-	
-	@Enumerated(EnumType.STRING)
-	private Role role;	
-	
-	
-	@Builder
-	public MemberEntity(String id, String name,String nicknm,String phone,String pw, String pwEncryp, String address, String addressDetail, String postCode, String adressDetail) {
-		
-		this.id = id;
-		this.name = name;
-		this.nicknm = nicknm;
-		this.phone = phone;
-		this.pw = pw;
-		this.pwEncryp = pwEncryp;
-		this.address = address;
-		this.addressDetail = addressDetail;		
-		this.postCode = postCode;
-		
-	}
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "mbr_sq", nullable = false)
+	private int mbrSq;
 
-	@Builder
-	public  MemberEntity(String id, String name, String pwEncryp) {
-		this.id = id;
-		this.name = name;
-		this.pw = pwEncryp;
-		
-	}
-	
-	
+	// 소셜_유형_코드
+	@Column(name = "scl_ctgry_cd", nullable = true, columnDefinition = "varchar(20)")
+	private String sclCtgryCd;
+
+	// 성별_유형_코드
+	@Column(name = "gndr_ctgry_cd", nullable = false, columnDefinition = "varchar(20)")
+	private String gndrCtgryCd;
+
+	// 회원_아이디
+	@Column(name = "mbr_id", nullable = false, columnDefinition = "varchar(20)")
+	private String mbrId;
+
+	// 회원_이름
+	@Column(name = "mbr_name", nullable = false, columnDefinition = "varchar(20)")
+	private String mbrName;
+
+	// 회원_비밀번호
+	@Column(name = "mbr_pswrd", nullable = false, columnDefinition = "varchar(20)")
+	private String mbrPswrd;
+
+	// 회원_휴대폰
+	@Column(name = "mbr_mp", nullable = false, columnDefinition = "varchar(20)")
+	private String mbrMp;
+
+	// 회원_생년월일
+	@Column(name = "mbr_bd", nullable = false, columnDefinition = "varchar(20)")
+	private String mbrBd;
+
+	// 회원_이메일_주소
+	@Column(name = "mbr_eml_adrs", nullable = false, columnDefinition = "varchar(50)")
+	private String mbrEmlAdrs;
+
+	// 회원_이메일_수신_체크
+	@Column(name = "mbr_eml_rcv_chck", nullable = false, columnDefinition = "char(1)")
+	private String mbrEmlRcvChck;
+
+	// 회원_개인정보_약관_체크
+	@Column(name = "mbr_prvcy_trms_chck", nullable = false, columnDefinition = "char(1)")
+	private String mbrPrvcyTrmsChck;
+
+	// 등록_회원_순번
+	@Column(name = "insrt_mbr_sq", nullable = false)
+	private int insrtMbrSq;
+
+	// 등록_일시
+	@CreationTimestamp // 해당 필드가 DB에 삽입될 때 현재 시간으로 자동 설정됨
+	@Column(name = "insrt_dtm", updatable = false) // 해당 필드는 저장된 값 이후에 변경, 수정되지 않도록 보장
+	private LocalDateTime insrtDtm;
+
+	// 수정_회원_순번
+	@Column(name = "updt_mbr_sq", nullable = true)
+	private int updtMbrSq;
+
+	// 수정_일시
+	@LastModifiedDate // 해당 필드가 DB에 저장되거나 업데이트될 때마다 현재 시간으로 업데이트
+	@Column(name = "updt_dtm", nullable = true)
+	private LocalDateTime updtDtm;
+
+	// 삭제_회원_순번
+	@Column(name = "dlt_mbr_sq", nullable = true)
+	private int dltMbrSq;
+
+	// 삭제_일시
+	@LastModifiedDate // 해당 필드가 DB에 저장되거나 업데이트될 때마다 현재 시간으로 업데이트
+	@Column(name = "dlt_dtm", nullable = true)
+	private LocalDateTime dltDtm;
+
+	// 삭제_여부
+	@Column(name = "dlt_chck", nullable = false, columnDefinition = "boolean default false")
+	private Boolean dltChck;
+
+	// 사용_여부
+	@Column(name = "use_chck", nullable = false, columnDefinition = "boolean default true")
+	private Boolean useChck;
 }

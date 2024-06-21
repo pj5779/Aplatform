@@ -3,15 +3,25 @@ package com.community.fo.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.community.fo.mybatis.vo.BoardVo;
+import com.community.fo.jpa.entity.BoardEntity;
 
 @Service
 public interface BoardService {
 
-    List<BoardVo> ListBoards();
-    BoardVo selectBoard(int boardSq);
-    int insertBoard(BoardVo board);
-    int updateBoard(BoardVo board);
-    int deleteBoard(int boardSq);
+	public List<BoardEntity> findAll();
+
+	public void insertBoard(BoardEntity boardEntity, MultipartFile file);
+
+	public BoardEntity findById(int brdSq);
+
+	public void updateBoard(BoardEntity updatedBoard);
+	
+	public void boardHits(int brdSq);
+	
+	public List<BoardEntity> searchTitle(String brdTl, String brdCtgryCd);
+	
+	public List<BoardEntity> searchContent(String brdCntnt, String brdCtgryCd);
+
 }
