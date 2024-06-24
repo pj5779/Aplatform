@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -80,4 +84,25 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardEntity> searchContent(String brdCntnt, String brdCtgryCd) {
 		return boardRepository.findByBrdCntntAndBrdCtgryCdOrderByInsrtDtmDesc(brdCntnt, brdCtgryCd);
 	}
+	
+	@Override
+    public ResponseEntity<Resource> downloadFile(int brdSq) {
+        BoardEntity boardEntity = boardRepository.findById(brdSq)
+                .orElseThrow(() -> new RuntimeException("Board not found"));
+
+        String filePath = boardEntity.getFilePath();
+        Resource resource = new FileSystemResource(filePath);
+
+        if (!resource.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + boardEntity.getFileName() + "\"");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(resource);
+   }
+
 }

@@ -45,10 +45,20 @@ public class AnswerServiceImpl implements AnswerService {
 		answerRepository.save(answerEntity);
 	}
 	
-	@Override
-	public void deleteAnswer(int answrSq) {
-		answerRepository.deleteById(answrSq);
-	}
+   @Override
+   public void deleteAnswer(int answrSq) {
+      AnswerEntity answerEntity = answerRepository.findById(answrSq).get();
+      BoardEntity boardEntity = answerEntity.getBoardEntity();
+      
+      if(answerEntity.getAnswrSlctnChck().TRUE) {
+         answerEntity.setAnswrSlctnChck(false);
+         answerRepository.save(answerEntity);
+         boardEntity.setBrdAnswrSlctnChck(false);
+         boardRepository.save(boardEntity);
+      }
+      answerRepository.deleteById(answrSq);
+   }
+
 	
 	@Override
 	public AnswerEntity getAnswer(int answrSq) {

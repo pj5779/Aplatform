@@ -20,50 +20,50 @@
                         <div class="row">
                             <div class="form-group col">
                                 <label class="form-label text-color-dark text-3">아이디 <span class="text-color-danger">*</span></label>
-                                <input type="text" v-model="mbrId" class="form-control form-control-lg text-4" required placeholder="영문, 숫자를 포함한 4자 이상 20자 이내">
-                                <div v-if="errorMbrId" class="error">{{ errorMbrId }}</div>
+                                <input type="text" v-model="mbrId" @blur="touched.mbrId = true" class="form-control form-control-lg text-4" required placeholder="영문, 숫자를 포함한 4자 이상 20자 이내">
+                                <div v-if="touched.mbrId && errorMbrId" class="error">{{ errorMbrId }}</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col">
                                 <label class="form-label text-color-dark text-3">비밀번호 <span class="text-color-danger">*</span></label>
-                                <input type="password" v-model="mbrPswrd" class="form-control form-control-lg text-4" required placeholder="영문, 숫자를 포함한 4자 이상 20자 이내">
-                                <div v-if="errorPswrd" class="error">{{ errorPswrd }}</div>
+                                <input type="password" v-model="mbrPswrd" @blur="touched.mbrPswrd = true" class="form-control form-control-lg text-4" required placeholder="영문, 숫자를 포함한 4자 이상 20자 이내">
+                                <div v-if="touched.mbrPswrd && errorPswrd" class="error">{{ errorPswrd }}</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col">
                                 <label class="form-label text-color-dark text-3">비밀번호 확인 <span class="text-color-danger">*</span></label>
-                                <input type="password" v-model="pswrdConfirm" class="form-control form-control-lg text-4" required>
-                                <div v-if="errorPswrdConfirm" class="error">{{ errorPswrdConfirm }}</div>
+                                <input type="password" v-model="pswrdConfirm" @blur="touched.pswrdConfirm = true" class="form-control form-control-lg text-4" required>
+                                <div v-if="touched.pswrdConfirm && errorPswrdConfirm" class="error">{{ errorPswrdConfirm }}</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col">
                                 <label class="form-label text-color-dark text-3">이름 <span class="text-color-danger">*</span></label>
-                                <input type="text" v-model="mbrName" class="form-control form-control-lg text-4" required>
-                                <div v-if="errorMbrName" class="error">{{ errorMbrName }}</div>
+                                <input type="text" v-model="mbrName" @blur="touched.mbrName = true" class="form-control form-control-lg text-4" required>
+                                <div v-if="touched.mbrName && errorMbrName" class="error">{{ errorMbrName }}</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col">
                                 <label class="form-label text-color-dark text-3">생년월일 <span class="text-color-danger">*</span></label>
-                                <input type="text" v-model="mbrBd" class="form-control form-control-lg text-4" required placeholder="8자리">
-                                <div v-if="errorMbrBd" class="error">{{ errorMbrBd }}</div>
+                                <input type="text" v-model="mbrBd" @blur="touched.mbrBd = true" class="form-control form-control-lg text-4" required placeholder="8자리">
+                                <div v-if="touched.mbrBd && errorMbrBd" class="error">{{ errorMbrBd }}</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col">
                                 <label class="form-label text-color-dark text-3">휴대폰 <span class="text-color-danger">*</span></label>
-                                <input type="text" v-model="mbrMp" class="form-control form-control-lg text-4" required placeholder="-(다시)는 제외하고 입력">
-                                <div v-if="errorMbrMp" class="error">{{ errorMbrMp }}</div>
+                                <input type="text" v-model="mbrMp" @blur="touched.mbrMp = true" class="form-control form-control-lg text-4" required placeholder="-(다시)는 제외하고 입력">
+                                <div v-if="touched.mbrMp && errorMbrMp" class="error">{{ errorMbrMp }}</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-9">
                                 <label class="form-label text-color-dark text-3">이메일 <span class="text-color-danger">*</span></label>
-                                <input type="email" v-model="mbrEmlAdrs" class="form-control form-control-lg text-4" required>
-                                <div v-if="errorMbrEmlAdrs" class="error">{{ errorMbrEmlAdrs }}</div>
+                                <input type="email" v-model="mbrEmlAdrs" @blur="touched.mbrEmlAdrs = true" class="form-control form-control-lg text-4" required>
+                                <div v-if="touched.mbrEmlAdrs && errorMbrEmlAdrs" class="error">{{ errorMbrEmlAdrs }}</div>
                             </div>
                             <div class="form-group col-3">
                                 <div class="form-label text-color-dark text-3">&nbsp;</div>
@@ -73,13 +73,13 @@
                         <div class="row">
                             <div class="form-group col-9">
                                 <label class="form-label text-color-dark text-3">인증 코드 <span class="text-color-danger">*</span></label>
-                                <input type="text" v-model="emailKey" @input="updateEmailCheck" class="form-control form-control-lg text-4" required>
+                                <input type="text" v-model="emailKey" @input="updateEmailCheck" @blur="touched.emailKey = true" class="form-control form-control-lg text-4" required>
                             </div>
                             <div class="form-group col-3">
                                 <div class="form-label text-color-dark text-3">&nbsp;</div>
                                 <button type="button" v-on:click="emlChck" class="btn btn-quaternary mb-2">확인</button>
                             </div>
-                            <div v-if="errorMbrEmlChck" class="error">{{ errorMbrEmlChck }}</div>
+                            <div v-if="touched.emailKey && errorMbrEmlChck" class="error">{{ errorMbrEmlChck }}</div>
                         </div>
                         <div class="row">
                             <div class="form-group col">
@@ -90,15 +90,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="row">
-                            <div class="form-group col">
-                                <label class="form-label text-color-dark text-3">회원 개인정보 약관 체크 <span class="text-color-danger">*</span></label>
-                                <div class="form-group col form-control form-control-lg text-4">
-                                    <input type="radio" value="Y" v-model="mbrPrvcyTrmsChck" required class="form-check-input"> 예
-                                    <input type="radio" value="N" v-model="mbrPrvcyTrmsChck" required class="form-check-input"> 아니오
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="row">
                             <div class="form-group col">
                                 <label class="form-label text-color-dark text-3">성별 <span class="text-color-danger">*</span></label>
@@ -109,8 +100,10 @@
                             </div>
                         </div>
                         <!-- 약관 동의 모달 팝업-->
+                        <div>
+                            <div v-if="errorMbrPrvcyTrmsChck" class="error errorMbrPrvcyTrmsChck">{{ errorMbrPrvcyTrmsChck }}</div>
+                        </div>
                         <div class="d-flex mb-3 justify-content-center">
-
                             <div class="row justify-content-between">
                                 <div class="col-auto">
                                     <button type="button" class="col btn btn-dark rounded-0 text-3" data-bs-toggle="modal" data-bs-target="#largeModal" @click="fetchTerms">
@@ -120,9 +113,6 @@
                                 <div class="col-auto d-flex align-items-center text-4">
                                     <input type="checkbox" true-value="Y" false-value="N" v-model="mbrPrvcyTrmsChck" required class="form-check-input">동의
                                 </div>
-                            </div>
-                            <div>
-                                <div v-if="errorMbrPrvcyTrmsChck" class="error">{{ errorMbrPrvcyTrmsChck }}</div>
                             </div>
                             
                             <div class="modal fade" id="largeModal" tabindex="-1" aria-labelledby="largeModalLabel" style="display: none;" aria-hidden="true">
@@ -145,14 +135,8 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <!-- 약관 동의 모달 팝업-->
-                        <!-- <div class="row">
-                            <div class="form-group col">
-                                <p class="text-2 mb-2">Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <a href="#" class="text-decoration-none">privacy policy.</a></p>
-                            </div>
-                        </div> -->
                         <div class="row">
                             <div class="form-group col">
                                 <button type="submit" class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3" data-loading-text="Loading...">회원가입 완료</button>
@@ -173,9 +157,11 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import { registerMember, sendEmlRegister, getTermsContents } from '@/api/member';
+
+const router = useRouter();
 
 const mbrId = ref('');
 const mbrPswrd = ref('');
@@ -201,7 +187,17 @@ const errorMbrMp = ref('');
 const errorMbrEmlChck = ref('');
 const errorMbrPrvcyTrmsChck = ref('');
 
-const router = useRouter();
+const touched = reactive({
+    mbrId: false,
+    mbrPswrd: false,
+    pswrdConfirm: false,
+    mbrName: false,
+    mbrBd: false,
+    mbrMp: false,
+    mbrEmlAdrs: false,
+    emailKey: false,
+    mbrPrvcyTrmsChck: false,
+});
 
 const state = reactive({
     terms: []
@@ -253,79 +249,105 @@ const emlChck = () => {
     }
 };
 
-const submitForm = async () => {
-    errorMbrId.value = '';
-    errorPswrd.value = '';
-    errorPswrdConfirm.value = '';
-    errorMbrName.value = '';
-    errorMbrBd.value = '';
-    errorMbrEmlAdrs.value = '';
-    errorMbrMp.value = '';
-    errorMbrEmlChck.value = '';
-    errorMbrPrvcyTrmsChck.value = '';
+watchEffect(() => {
+    if (!/^[A-Za-z0-9]{4,20}$/.test(mbrId.value)) {
+        errorMbrId.value = '아이디 형식이 올바르지 않습니다. (영문, 숫자를 포함한 4자 이상 20자 이내)';
+    } else {
+        errorMbrId.value = '';
+    }
 
-    // 유효성 검사
-    if (!/^[A-Za-z0-9]{4,12}$/.test(mbrId.value)) {
-        errorMbrId.value = '아이디는 영문, 숫자를 포함한 4자 이상 20자 이내이여야 합니다.';
-        return; // 폼 제출 중단
+    if (!/^[A-Za-z0-9]{4,20}$/.test(mbrPswrd.value)) {
+        errorPswrd.value = '비밀번호 형식이 올바르지 않습니다. (영문, 숫자를 포함한 4자 이상 20자 이내)';
+    } else {
+        errorPswrd.value = '';
     }
-    if (!/^[A-Za-z0-9]{4,12}$/.test(mbrPswrd.value)) {
-        errorPswrd.value = '비밀번호는 영문, 숫자를 포함한 4자 이상 20자 이내이여야 합니다.';
-        return; // 폼 제출 중단
+
+    if (pswrdConfirm.value !== mbrPswrd.value) {
+        errorPswrdConfirm.value = '비밀번호가 일치하지 않습니다.';
+    } else {
+        errorPswrdConfirm.value = '';
     }
-    if (mbrPswrd.value !== pswrdConfirm.value) {
-        errorPswrdConfirm.value = '비밀번호를 확인해주세요.';
-        return; // 폼 제출 중단
-    }
+
     if (!/^[A-Za-z가-힣]{1,6}$/.test(mbrName.value)) {
-        errorMbrName.value = '이름이 올바르지 않습니다.';
-        return; // 폼 제출 중단
+        errorMbrName.value = '이름 형식이 올바르지 않습니다.';
+    } else {
+        errorMbrName.value = '';
     }
+
     if (!/^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/.test(mbrBd.value)) {
-        errorMbrBd.value = '생년월일이 올바르지 않습니다.';
-        return; // 폼 제출 중단
+        errorMbrBd.value = '생년월일 형식이 올바르지 않습니다. (8자리)';
+    } else {
+        errorMbrBd.value = '';
     }
+
     if (!/^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/.test(mbrMp.value)) {
-        errorMbrMp.value = '휴대폰 형식이 올바르지 않습니다.';
-        return; // 폼 제출 중단
+        errorMbrMp.value = '휴대폰 번호 형식이 올바르지 않습니다. (10자리 또는 11자리 숫자)';
+    } else {
+        errorMbrMp.value = '';
     }
+
     if (!/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/.test(mbrEmlAdrs.value)) {
         errorMbrEmlAdrs.value = '이메일 형식이 올바르지 않습니다.';
-        return; // 폼 제출 중단
+    } else {
+        errorMbrEmlAdrs.value = '';
     }
-    if (emailCode.value !== emailKey.value) {
-        errorMbrEmlChck.value = '인증 코드가 일치하지 않습니다.';
-        return; // 폼 제출 중단
+
+    if (emailCode.value && emailKey.value !== emailCode.value) {
+        errorMbrEmlChck.value = '인증코드가 일치하지 않습니다.';
+    } else {
+        errorMbrEmlChck.value = '';
     }
+
     if (mbrPrvcyTrmsChck.value !== 'Y') {
-        errorMbrPrvcyTrmsChck.value = '회원정보 약관은 필수입니다.';
-        return; // 폼 제출 중단
+        errorMbrPrvcyTrmsChck.value = '개인정보 처리방침에 동의해 주세요.';
+    } else {
+        errorMbrPrvcyTrmsChck.value = '';
+    }
+});
+
+const submitForm = async () => {
+    if (Object.values(touched).some(field => field === false)) {    // touched된 값들을 배열로 반환하여 false일 경우
+        Object.keys(touched).forEach(key => touched[key] = true);   // 사용자가 필드를 터치(포커스)하면 해당 필드의 touched 상태를 true로 설정
     }
 
-    const memberData = {
-        mbrId: mbrId.value,
-        mbrPswrd: mbrPswrd.value,
-        mbrName: mbrName.value,
-        mbrBd: mbrBd.value,
-        mbrMp: mbrMp.value,
-        mbrEmlAdrs: mbrEmlAdrs.value,
-        mbrEmlRcvChck: mbrEmlRcvChck.value,
-        mbrPrvcyTrmsChck: mbrPrvcyTrmsChck.value,
-        gndrCtgryCd: gndrCtgryCd.value,
-    };
+    if (
+        !errorMbrId.value &&
+        !errorPswrd.value &&
+        !errorPswrdConfirm.value &&
+        !errorMbrName.value &&
+        !errorMbrBd.value &&
+        !errorMbrMp.value &&
+        !errorMbrEmlAdrs.value &&
+        !errorMbrEmlChck.value &&
+        !errorMbrPrvcyTrmsChck.value
+    ) {
+        try {
+            const memberData = {
+                mbrId: mbrId.value,
+                mbrPswrd: mbrPswrd.value,
+                mbrName: mbrName.value,
+                mbrBd: mbrBd.value,
+                mbrMp: mbrMp.value,
+                mbrEmlAdrs: mbrEmlAdrs.value,
+                mbrEmlRcvChck: mbrEmlRcvChck.value,
+                mbrPrvcyTrmsChck: mbrPrvcyTrmsChck.value,
+                gndrCtgryCd: gndrCtgryCd.value,
+            };
 
-    try {
-        const response = await registerMember(memberData);
-        if (response.status === 200) {
-            alert('환영합니다.');
+            await registerMember(memberData);
+
+            alert('회원가입이 완료되었습니다.');
             router.push('/member/login');
-        } else {
-            alert(response.data);
+        } catch (error) {
+            console.error('회원가입 중 오류 발생:', error);
+            alert('회원가입 중 오류가 발생했습니다.');
         }
-    } catch (error) {
-        alert('Failed to register member: ' + error.message);
+    } else {
+        alert('입력한 정보를 확인해주세요.');
     }
 };
+
+fetchTerms();
 </script>
 
 <style scoped>
@@ -334,5 +356,9 @@ const submitForm = async () => {
     }
     .form-group input[type="radio"]:nth-child(2) {
         margin-left: 10px;
+    }
+    .errorMbrPrvcyTrmsChck {
+        text-align: center;
+        padding-bottom: 15px;
     }
 </style>

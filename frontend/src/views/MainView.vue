@@ -5,7 +5,7 @@
         <div class="mainGnrl p-2">
           <router-link to="/board/list/general"><h4>일반게시판</h4></router-link>
           <ul class="list list-icons list-primary list-borders">
-            <GeneralBoardList :showCategory="false" :showDate="true" :showPagination="false"  formatType="relative"/>
+            <GeneralBoardList :showCategory="false" :showDate="true" :showSearch="false" :showPagination="false"  formatType="relative"/>
           </ul>
         </div>
       </div>
@@ -13,13 +13,13 @@
         <div class="mainFdb p-2 flex-grow-1">
           <router-link to="/board/list/feedback"><h4>피드백게시판</h4></router-link>
           <ul class="list list-icons list-primary list-borders">
-            <FeedbackBoardList :showCategory="false" :showDate="true" :showPagination="false"  formatType="relative"/>
+            <FeedbackBoardList :showCategory="false" :showDate="true" :showSearch="false" :showPagination="false"  formatType="relative"/>
           </ul>
         </div>
         <div class="mainQna p-2 flex-grow-1">
           <router-link to="/board/list/qna"><h4>Q&A게시판</h4></router-link>
           <ul class="list list-icons list-primary list-borders">
-            <QnABoardList :showCategory="false" :showDate="true" :showPagination="false"  formatType="relative" />
+            <QnABoardList :showCategory="false" :showDate="true" :showSearch="false" :showPagination="false"  formatType="relative" />
           </ul>
         </div>
       </div>

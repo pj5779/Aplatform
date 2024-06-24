@@ -11,9 +11,9 @@
         <setting name="jdbcTypeForNull" value="NULL"/>
     </settings>
     
-      <mappers>
-        <mapper resource="./mybatis/mapper/fo/MemberMapper.xml"/>
-        <mapper resource="./mybatis/mapper/fo/BoardMybatisFoMapper.xml"/>
+    <mappers>
+        <mapper resource="mybatis/mapper/fo/MemberMapper.xml"/>
+        <mapper resource="mybatis/mapper/fo/BoardMybatisFoMapper.xml"/>
     </mappers>
 
 </configuration>

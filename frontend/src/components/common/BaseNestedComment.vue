@@ -52,6 +52,7 @@ const submitComment = () => {
   }
 
   const requestData = {
+    authorId: store.getters.getMember.mbrId,
     nstdcCntnt: nstdcCntnt.value,
     dltChck: false, // 예시로 false로 설정
     useChck: true, // 예시로 true로 설정
