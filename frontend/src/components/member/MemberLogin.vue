@@ -108,7 +108,7 @@ const submit = () => {
 };
 
 // https://henniee.tistory.com/m/238 링크 참조
-const client_id = 'TIwA7WnbAvnjEwnbPGZm';
+const client_id = 'TIwA7WnbAvnjEwnbPGZm';   // 본인 또는 회사 아이디로 교체
 const redirect_uri = encodeURIComponent('http://localhost:8080/member/loginNCallback');
 
 // state 난수 생성

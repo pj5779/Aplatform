@@ -4,6 +4,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Random;
 
@@ -81,26 +82,27 @@ public class MemberController {
 	        return ResponseEntity.ok("로그아웃되었습니다.");
 	    }
 	   
-	   @PutMapping("/update")
-	   public ResponseEntity<?> updateMember(@RequestBody MemberEntity updatedMember) {
-	       try {
-	           MemberEntity existingMember = memberRepository.findById(updatedMember.getMbrSq())
-	                   .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. 회원 순번: " + updatedMember.getMbrSq()));
-
-	           // 업데이트할 필드 설정
-	           existingMember.setMbrEmlAdrs(updatedMember.getMbrEmlAdrs());
-	           existingMember.setMbrMp(updatedMember.getMbrMp());
-	           existingMember.setUpdtMbrSq(updatedMember.getMbrSq());
-	           existingMember.setUpdtDtm(LocalDateTime.now()); // 수정 일시 설정
-
-	           MemberEntity updatedEntity = memberRepository.save(existingMember);
-	           return ResponseEntity.ok(updatedEntity);
-	       } catch (IllegalArgumentException e) {
-	           return ResponseEntity.notFound().build();
-	       } catch (Exception e) {
-	           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 정보 업데이트 중 오류가 발생했습니다.");
-	       }
-	   }
+	    @PutMapping("/update")
+	      public ResponseEntity<?> updateMember(@RequestBody MemberEntity updatedMember) {
+	          try {
+	              MemberEntity existingMember = memberRepository.findById(updatedMember.getMbrSq())
+	                      .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. 회원 순번: " + updatedMember.getMbrSq()));
+	
+	              // 업데이트할 필드 설정
+	              existingMember.setMbrEmlAdrs(updatedMember.getMbrEmlAdrs());
+	              existingMember.setMbrPswrd(updatedMember.getMbrPswrd());
+	              existingMember.setMbrMp(updatedMember.getMbrMp());
+	              existingMember.setUpdtMbrSq(updatedMember.getMbrSq());
+	              existingMember.setUpdtDtm(LocalDateTime.now()); // 수정 일시 설정
+	
+	              MemberEntity updatedEntity = memberRepository.save(existingMember);
+	              return ResponseEntity.ok(updatedEntity);
+	          } catch (IllegalArgumentException e) {
+	              return ResponseEntity.notFound().build();
+	          } catch (Exception e) {
+	              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 정보 업데이트 중 오류가 발생했습니다.");
+	          }
+	      }
 	     
 	   @PutMapping("/delete")
 	   public ResponseEntity<String> deleteMember(@RequestBody MemberEntity deletedMember){
@@ -141,6 +143,11 @@ public class MemberController {
 		if (userData.getGndrCtgryCd() == null || userData.getGndrCtgryCd().isEmpty()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("성별 유형 코드가 누락되었습니다.");
 		}
+	    // 아이디 중복 체크
+	    Optional<MemberEntity> existingUser = memberRepository.findByMbrId(userData.getMbrId());
+	    if (existingUser.isPresent()) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 사용 중인 아이디입니다.");
+	    }
 
 		try {
 	        // admin일 경우 로직 추가해야함
@@ -158,6 +165,7 @@ public class MemberController {
 		}
 	}
 	
+	// https://henniee.tistory.com/217 이메일 관련 참고 링크
 	@ResponseBody
 	@PostMapping("/emlRegister")
 	public Map<String, Object> emlRegister(@RequestBody Map<String, String> request) {
@@ -171,16 +179,15 @@ public class MemberController {
 	        return map;
 	    }
 		
-	    // https://henniee.tistory.com/217 참고 링크
 		JavaMailSenderImpl mailSenderImpl = new JavaMailSenderImpl();
 		Properties prop = new Properties();
 		
 		mailSenderImpl.setHost("smtp.gmail.com");
 		mailSenderImpl.setPort(587);
-		mailSenderImpl.setUsername("walkingongreenball@gmail.com");
-		mailSenderImpl.setPassword("lopq jelw gspn fqux");
-		prop.put("mail.smtp.auth", true);	// 이메일 서버에 인증 요구
-		prop.put("mail.smtp.starttls.enable", true);  // 암호화된 연결을 활성화. starttls는 이메일 전송중에 보안 계층을 추가하여 데이터의 기밀성을 보호
+		mailSenderImpl.setUsername("walkingongreenball@gmail.com");		// 본인 또는 회사 아이디로 교체
+		mailSenderImpl.setPassword("lopq jelw gspn fqux");				// 참고 링크에 따라 제공받은 비밀번호 사용
+		prop.put("mail.smtp.auth", true);								// 이메일 서버에 인증 요구
+		prop.put("mail.smtp.starttls.enable", true);  					// 암호화된 연결을 활성화. starttls는 이메일 전송중에 보안 계층을 추가하여 데이터의 기밀성을 보호
 		
 		mailSenderImpl.setJavaMailProperties(prop);
 		
@@ -219,6 +226,7 @@ public class MemberController {
 		return map;
 	}
 	
+	// https://henniee.tistory.com/217 이메일 관련 참고 링크
     @PostMapping("/findId")
     public ResponseEntity<String> findMbrId(@RequestBody MemberEntity userData) {
         try {
@@ -244,6 +252,7 @@ public class MemberController {
         }
     }
 	
+    // https://henniee.tistory.com/217 이메일 관련 참고 링크
 	@PostMapping("/findPswrd")
 	public ResponseEntity<String> findMbrPswrd(@RequestBody MemberEntity userData) {
 	    try {
@@ -266,12 +275,13 @@ public class MemberController {
 	        }
 	        
 	        // 정상적인 경우에만 MemberEntity 반환
-	        return ResponseEntity.ok().body("회원 비밀번호: " + mbr.getMbrPswrd());
+	        return ResponseEntity.ok().body(mbr.getMbrPswrd());
 	    } catch (Exception e) {
 	        return ResponseEntity.status(500).body("조회에 실패했습니다: " + e.getMessage());
 	    }
 	}
 	
+	// https://henniee.tistory.com/217 이메일 관련 참고 링크
 	@ResponseBody
 	@PostMapping("/emlFind")
 	public Map<String, Object> emlFind(@RequestBody Map<String, String> request) {
@@ -334,12 +344,13 @@ public class MemberController {
 	}
     
     // 네이버 로그인 콜백 처리
+	// https://henniee.tistory.com/m/238 링크 참조
     @GetMapping("/loginNCallback")
     public ResponseEntity<Map<String, Object>> handleLoginNCallback(@RequestParam String code, @RequestParam String state) {
         try {
             // 네이버 API로 액세스 토큰 요청
-            String clientId = "TIwA7WnbAvnjEwnbPGZm"; // 네이버 클라이언트 ID
-            String clientSecret = "Qbh0YK_yrf"; // 네이버 클라이언트 Secret
+            String clientId = "TIwA7WnbAvnjEwnbPGZm";	// 본인 또는 회사 아이디로 교체
+            String clientSecret = "Qbh0YK_yrf"; 		// 참고 링크에 따라 제공받은 비밀번호 사용
             String tokenUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id="
                     + clientId + "&client_secret=" + clientSecret + "&code=" + code + "&state=" + state;
 

@@ -58,14 +58,31 @@ public class BoardController {
 		List<BoardEntity> boardList;
 		if ("general".equals(brdCtgryCd) && brdTl == null && brdCntnt == null) {
 			boardList = boardRepository.findByBrdCtgryCd("general");
-		} else if ("feedback".equals(brdCtgryCd) && brdTl== null && brdCntnt== null) {
+
+		} else if ("feedback".equals(brdCtgryCd) && brdTl == null && brdCntnt == null) {
 			boardList = boardRepository.findByBrdCtgryCd("feedback");
-		} else if ("qna".equals(brdCtgryCd) && brdTl== null && brdCntnt== null) {
+
+		} else if ("qna".equals(brdCtgryCd) && brdTl == null && brdCntnt == null) {
 			boardList = boardRepository.findByBrdCtgryCd("qna");
-		} else if (brdCtgryCd != null && brdTl != null && brdCntnt == null) {
-			boardList = boardService.searchTitle(brdTl, brdCtgryCd);
-		} else if (brdCtgryCd != null && brdTl.equals(brdTl) && brdCntnt != null) {
-			boardList = boardService.searchContent(brdCntnt, brdCtgryCd);
+
+		} else if ("general".equals(brdCtgryCd) && brdTl != null && brdCntnt == null) {
+			boardList = boardService.searchTitle(brdTl, "general");
+
+		} else if ("feedback".equals(brdCtgryCd) && brdTl != null && brdCntnt == null) {
+			boardList = boardService.searchTitle(brdTl, "feedback");
+
+		} else if ("qna".equals(brdCtgryCd) && brdTl != null && brdCntnt == null) {
+			boardList = boardService.searchTitle(brdTl, "qna");
+
+		} else if ("general".equals(brdCtgryCd) && brdTl == null && brdCntnt != null) {
+			boardList = boardService.searchContent(brdCntnt, "general");
+
+		} else if ("feedback".equals(brdCtgryCd) && brdTl == null && brdCntnt != null) {
+			boardList = boardService.searchContent(brdCntnt, "feedback");
+
+		} else if ("qna".equals(brdCtgryCd) && brdTl == null && brdCntnt != null) {
+			boardList = boardService.searchContent(brdCntnt, "qna");
+
 		} else {
 			boardList = boardService.findAll();
 		}
@@ -82,24 +99,10 @@ public class BoardController {
 		boardService.insertBoard(boardEntity, file);
 	}
 	
+	// 파일 다운로드
 	@GetMapping("/board/download/{brdSq}")
     public ResponseEntity<Resource> downloadFile(@PathVariable int brdSq) {
-
-        BoardEntity boardEntity = boardService.findById(brdSq);
-        String filePath = boardEntity.getFilePath();
-
-        Resource resource = new FileSystemResource(filePath);
-
-        if (!resource.exists()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + boardEntity.getFileName() + "\"");
-
-        return ResponseEntity.ok()
-            .headers(headers)
-            .body(resource);
+      return boardService.downloadFile(brdSq);
     }
 
 	// 글 상세

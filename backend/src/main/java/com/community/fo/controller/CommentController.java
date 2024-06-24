@@ -34,36 +34,27 @@ public class CommentController {
 
 	@Autowired
 	private NestedCommentService nestedCommentService;
+
+	// board 댓글 등록
+	@PostMapping("/comment/insert/board/{brdSq}")
+	public void insertBoardComment(@PathVariable int brdSq, @RequestBody CommentEntity commentEntity, HttpSession session) {
+		MemberEntity member = (MemberEntity) session.getAttribute("member");
+		commentEntity.setInsrtMbrSq(member);
+		commentEntity.setBoardEntity(boardService.findById(brdSq));
+		commentService.insertComment(commentEntity);
+	}
 	
-	// 댓글 등록
-	@PostMapping("/comment/insert/{identifier}")
-	public void insertComment(@PathVariable String identifier, @RequestBody CommentEntity commentEntity, HttpSession session) {
-	    MemberEntity member = (MemberEntity) session.getAttribute("member");
-	    
-	    commentEntity.setInsrtMbrSq(member);
-	    
-	    if ("board".equals(identifier)) {
-	        int brdSq = Integer.parseInt(identifier);
-	        commentEntity.setBoardEntity(boardService.findById(brdSq));
-	    } else if ("answer".equals(identifier)) {
-	        int answerSq = Integer.parseInt(identifier);
-	        commentEntity.setAnswerEntity(answerService.findById(answerSq));
-	    }
-	    
-	    commentService.insertComment(commentEntity);
+	// answer 댓글 등록
+	@PostMapping("/comment/insert/answer/{answrSq}")
+	public void insertAnswerComment(@PathVariable int answrSq, @RequestBody CommentEntity commentEntity, HttpSession session) {
+		MemberEntity member = (MemberEntity) session.getAttribute("member");
+		commentEntity.setInsrtMbrSq(member);
+		commentEntity.setAnswerEntity(answerService.findById(answrSq));
+		commentService.insertComment(commentEntity);
 	}
 
-	// 댓글 등록
-//	@PostMapping("/comment/insert/{brdSq}")
-//	public void insertComment(@PathVariable int brdSq, @RequestBody CommentEntity commentEntity, HttpSession session) {
-//		MemberEntity member = (MemberEntity) session.getAttribute("member");
-//		commentEntity.setInsrtMbrSq(member);
-//		commentEntity.setBoardEntity(boardService.findById(brdSq));
-//		commentService.insertComment(commentEntity);
-//	}
-
 	// 댓글 삭제
-	@DeleteMapping("comment/delete/{cmntSq}")
+	@DeleteMapping("/comment/delete/{cmntSq}")
 	public void deleteComment(@PathVariable int cmntSq) {
 		if (commentService.getComment(cmntSq) != null) {
 			commentService.deleteComment(cmntSq);

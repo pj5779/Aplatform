@@ -11,9 +11,10 @@ import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+// https://henniee.tistory.com/m/238 링크 참조
 const state = reactive({
-    naverClientId: 'TIwA7WnbAvnjEwnbPGZm',
-    clientSecret: 'Qbh0YK_yrf',
+    naverClientId: 'TIwA7WnbAvnjEwnbPGZm',  // 본인 또는 회사 아이디로 교체
+    clientSecret: 'Qbh0YK_yrf',             // 참고 링크에 따라 제공받은 비밀번호 사용
     code: '',
     state: '',          // csrf 공격을 방지하기 위해 애플리케이션에서 생성한 상태 토큰값으로 URL 인코딩을 적용한 값을 사용
     accessToken: '',    // 발급받은 access_token 저장을 위한 변수

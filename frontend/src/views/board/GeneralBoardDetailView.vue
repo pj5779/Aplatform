@@ -58,10 +58,10 @@
 
       <!-- 댓글 -->
       <div class="comments">
-        <button class="mb-3" @click="toggleComments">
+        <button class="mb-3 btn btn-light" @click="toggleBoardComments">
           댓글
         </button>
-        <div v-if="showComments">
+        <div v-if="showBoardComments">
           <div class="comment">
             <div
               class="comment-block"
@@ -93,7 +93,7 @@
               </div>
               <BaseNestedComment :cmntSq="item.cmntSq" v-if="item.replying" />
               <div
-                class="comment-block"
+                class="comment-block nestedComment-block"
                 v-for="(nesItem, nesIdx) in item.nestedCommentEntity"
                 :key="nesIdx"
               >
@@ -101,14 +101,7 @@
                 <span class="comment-by">
                   <strong>{{ nesItem.insrtMbrSq.mbrId }}</strong>
                   <span class="float-end">
-                    <button
-                      class="btn delete"
-                      @click="deleteNestedComment(nesItem.nstdcSq)"
-                      v-if="
-                        isLoginMember &&
-                        nesItem.insrtMbrSq.mbrId == store.getters.getMember.mbrId
-                      "
-                    >
+                    <button class="btn delete" @click="deleteNestedComment(nesItem.nstdcSq)" v-if="isLoginMember && nesItem.insrtMbrSq.mbrId == store.getters.getMember.mbrId">
                       <i class="fas fa-trash-alt"></i>
                     </button>
                   </span>
@@ -118,7 +111,7 @@
               </div>
             </div>
           </div>
-          <BaseComment />
+          <BaseComment :typeBoard = "true" />
         </div>
       </div>
       <!-- 댓글 -->
@@ -146,7 +139,8 @@
                   v-if="anItem.answrSlctnChck == true"
                 >
                   <span class="text-primary text-8 position-relative top-3 mt-3"
-                    >채택완료 아이콘</span>
+                  ><i class="fas fa-check"></i
+                    ></span>
                   <span
                     class="font-weight-bold text-uppercase text-1 negative-ls-1 d-block text-dark pt-2"
                     >채택완료</span
@@ -159,9 +153,27 @@
               </span>
               <span class="float-end">{{ formatDate(anItem.insrtDtm) }}</span>
               <p>{{ anItem.answrCntnt }}</p>
+              <BaseAnswer :answrSq="anItem.answrSq" />
             </div>
+
+            <!-- 댓글 -->
+            <div class="post-block mt-5 post-leave-comment">
+                <h4 class="mb-3">답변작성</h4>
+                <div class="p-2">
+                    <div class="row">
+                        <div class="form-group col">
+                            <textarea class="form-control" maxlength="10000" v-model="answrCntnt" id="answrCntnt" rows="5" placeholder="내용을 입력하세요"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col mb-0">
+                            <button class="btn btn-primary" @click="submitAnswer()">작성</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
           </div>
-          <BaseAnswer />
         </div>
       </div>
       <!-- 답변 -->
@@ -192,14 +204,15 @@ const board = ref({
   cmntSq: "",
   fileName: '',
   filePath: '',
+  answrSq: "",
 });
 const router = useRouter();
 const route = useRoute();
 
-const showComments = ref(true); // 초기 상태를 false로 설정하여 댓글을 숨김
+const showBoardComments = ref(false); // 초기 상태를 false로 설정하여 댓글을 숨김
 
-const toggleComments = () => {
-  showComments.value = !showComments.value; // 상태를 토글하여 보이기/숨기기 처리
+const toggleBoardComments = () => {
+  showBoardComments.value = !showBoardComments.value; // 상태를 토글하여 보이기/숨기기 처리
 };
 
 const formatDate = (dateString) => {
@@ -300,6 +313,41 @@ const downloadUrl = computed(() => {
   return `/board/download/${board.value.brdSq}`;
 });
 
+const answrCntnt = ref("");
+const brdSq = route.params.brdSq;
+
+const submitAnswer = () => {
+    if (answrCntnt.value.trim() === "") {
+        alert("내용을 확인하세요.");
+        return;
+    }
+
+    if (!isLoginMember.value) {
+        alert("로그인 후 이용해주세요");
+        router.push("/member/login");
+        return;
+    }
+
+    axios
+        .post(`/answer/insert/${brdSq}`, {
+            answrCntnt: answrCntnt.value,
+            answrSlctnChck: "false",
+            authorId: store.getters.getMember.mbrId,
+            brdSq: brdSq.value,
+            dltChck: "false",
+            useChck: "true",
+        })
+            .then((response) => {
+            alert(response.data);
+            answrCntnt.value = "";
+            router.go(0);
+        })
+            .catch((error) => {
+            console.error("답변 작성에 실패하였습니다:", error);
+            alert("답변 작성에 실패하였습니다.");
+        });
+};
+
 const deleteAnswer = (answrSq) => {
   axios.delete(`/answer/delete/${answrSq}`).then((response) => {
     alert("답변이 삭제 되었습니다");
@@ -333,15 +381,16 @@ onMounted(() => {
 .btn.comment {
   color: #007bff;
 }
-
 .answers {
-  border: 3px dashed grey;
+  border: 3px solid grey;
   padding: 50px;
   margin: 30px;
   border-radius: 40px;
 }
-
 .btn.delete {
   color: red;
+}
+.nestedComment-block {
+    padding-left: 30px;
 }
 </style>

@@ -17,7 +17,7 @@
         </div>
         <div class="row">
           <div class="form-group col mb-0">
-            <button @click="submitComment()" :typeBoard = "true">작성</button>
+            <button class="btn btn-primary" @click="submitComment()" :typeBoard = "true">작성</button>
           </div>
         </div>
       </div>
@@ -45,7 +45,12 @@ const props = defineProps({
   typeBoard : {
     type : Boolean,
     default : true
-  }
+  },
+  answrSq: {
+        type: Number,
+        default: null,
+        required: false,
+    },
 })
 
 const submitComment = () => {
@@ -63,11 +68,12 @@ const submitComment = () => {
 
   if(props.typeBoard === true) {
     axios
-      .post(`/comment/insert/${brdSq}`, {
+      .post(`/comment/insert/board/${brdSq}`, {
         authorId: store.getters.getMember.mbrId,
         cmntCntnt: cmntCntnt.value,
         dltChck: dltChck.value,
         useChck: useChck.value,
+        brdSq: brdSq
       })
       .then((response) => {
         console.log(response);
@@ -80,7 +86,24 @@ const submitComment = () => {
         alert("댓글 작성에 실패하였습니다.");
       });
   } else {
-    alert("된다");
+    axios
+      .post(`/comment/insert/answer/${props.answrSq}`, {
+        authorId: store.getters.getMember.mbrId,
+        cmntCntnt: cmntCntnt.value,
+        dltChck: dltChck.value,
+        useChck: useChck.value,
+        answrSq: props.answrSq
+      })
+      .then((response) => {
+        console.log(response);
+        alert("댓글 성공적으로 작성되었습니다.");
+        router.go(0);
+        cmntCntnt.value = "";
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("댓글 작성에 실패하였습니다.");
+      });
   }
 };
 

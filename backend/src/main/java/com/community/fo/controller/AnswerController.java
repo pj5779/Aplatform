@@ -3,6 +3,7 @@ package com.community.fo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,11 +47,17 @@ public class AnswerController {
 	
 	// 답변 등록
 	@PostMapping("/answer/insert/{brdSq}")
-	public void insertAnswer(@PathVariable int brdSq, @RequestBody AnswerEntity answerEntity, HttpSession session) {
-		MemberEntity member = (MemberEntity) session.getAttribute("member");
-		answerEntity.setInsrtMbrSq(member);
-		answerEntity.setBoardEntity(boardService.findById(brdSq));
-		answerService.insertAnswer(answerEntity);
+	public ResponseEntity<String> insertAnswer(@PathVariable int brdSq, @RequestBody AnswerEntity answerEntity, HttpSession session) {
+		try {			
+			MemberEntity member = (MemberEntity) session.getAttribute("member");
+			answerEntity.setInsrtMbrSq(member);
+			answerEntity.setBoardEntity(boardService.findById(brdSq));
+			answerService.insertAnswer(answerEntity);
+			
+	        return ResponseEntity.ok("답변이 성공적으로 작성되었습니다.");
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body("등록에 실패했습니다: " + e.getMessage());
+		}
 	}
 
 	// 답변 삭제
@@ -59,6 +66,19 @@ public class AnswerController {
 		if (answerService.getAnswer(answrSq) != null) {
 			answerService.deleteAnswer(answrSq);
 		}
+	}
+	
+	// 답변 상세
+	@GetMapping("/answer/detail/{answrSq}")
+	public AnswerEntity findById(@PathVariable int answrSq) {
+		AnswerEntity answer = answerService.findById(answrSq);
+		List<CommentEntity> comments = commentService.getCommentList(answer);
+		for (CommentEntity commentEntity : comments) {
+			List<NestedCommentEntity> nestedComments = nestedCommentService.getNestedCommentList(commentEntity);
+			commentEntity.setNestedCommentEntity(nestedComments);
+		}
+		answer.setCommentEntity(comments);
+		return answer;
 	}
 
 }
