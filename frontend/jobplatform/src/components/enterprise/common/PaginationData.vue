@@ -29,6 +29,10 @@
 import { defineProps } from "vue";
 
 const props = defineProps(["paginationData"]);
+
+console.log("음?");
+console.log(props.paginationData.endNumOfPageGroups);
+console.log(props.paginationData.endNumOfPageGroups - props.paginationData.showPageGroupsCount * (props.paginationData.pageGroupsOfCurrentPage - 1));
 </script>
 
 <style scoped></style>

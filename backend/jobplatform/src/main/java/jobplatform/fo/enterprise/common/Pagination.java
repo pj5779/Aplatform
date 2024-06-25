@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Pagination {
-	private int totalDataCount; // 총 데이터 개수*
-	private int showDataCountPerPage;  // 1페이지당 데이터 수*
-	private int totalPageCount;  // 총 페이지 개수
-	private int startRowIndex;   // 보여주기 시작할 글의 row index 번호
-	private int pageNo;          // 선택한 페이지 번호*
+	private int totalDataCount; // 총 데이터 개수* 
+	private int showDataCountPerPage;  // 1페이지당 데이터 수*  
+	private int totalPageCount;  // 총 페이지 개수              
+	private int startRowIndex;   // 보여주기 시작할 글의 row index 번호   
+	private int pageNo;          // 선택한 페이지 번호*                   
 	
-	private int totalPageGroupsCount;    // 총 페이지 그룹 개수
-	private int showPageGroupsCount;     // 한번에 보여질 페이지 개수 * 
-	private int pageGroupsOfCurrentPage; // 현재 페이지가 속한 페이징 그룹 번호
+	private int totalPageGroupsCount;    // 총 페이지 그룹 개수            
+	private int showPageGroupsCount;     // 한번에 보여질 페이지 개수 *                 
+	private int pageGroupsOfCurrentPage; // 현재 페이지가 속한 페이징 그룹 번호             
 	private int startNumOfPageGroups;    // 페이지 그룹의 첫페이지 번호
 	private int endNumOfPageGroups;      // 페이지 그룹의 마지막페이지 번호
 	
