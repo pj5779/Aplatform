@@ -1,5 +1,7 @@
 package jobplatform.fo.enterprise.domain.vo;
 
+import java.sql.Timestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,19 +10,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApplyListVO {
-	// 지원자 순번
+		// 지원자 순번
 		private int apy_sq;
 		// 지원 일시
-		private int apy_dtm;
-		//지원 상태
+		private Timestamp apy_dtm;
+		//지원 상태 코드 번호
 		private int apy_cndtn;
-		
+		//지원 상태 코드 한글화
+		private String apy_cndtn_name;
 		// 이력서 순번
 		private int rsm_sq;
 		// 이력서 이미지 주소
 		private String rsm_img_file_url;
 		// 이력서 대표여부
 		private String rsm_rprsntv_yn;
+		// 최종학력 코드 번호
+		private int rsm_fnl_edctn_cd;
 		// 이력서 최종학력 코드 한글화
 		private String rsm_fnl_edctn;
 		// 이력서 학점

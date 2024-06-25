@@ -68,9 +68,10 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { useAxios } from "../use/useAxios";
+
 import ApplyDatas from "../../../components/enterprise/apply/ApplyDatas.vue";
 import PaginationData from "../../../components/enterprise/common/PaginationData.vue";
+import { useAxios } from "../../../use/useAxios";
 
 const applyListData = ref({
   applyDatas: [],

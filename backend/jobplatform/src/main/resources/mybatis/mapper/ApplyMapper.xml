@@ -31,9 +31,11 @@
 			apply.apy_sq,
 			apply.apy_dtm,
 			apply.apy_cndtn,
+			(select code_name from P2_TBL_COMMON_CODE_DTL_S where code_id = apply.apy_cndtn) as apy_cndtn_name,
 			resume.rsm_sq,
 			resume.rsm_img_file_url,
 			resume.rsm_rprsntv_yn,
+			resume.rsm_fnl_edctn_cd,
 			(select code_name from P2_TBL_COMMON_CODE_DTL_S where code_id = resume.rsm_fnl_edctn_cd) as rsm_fnl_edctn,
 			resume.rsm_grd,
 			resume.rsm_es,
@@ -44,21 +46,21 @@
 					on apply.rsm_sq = resume.rsm_sq
 				left outer join P2_TBL_POSITION_PROPOSAL_M as posi
 					on posi.rsm_sq = resume.rsm_sq
-		where apply.jbp_sq = #{listDataDTO.jbp_sq}
+		where apply.jbp_sq = #{searchListData.jbp_sq}
 			and apply.apy_cndtn != 403
 			<!-- 
-			<if test = "listDataDTO.condition != 0">
-				and apply.apy_cndtn = #{listDataDTO.condition}
+			<if test = "searchListData.condition != 0">
+				and apply.apy_cndtn = #{searchListData.condition}
 			</if>
-			<if test = "listDataDTO.division == 'apply'">
+			<if test = "searchListData.division.equals('apply')">
 				and posi.pstn_prpsl_sq is null
 			</if>
-			<if test = "listDataDTO.division == 'proposal'">
+			<if test = "searchListData.division.equals('proposal')">
 				and posi.pstn_prpsl_sq is not null
 			</if>
 			 -->
-		order by apy_dtm #{listDataDTO.sort}
-		limit #{pagination.startRowIndex},#{pagination.showDataCountPerPage};
+		order by apy_dtm ${searchListData.sort}
+		limit #{paginationData.startRowIndex},#{paginationData.showDataCountPerPage};
 	</select>
 
 </mapper>

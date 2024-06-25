@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommonCodeVO {
-	private int codeId;
-	private String codeName;
+	private int code_id;
+	private String code_name;
 
 }

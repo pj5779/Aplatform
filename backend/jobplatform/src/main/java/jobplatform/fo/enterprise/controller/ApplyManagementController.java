@@ -22,6 +22,13 @@ public class ApplyManagementController {
 		this.applyManagementService = applyManagementService;
 	}
 	
+	@GetMapping("/test")
+	public HttpStatus test() {
+		System.out.println("성공");
+		
+		return HttpStatus.OK;
+	}
+	
 	// 지원자 리스트 불러오기ResponseEntity<Map<String, Object>>
 	@GetMapping("/applys/apply-list/{jbp_sq}/{division}/{condition}/{sort}")
 	public ResponseEntity<Map<String, Object>> findApplyListData(
@@ -31,19 +38,17 @@ public class ApplyManagementController {
 			@PathVariable(name = "sort", required = false) String sort
 			) {
 		//검색 정보 VO (공고번호, 구분(지원apply / 제안proposal), 상태, 정렬)
-		SearchListDataDTO searchListDataDTO = new SearchListDataDTO();
-		// set 해야함.
-		searchListDataDTO.setJbp_sq(jbp_sq);
-		searchListDataDTO.setDivision(division);
-		searchListDataDTO.setCondition(condition);
-		searchListDataDTO.setSort(sort);
+		SearchListDataDTO searchListDataDTO = new SearchListDataDTO(jbp_sq, division, condition, sort);
 		
-		System.out.println(jbp_sq + " / " + division + " / " + condition + " / " + sort);
+		System.out.println(searchListDataDTO);
 
-		
 		Map<String, Object> map = applyManagementService.findApplyData(searchListDataDTO);
-
 		
+		System.out.println(map.get("paginationData"));
+		System.out.println(map.get("searchListData"));
+		System.out.println(map.get("applyCondition"));
+		System.out.println(map.get("applysData"));
+
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 	
