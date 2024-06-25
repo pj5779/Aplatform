@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.community.enter.domain.mapper.ApplyMapper">
+<mapper namespace="jobplatform.fo.enterprise.domain.mapper.ApplyMapper">
 	
 	<!-- 지원자리스트 페이지네이션을 위한 카운트 -->
 	<select id="loadApplyListCount" resultType="int">
@@ -26,8 +26,19 @@
 	</select>
 	
 	<!-- 지원자리스트 -->
-	<select id="selectApplyListData" resultType="com.community.enter.domain.vo.ApplyListVO">
-		select count(1)
+	<select id="selectApplyListData" resultType="jobplatform.fo.enterprise.domain.vo.ApplyListVO">
+		select 
+			apply.apy_sq,
+			apply.apy_dtm,
+			apply.apy_cndtn,
+			resume.rsm_sq,
+			resume.rsm_img_file_url,
+			resume.rsm_rprsntv_yn,
+			(select code_name from P2_TBL_COMMON_CODE_DTL_S where code_id = resume.rsm_fnl_edctn_cd) as rsm_fnl_edctn,
+			resume.rsm_grd,
+			resume.rsm_es,
+			resume.rsm_name,
+			IFNULL(posi.pstn_prpsl_sq, 0) as rnqns
 		from p2_tbl_apply_h as apply
 				left outer join P2_TBL_RESUME_M as resume
 					on apply.rsm_sq = resume.rsm_sq
@@ -35,6 +46,7 @@
 					on posi.rsm_sq = resume.rsm_sq
 		where apply.jbp_sq = #{listDataDTO.jbp_sq}
 			and apply.apy_cndtn != 403
+			<!-- 
 			<if test = "listDataDTO.condition != 0">
 				and apply.apy_cndtn = #{listDataDTO.condition}
 			</if>
@@ -44,6 +56,7 @@
 			<if test = "listDataDTO.division == 'proposal'">
 				and posi.pstn_prpsl_sq is not null
 			</if>
+			 -->
 		order by apy_dtm #{listDataDTO.sort}
 		limit #{pagination.startRowIndex},#{pagination.showDataCountPerPage};
 	</select>

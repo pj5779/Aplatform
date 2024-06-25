@@ -31,6 +31,9 @@ public class ApplyManagementService {
 		System.out.println("서비스");
 		// 총 데이터 갯수
 		int totalCount= applyMapper.loadApplyListCount(searchListDataDTO);
+		
+		System.out.println(totalCount);
+		
 		// 1페이지당 표시할 데이터 숫자
 		int showDataCountPerPage = 10;
 		// 페이지네이션 그룹의 숫자
@@ -39,6 +42,7 @@ public class ApplyManagementService {
 		int pageNo = 1;
 		// 페이지네이션 정보 생성
 		Pagination pagination = new Pagination(totalCount, showDataCountPerPage, pageNo, showPageGroupsCount);
+		System.out.println(pagination);
 			
 		Map<String, Object> map = new HashMap<String, Object>();
 		//페이지네이션 정보 map 추가
@@ -50,15 +54,26 @@ public class ApplyManagementService {
 		// 코드 정보 가져오기 (지원취소 빼고)		
 		List<CommonCodeVO> commonCodeListVO = commonCodeMapper.selectCommonCodeApplyCategoryData();
 		
+		System.out.println(commonCodeListVO);
+		
 		//코드 정보 map 추가
 		map.put("applyCondition", commonCodeListVO);
 		
+		
+		//-----------------------에러!!!--------------------------------------------------------------
 		// 지원자 리스트 정보 얻기
-		ApplyListVO applyListVO = applyMapper.selectApplyListData(map);
+		List<ApplyListVO> applyListVO = applyMapper.selectApplyListData(map);
+		
 		System.out.println(applyListVO);
 		// 지원자 리스트 정보 map 추가
-		 map.put("applysData", applyListVO);
+		map.put("applysData", applyListVO);
+		 
+		System.out.println(map.get("paginationData"));
+		System.out.println(map.get("searchListData"));
+		System.out.println(map.get("applyCondition"));
+		System.out.println(map.get("applysData"));
 		
+		System.out.println("서비스 나가기");
 		return map;
 	}
 }
