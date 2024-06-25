@@ -50,12 +50,12 @@ public class ApplyManagementService {
 		List<ApplyListVO> applyListVO = applyMapper.selectApplyListData(map);
 		
 		// 지원자 리스트 정보 map 추가
-		map.put("applysData", applyListVO);
+		map.put("applyDatas", applyListVO);
 		
 		// 코드 정보 가져오기 (지원취소 빼고)		
 		List<CommonCodeVO> commonCodeListVO = commonCodeMapper.selectCommonCodeApplyCategoryData();
 		//코드 정보 map 추가
-		map.put("applyCondition", commonCodeListVO);
+		map.put("applyConditions", commonCodeListVO);
 
 		return map;
 	}

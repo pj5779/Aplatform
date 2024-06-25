@@ -3,6 +3,7 @@ package jobplatform;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
 public class WebConfig implements WebMvcConfigurer {
 	
 		// CORS 문제 해결
@@ -12,5 +13,6 @@ public class WebConfig implements WebMvcConfigurer {
 					.allowedMethods("GET", "POST", "PATCH", "DELETE", "PUT").allowedHeaders("Authorization", "Content-Type")
 					.exposedHeaders("Custom-Header").allowCredentials(true).maxAge(3600);
 		}
+		
 		
 }

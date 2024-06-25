@@ -82,9 +82,13 @@ const applyListData = ref({
 
 onMounted(async () => {
   const { data, error } = await useAxios("get", "/applys/apply-list/1/all/0/asc", null);
-  applyListData.value.applyDatas = [{ a: 0 }, { a: 1 }, { a: 2 }];
-  console.log(data);
-  console.log(error);
+  applyListData.value = data.value;
+  console.log(data.value);
+  console.log(error.value);
+  console.log(applyListData.value.applyDatas);
+  console.log(applyListData.value.paginationData);
+  console.log(applyListData.value.searchListData);
+  console.log(applyListData.value.applyConditions);
 });
 
 const addCom = () => {

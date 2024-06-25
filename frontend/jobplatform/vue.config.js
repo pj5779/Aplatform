@@ -10,6 +10,7 @@ module.exports = {
         target: "http://localhost:80",
         ws: false,
         logLevel: "debug",
+        //changeOrigin: true,
       },
     },
     // port : 8080

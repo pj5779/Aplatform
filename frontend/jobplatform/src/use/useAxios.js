@@ -21,7 +21,7 @@ export async function useAxios(method, url, requestData) {
       console.log("axios 성공");
       console.log(response.data);
       data.value = response.data;
-      console.log(data);
+      console.log(data.value);
       //data.value = [{ a: 0 }, { a: 1 }, { a: 2 }, { a: 3 }];
     })
     .catch((errorRes) => {

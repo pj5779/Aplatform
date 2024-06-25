@@ -46,8 +46,8 @@ public class ApplyManagementController {
 		
 		System.out.println(map.get("paginationData"));
 		System.out.println(map.get("searchListData"));
-		System.out.println(map.get("applyCondition"));
-		System.out.println(map.get("applysData"));
+		System.out.println(map.get("applyConditions"));
+		System.out.println(map.get("applyDatas"));
 
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
