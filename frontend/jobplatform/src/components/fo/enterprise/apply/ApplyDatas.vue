@@ -23,8 +23,7 @@
       <div class="col-sm-4 col-lg-4">지원일시 :{{ fomatDate(props.applyData.apy_dtm) }}</div>
       <div class="col-sm-3 col-lg-3">
         <div class="call-to-action-btn">
-          <!-- 루트에 pk 들고 가는거 만들어야함 -->
-          <a class="btn btn-outline btn-rounded btn-light"> 상세열람 </a>
+          <a class="btn btn-outline btn-rounded btn-light" @click="goToDetail(props.applyData.apy_sq)"> 상세열람 </a>
         </div>
       </div>
     </div>
@@ -32,20 +31,23 @@
 </template>
 
 <script setup>
+import router from "@/router";
 import { defineProps } from "vue";
 
 const props = defineProps(["applyData"]);
 
+// 포멧 함수
+// 날짜 포멧 변경
 const fomatDate = (dateTime) => {
   const returnData = new Date(dateTime).toLocaleDateString();
 
   return returnData;
 };
-
+// 학점 포멧 변경
 const fomatNull = (data) => {
   let returnData = data;
 
-  if(data == 0) {
+  if (data == 0 || data == null) {
     returnData = "미입력";
   } else {
     returnData = data + "/ 4.5";
@@ -54,8 +56,16 @@ const fomatNull = (data) => {
   return returnData;
 };
 
-
-
+// 함수
+// 루트에 정보들고 이동
+const goToDetail = (apy_sq) => {
+  router.push({
+    name: "applyDetailView",
+    state: {
+      apy_sq: apy_sq,
+    },
+  });
+};
 </script>
 
 <style scoped>

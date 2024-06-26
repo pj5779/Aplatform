@@ -59,9 +59,9 @@
                         <router-link to="/applys/apply-list" a class="dropdown-item dropdown-toggle"><h4>지원 리스트</h4></router-link>
                       </li>
 
-                      <li class="dropdown">
+                      <!-- <li class="dropdown">
                         <router-link to="/applys/applyDetail" a class="dropdown-item dropdown-toggle"><h4>지원 디테일</h4></router-link>
-                      </li>
+                      </li> -->
 
                       <li class="dropdown">
                         <router-link to="/applys/applyInsert" a class="dropdown-item dropdown-toggle"><h4>지원 인설트</h4></router-link>

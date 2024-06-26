@@ -8,8 +8,8 @@ const routes = [
   { path: "/", component: MainView },
 
   // 송영태
-  { path: "/applys/apply-list", component: ApplyListView },
-  { path: "/applys/applyDetail", component: ApplyDetailView },
+  { path: "/applys/apply-list", name: "applyListView", component: ApplyListView },
+  { path: "/applys/applyDetail", name: "applyDetailView", component: ApplyDetailView },
   { path: "/applys/applyInsert", component: ApplyInsertView },
 ];
 

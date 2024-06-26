@@ -39,8 +39,6 @@ public class ApplyManagementController {
 		//검색 정보 DTO (공고번호, 구분(지원apply / 제안proposal), 상태, 정렬, 페이지번호)
 		SearchListDataDTO searchListDataDTO = new SearchListDataDTO(jbp_sq, division, condition, sort, pageNo);
 		
-		System.out.println(searchListDataDTO);
-		
 		Map<String, Object> map = null;
 		HttpStatus httpStatus = null;
 		
@@ -76,7 +74,7 @@ public class ApplyManagementController {
 			httpStatus = HttpStatus.BAD_GATEWAY;
 		}
 		
-	
+		System.out.println(applyDetailData);
 		
 		return new ResponseEntity<ApplyDetailDataVO>(applyDetailData, httpStatus);
 	}

@@ -54,7 +54,12 @@ public class ApplyManagementService {
 		List<CommonCodeVO> commonCodeListVO = commonCodeMapper.selectCommonCodeApplyCategoryData();
 		//코드 정보 map 추가
 		map.put("applyConditions", commonCodeListVO);
-
+		
+//		System.out.println(applyListVO);
+//		System.out.println(pagination);
+//		System.out.println(searchListDataDTO);
+//		System.out.println(commonCodeListVO);
+		
 		return map;
 	}
 	

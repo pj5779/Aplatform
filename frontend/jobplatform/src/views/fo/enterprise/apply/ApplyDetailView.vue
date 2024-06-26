@@ -42,7 +42,29 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted } from "vue";
+import { useAxios } from "../../../../use/useAxios";
+
+//루트에서 들고온 PK 값
+const { apy_sq } = history.state;
+
+// axios 함수
+const callAxios = async () => {
+  await useAxios("get", "/applys/applyDetail/" + apy_sq, null)
+    .then((success) => {
+      console.log(success.data.value);
+    })
+    .catch((error) => {
+      console.log(error.error.value);
+    });
+};
+
+onMounted(() => {
+  // 첫페이지 입장시 정보 받아오기
+  callAxios();
+});
+</script>
 
 <style scoped>
 .mainContainer {
