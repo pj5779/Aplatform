@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import jobplatform.fo.enterprise.domain.dto.SearchListDataDTO;
+import jobplatform.fo.enterprise.domain.vo.ApplyDetailDataVO;
 import jobplatform.fo.enterprise.domain.vo.ApplyListVO;
 
 @Mapper
@@ -15,6 +16,8 @@ public interface ApplyMapper {
 	int loadApplyListCount(SearchListDataDTO searchListDataDTO);
 	// 지원자 리스트 얻기
 	List<ApplyListVO> selectApplyListData(Map<String, Object> map);
+	// 지원자 디테일 데이터 얻기
+	ApplyDetailDataVO selectApplyDetailData(int apy_sq);
 
 
 }

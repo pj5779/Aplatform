@@ -16,4 +16,6 @@ public class SearchListDataDTO {
 	private int condition;
 	//정렬
 	private String sort;
+	// 현재 페이지 번호
+	private int pageNo;
 }

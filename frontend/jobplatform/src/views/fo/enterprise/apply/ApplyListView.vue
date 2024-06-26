@@ -13,9 +13,9 @@
         <!-- 코드화 안되어있어서 하드코딩 -->
         <div class="form-group col-md-2">
           <select class="form-select form-control h-auto py-2">
-            <option :value="all">구분</option>
-            <option :value="apply">지원</option>
-            <option :value="proposal">제안</option>
+            <option :value='ref("all")'>구분</option>
+            <option :value='ref("apply")'>지원</option>
+            <option :value='ref("proposal")'>제안</option>
           </select>
         </div>
 
@@ -34,44 +34,40 @@
         <!-- 코드화 안되어있어서 하드코딩 -->
         <div class="form-group col-md-2">
           <select class="form-select form-control h-auto py-2">
-            <option :value="asc">올림차순</option>
-            <option :value="desc">내림차순</option>
+            <option :value='ref("asc")'>올림차순</option>
+            <option :value='ref("desc")'>내림차순</option>
           </select>
         </div>
       </div>
 
       <div class="row">
         <!-- 자료없을때 예외 -->
-        <div v-if="applyListData.applyDatas === null">
+        <div v-if="applyListData.applyDatas.length == 0">
           <strong class="font-weight-extra-bold"> 자료가 없습니다. </strong>
         </div>
         <!-- 자료있을때 for -->
-        <div v-for="applyData in applyListData.applyDatas" :key="applyData.a">
-          <ApplyDatas :applyData="applyData" />
+        <div v-else>
+          <div v-for="applyData in applyListData.applyDatas" :key="applyData.a">
+            <ApplyDatas :applyData="applyData" />
+          </div>
         </div>
       </div>
       <hr class="gradient" />
       <div class="row">
-        <div v-if="applyListData.paginationData !== null">
+        <div v-if="applyListData.paginationData.totalDataCount != undefined && applyListData.paginationData.totalDataCount != 0 ">
           <PaginationData :paginationData="applyListData.paginationData" />
         </div>
       </div>
-
-      <!-- 연습 -->
-      <button @click="addCom()">컴포넌트 추가</button>
-      <button @click="minCom()">컴포넌트 삭제</button>
-      <div id="com"></div>
-      <!-- 연습 -->
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 
-import ApplyDatas from "../../../components/enterprise/apply/ApplyDatas.vue";
-import PaginationData from "../../../components/enterprise/common/PaginationData.vue";
-import { useAxios } from "../../../use/useAxios";
+import ApplyDatas from "../../../../components/fo/enterprise/apply/ApplyDatas.vue";
+import PaginationData from "../../../../components/fo/enterprise/common/PaginationData.vue";
+import { useAxios } from "../../../../use/useAxios";
 
 const applyListData = ref({
   applyDatas: [],
@@ -80,25 +76,36 @@ const applyListData = ref({
   applyConditions: [],
 });
 
-onMounted(async () => {
-  const { data, error } = await useAxios("get", "/applys/apply-list/1/all/0/asc", null);
-  applyListData.value = data.value;
-  console.log(data.value);
-  console.log(error.value);
-  console.log(applyListData.value.applyDatas);
-  console.log(applyListData.value.paginationData);
-  console.log(applyListData.value.searchListData);
-  console.log(applyListData.value.applyConditions);
-});
+// const jbp_sq = ref();
 
-const addCom = () => {
-  const input = `<div><Applys /></div>`;
+console.log("일반")
 
-  const com = document.getElementById("com");
-  com.appendChild(input);
+
+// 일반화 조지기
+const callAxios = async() => {
+  await useAxios("get", "/applys/apply-list/1/all/0/asc/1", null)
+    .then((success) => {
+      applyListData.value = success.data.value;
+      console.log("페이지 정보 1")
+      console.log(applyListData.value.paginationData.totalDataCount);
+  })
+    .catch((error) => {
+      console.log(error.error.value);
+    });
 };
 
-const minCom = () => {};
+onMounted(() => {
+  console.log("온마운트")
+  console.log("페이지 정보 2")
+  console.log(applyListData.value.paginationData.totalDataCount);
+});
+
+onBeforeMount(() => {
+  console.log("비포마운트");
+  callAxios();
+})
+
+
 </script>
 
 <style scoped></style>

@@ -10,6 +10,7 @@ import jobplatform.fo.enterprise.common.Pagination;
 import jobplatform.fo.enterprise.domain.dto.SearchListDataDTO;
 import jobplatform.fo.enterprise.domain.mapper.ApplyMapper;
 import jobplatform.fo.enterprise.domain.mapper.CommonCodeMapper;
+import jobplatform.fo.enterprise.domain.vo.ApplyDetailDataVO;
 import jobplatform.fo.enterprise.domain.vo.ApplyListVO;
 import jobplatform.fo.enterprise.domain.vo.CommonCodeVO;
 
@@ -29,14 +30,8 @@ public class ApplyManagementService {
 		// 총 데이터 갯수
 		int totalCount= applyMapper.loadApplyListCount(searchListDataDTO);
 		
-		// 1페이지당 표시할 데이터 숫자
-		int showDataCountPerPage = 10;
-		// 페이지네이션 그룹의 숫자
-		int showPageGroupsCount = 5;
-		// 현재 페이지 번호 (첫화면이라 1)
-		int pageNo = 1;
-		// 페이지네이션 정보 생성
-		Pagination pagination = new Pagination(totalCount, showDataCountPerPage, pageNo, showPageGroupsCount);
+		// 페이지네이션 정보 생성 (기본 1페이지 = 데이터10 / 페이지그룹= 페이지5)
+		Pagination pagination = new Pagination(totalCount, searchListDataDTO.getPageNo());
 			
 		Map<String, Object> map = new HashMap<String, Object>();
 		//페이지네이션 정보 map 추가
@@ -56,7 +51,17 @@ public class ApplyManagementService {
 		List<CommonCodeVO> commonCodeListVO = commonCodeMapper.selectCommonCodeApplyCategoryData();
 		//코드 정보 map 추가
 		map.put("applyConditions", commonCodeListVO);
+		
 
 		return map;
+	}
+	
+	// 지원 상세보기
+	public ApplyDetailDataVO findApplyDetailData(int apy_sq) {
+		System.out.println("서비스 도착 : " + apy_sq);
+		
+		ApplyDetailDataVO applyDetailDataVO = applyMapper.selectApplyDetailData(apy_sq);
+		
+		return applyDetailDataVO;
 	}
 }

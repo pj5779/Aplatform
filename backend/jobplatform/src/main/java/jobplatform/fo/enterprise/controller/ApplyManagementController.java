@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jobplatform.fo.enterprise.domain.dto.SearchListDataDTO;
+import jobplatform.fo.enterprise.domain.vo.ApplyDetailDataVO;
 import jobplatform.fo.enterprise.service.ApplyManagementService;
 
 @RestController
@@ -29,35 +30,32 @@ public class ApplyManagementController {
 		return HttpStatus.OK;
 	}
 	
-	// 지원자 리스트 불러오기ResponseEntity<Map<String, Object>>
-	@GetMapping("/applys/apply-list/{jbp_sq}/{division}/{condition}/{sort}")
+	// 지원자 리스트 불러오기 (일반화 완료)
+	@GetMapping("/applys/apply-list/{jbp_sq}/{division}/{condition}/{sort}/{pageNo}")
 	public ResponseEntity<Map<String, Object>> findApplyListData(
 			@PathVariable(name = "jbp_sq", required = false) int jbp_sq,
 			@PathVariable(name = "division", required = false) String division,
 			@PathVariable(name = "condition", required = false) int condition,
-			@PathVariable(name = "sort", required = false) String sort
+			@PathVariable(name = "sort", required = false) String sort,
+			@PathVariable(name = "pageNo", required = false) int pageNo
 			) {
 		//검색 정보 VO (공고번호, 구분(지원apply / 제안proposal), 상태, 정렬)
-		SearchListDataDTO searchListDataDTO = new SearchListDataDTO(jbp_sq, division, condition, sort);
+		SearchListDataDTO searchListDataDTO = new SearchListDataDTO(jbp_sq, division, condition, sort, pageNo);
 		
-		System.out.println(searchListDataDTO);
-
 		Map<String, Object> map = applyManagementService.findApplyData(searchListDataDTO);
-		
-		System.out.println(map.get("paginationData"));
-		System.out.println(map.get("searchListData"));
-		System.out.println(map.get("applyConditions"));
-		System.out.println(map.get("applyDatas"));
 
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 	
 	// 지원자 상세 가져오기
 	@GetMapping("/applys/applyDetail/{apy_sq}")
-	public void findApplyDetailData(@PathVariable(name = "apy_sq", required = false) int apy_sq) {
+	public ResponseEntity<ApplyDetailDataVO> findApplyDetailData(@PathVariable(name = "apy_sq", required = false) int apy_sq) {
+		//지원자 PK 번호 가져옴
 		System.out.println("컨트롤 도착 : " + apy_sq);
-		// 지원자 PK를 받아와서 이력서PK 알아내고-> 그것으로 정보 받아와서 처리 
-		// 쿼리 rsm_sq 일반화때문에 이력서로 가져와야할수도? 
+		// 지원자 상세 데이터 받아오기
+		ApplyDetailDataVO applyDetailData = applyManagementService.findApplyDetailData(apy_sq);
+		
+		return new ResponseEntity<ApplyDetailDataVO>(applyDetailData, HttpStatus.OK);
 	}
 	
 	// 지원자 상태변경 

@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainView from "../views/MainView";
-import ApplyListView from "../views/enterprise/apply/ApplyListView";
-import ApplyDetailView from "../views/enterprise/apply/ApplyDetailView";
-import ApplyInsertView from "../views/enterprise/apply/ApplyInsertView";
+import ApplyListView from "../views/fo/enterprise/apply/ApplyListView";
+import ApplyDetailView from "../views/fo/enterprise/apply/ApplyDetailView";
+import ApplyInsertView from "../views/fo/enterprise/apply/ApplyInsertView";
 
 const routes = [
   { path: "/", component: MainView },

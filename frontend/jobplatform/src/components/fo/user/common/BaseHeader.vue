@@ -53,7 +53,7 @@
                 <div
                   class="header-nav-main header-nav-main-square header-nav-main-dropdown-no-borders header-nav-main-effect-2 header-nav-main-sub-effect-1"
                 >
-                  <nav class="closed collapse" style="">
+                  <nav class="closed" style="">
                     <ul class="nav nav-pills" id="mainNav">
                       <li class="dropdown">
                         <router-link to="/applys/apply-list" a class="dropdown-item dropdown-toggle"><h4>지원 리스트</h4></router-link>
@@ -69,14 +69,6 @@
                     </ul>
                   </nav>
                 </div>
-                <button
-                  class="btn header-btn-collapse-nav collapsed"
-                  data-bs-toggle="collapse"
-                  data-bs-target=".header-nav-main nav"
-                  aria-expanded="false"
-                >
-                  <i class="fas fa-bars"></i>
-                </button>
               </div>
             </div>
           </div>
