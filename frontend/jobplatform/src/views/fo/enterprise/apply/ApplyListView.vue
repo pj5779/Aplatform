@@ -13,8 +13,7 @@
         <!-- 코드화 안되어있어서 하드코딩 -->
         <div class="form-group col-md-2">
           <!-- 여기 해야함 -->
-          <select class="form-select form-control h-auto py-2" v-model="selectValue"
-            @change="changeDivision(selectValue)">
+          <select class="form-select form-control h-auto py-2" v-model="value" @change="changeDivision(selectValue)">
             <option :value='ref("all")' :key="all">구분</option>
             <option :value='ref("apply")' :key="apply">지원</option>
             <option :value='ref("proposal")' :key="proposal">제안</option>
