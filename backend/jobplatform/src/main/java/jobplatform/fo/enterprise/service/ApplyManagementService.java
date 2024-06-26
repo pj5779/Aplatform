@@ -1,5 +1,7 @@
 package jobplatform.fo.enterprise.service;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import jobplatform.fo.enterprise.common.Pagination;
+import jobplatform.fo.enterprise.domain.dto.ApplyConditionDataDTO;
 import jobplatform.fo.enterprise.domain.dto.SearchListDataDTO;
 import jobplatform.fo.enterprise.domain.mapper.ApplyMapper;
 import jobplatform.fo.enterprise.domain.mapper.CommonCodeMapper;
@@ -26,7 +29,7 @@ public class ApplyManagementService {
 	}
 	
 	// 지원자 리스트 불러오기(정렬, 초기화면 일반화)
-	public Map<String, Object> findApplyData(SearchListDataDTO searchListDataDTO) {		
+	public Map<String, Object> findApplyData(SearchListDataDTO searchListDataDTO) throws SQLException, IOException {		
 		// 총 데이터 갯수
 		int totalCount= applyMapper.loadApplyListCount(searchListDataDTO);
 		
@@ -51,17 +54,27 @@ public class ApplyManagementService {
 		List<CommonCodeVO> commonCodeListVO = commonCodeMapper.selectCommonCodeApplyCategoryData();
 		//코드 정보 map 추가
 		map.put("applyConditions", commonCodeListVO);
-		
 
 		return map;
 	}
 	
 	// 지원 상세보기
-	public ApplyDetailDataVO findApplyDetailData(int apy_sq) {
+	public ApplyDetailDataVO findApplyDetailData(int apy_sq) throws SQLException, IOException {
 		System.out.println("서비스 도착 : " + apy_sq);
 		
 		ApplyDetailDataVO applyDetailDataVO = applyMapper.selectApplyDetailData(apy_sq);
 		
 		return applyDetailDataVO;
+	}
+	
+	// 지원자 상태 변경
+	public Boolean modifyApplyCondition(ApplyConditionDataDTO applyConditionDataDTO) throws SQLException, IOException {
+		Boolean result = false;
+		
+		if(applyMapper.updateApplyCondition(applyConditionDataDTO) == 1) {
+			result = true;
+		};
+
+		return result;
 	}
 }

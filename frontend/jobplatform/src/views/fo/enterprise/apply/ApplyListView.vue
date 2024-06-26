@@ -12,10 +12,12 @@
       <div class="row">
         <!-- 코드화 안되어있어서 하드코딩 -->
         <div class="form-group col-md-2">
-          <select class="form-select form-control h-auto py-2">
-            <option :value='ref("all")'>구분</option>
-            <option :value='ref("apply")'>지원</option>
-            <option :value='ref("proposal")'>제안</option>
+          <!-- 여기 해야함 -->
+          <select class="form-select form-control h-auto py-2" v-model="selectValue"
+            @change="changeDivision(selectValue)">
+            <option :value='ref("all")' :key="all">구분</option>
+            <option :value='ref("apply")' :key="apply">지원</option>
+            <option :value='ref("proposal")' :key="proposal">제안</option>
           </select>
         </div>
 
@@ -23,7 +25,8 @@
         <div class="form-group col-md-2">
           <select class="form-select form-control h-auto py-2">
             <option :value="0">상태</option>
-            <option v-for="applyCondition in applyListData.applyConditions" :key="applyCondition.code_id" :value="applyCondition.code_id">
+            <option v-for="applyCondition in applyListData.applyConditions" :key="applyCondition.code_id"
+              :value="applyCondition.code_id">
               {{ applyCondition.code_name }}
             </option>
           </select>
@@ -54,8 +57,9 @@
       </div>
       <hr class="gradient" />
       <div class="row">
-        <div v-if="applyListData.paginationData.totalDataCount != undefined && applyListData.paginationData.totalDataCount != 0 ">
-          <PaginationData :paginationData="applyListData.paginationData" />
+        <div
+          v-if="applyListData.paginationData.totalDataCount != undefined && applyListData.paginationData.totalDataCount != 0">
+          <PaginationData :paginationData="applyListData.paginationData" @change-page-no="changePageNo" />
         </div>
       </div>
     </div>
@@ -80,15 +84,13 @@ const applyListData = ref({
 
 console.log("일반")
 
-
-// 일반화 조지기
-const callAxios = async() => {
-  await useAxios("get", "/applys/apply-list/1/all/0/asc/1", null)
+// axios 함수
+const callAxios = async () => {
+  await useAxios("get", "/applys/apply-list/" + applyListData.value.searchListData.jbp_sq + "/" + applyListData.value.searchListData.division + "/" + applyListData.value.searchListData.condition + "/" + applyListData.value.searchListData.sort + "/" + applyListData.value.searchListData.pageNo, null)
     .then((success) => {
       applyListData.value = success.data.value;
-      console.log("페이지 정보 1")
-      console.log(applyListData.value.paginationData.totalDataCount);
-  })
+
+    })
     .catch((error) => {
       console.log(error.error.value);
     });
@@ -96,14 +98,27 @@ const callAxios = async() => {
 
 onMounted(() => {
   console.log("온마운트")
-  console.log("페이지 정보 2")
-  console.log(applyListData.value.paginationData.totalDataCount);
+
 });
 
 onBeforeMount(() => {
   console.log("비포마운트");
+  applyListData.value.searchListData = { jbp_sq: 1, division: "all", condition: 0, sort: "asc", pageNo: 1 };
   callAxios();
 })
+
+// 이벤트 모음
+// 페이지네이션 페이지 변경 클릭
+const changePageNo = (event) => {
+  applyListData.value.searchListData.pageNo = event;
+  callAxios();
+  console.log(applyListData.value.searchListData.pageNo)
+}
+const changeDivision = (event) => {
+  console.log(event)
+  applyListData.value.searchListData.division = event;
+  callAxios();
+}
 
 
 </script>

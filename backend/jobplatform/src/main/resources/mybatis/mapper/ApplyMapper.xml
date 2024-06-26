@@ -102,7 +102,7 @@
 			(select code_name from P2_TBL_COMMON_CODE_DTL_S where code_id = resume.rsm_fnl_edctn_cd) as rsm_fnl_edctn,
 			resume.rsm_grd,
 			resume.rsm_es,
-			member.mbr_name,
+			RESUME.rsm_name,
 			IF(posi.pstn_prpsl_sq is null, "지원", "제안") as rnqns_name
 		from p2_tbl_apply_h as apply
 				left outer join P2_TBL_RESUME_M as resume
@@ -126,6 +126,7 @@
 		limit #{paginationData.startRowIndex},#{paginationData.showDataCountPerPage};
 	</select>
 	
+	<!-- 지원자 상세정보 얻기 -->
 	<select id="selectApplyDetailData" resultMap="ApplyDetailDataVO">
 		select 
 			RESUME.rsm_sq,
@@ -170,5 +171,11 @@
 			and (CERTIFICATE.use_yn = 'Y' or CERTIFICATE.use_yn is null)
 			and (CAREER.use_yn = 'Y' or CAREER.use_yn is null);
 	</select>
-
+	
+	<!-- 지원자 상태 변경 -->
+	<update id="updateApplyCondition">
+		update P2_TBL_APPLY_H
+		set apy_cndtn = #{apy_cndtn}, intv_dtm = #{intv_dtm}
+		where apy_sq = #{apy_sq};
+	</update>
 </mapper>
