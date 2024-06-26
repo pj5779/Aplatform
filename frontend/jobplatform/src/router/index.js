@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import MainView from "../views/MainView";
 import ApplyListView from "../views/fo/enterprise/apply/ApplyListView";
 import ApplyDetailView from "../views/fo/enterprise/apply/ApplyDetailView";
@@ -12,9 +12,9 @@ const routes = [
   { path: "/applys/applyDetail", name: "applyDetailView", component: ApplyDetailView },
   { path: "/applys/applyInsert", component: ApplyInsertView },
 ];
-
+//createWebHistory 모드로 바꾸고 HTML5 로 해결해야함 createWebHashHistory
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes,
 });
 
