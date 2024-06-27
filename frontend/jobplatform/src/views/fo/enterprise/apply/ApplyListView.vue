@@ -24,8 +24,7 @@
         <div class="form-group col-md-2">
           <select class="form-select form-control h-auto py-2" @change="changeCondition($event)">
             <option value="0">상태</option>
-            <option v-for="applyCondition in applyListData.applyConditions" :key="applyCondition.code_id"
-              :value="applyCondition.code_id">
+            <option v-for="applyCondition in applyListData.applyConditions" :key="applyCondition.code_id" :value="applyCondition.code_id">
               {{ applyCondition.code_name }}
             </option>
           </select>
@@ -56,8 +55,7 @@
       </div>
       <hr class="gradient" />
       <div class="row">
-        <div
-          v-if="applyListData.paginationData.totalDataCount != undefined && applyListData.paginationData.totalDataCount != 0">
+        <div v-if="applyListData.paginationData.totalDataCount != undefined && applyListData.paginationData.totalDataCount != 0">
           <PaginationData :paginationData="applyListData.paginationData" @change-page-no="changePageNo" />
         </div>
       </div>
@@ -66,14 +64,13 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, reactive } from "vue";
 
 import { useAxios } from "@/use/useAxios";
 import PaginationData from "@/components/fo/enterprise/common/PaginationData.vue";
 import ApplyDatas from "@/components/fo/enterprise/apply/ApplyDatas.vue";
 
-
-const applyListData = ref({
+const applyListData = reactive({
   applyDatas: [],
   paginationData: {},
   searchData: {},
@@ -107,15 +104,15 @@ const callAxios = async () => {
   await useAxios(
     "get",
     "/applys/apply-list/" +
-    applyListData.value.searchData.jbp_sq +
-    "/" +
-    applyListData.value.searchData.division +
-    "/" +
-    applyListData.value.searchData.condition +
-    "/" +
-    applyListData.value.searchData.sort +
-    "/" +
-    applyListData.value.searchData.pageNo,
+      applyListData.value.searchData.jbp_sq +
+      "/" +
+      applyListData.value.searchData.division +
+      "/" +
+      applyListData.value.searchData.condition +
+      "/" +
+      applyListData.value.searchData.sort +
+      "/" +
+      applyListData.value.searchData.pageNo,
     null
   )
     .then((data) => {
