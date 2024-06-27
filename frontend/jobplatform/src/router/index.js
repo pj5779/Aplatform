@@ -12,10 +12,9 @@ const routes = [
   // 송영태
   { path: '/applys/apply-list', name: 'applyListView', component: ApplyListView },
   { path: '/applys/apply-detail', name: 'applyDetailView', component: ApplyDetailView },
-
-  { path: '/resume/resume-detail', component: ResumeDetailView },
-  { path: '/resume/resume-insert', component: ResumeInsertView },
-  { path: '/resume/resume-list', component: ResumeListView },
+  { path: '/resumes/resume-detail', component: ResumeDetailView },
+  { path: '/resumes/resume-insert', component: ResumeInsertView },
+  { path: '/resumes/resume-list', component: ResumeListView },
 ];
 //createWebHistory 모드로 바꾸고 HTML5 로 해결해야함 createWebHashHistory
 const router = createRouter({

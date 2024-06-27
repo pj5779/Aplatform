@@ -19,7 +19,6 @@
 import { ref } from "vue";
 import SelfintoductionDatas from "./SelfintoductionDatas.vue";
 
-
 const selfintoductionDatas = ref([]);
 let count = 1;
 

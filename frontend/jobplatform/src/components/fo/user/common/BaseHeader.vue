@@ -65,17 +65,17 @@
                       </li> -->
 
                       <li class="dropdown">
-                        <router-link to="/resume/resume-list" a class="dropdown-item dropdown-toggle">
+                        <router-link to="/resumes/resume-list" a class="dropdown-item dropdown-toggle">
                           <h4>이력서 리스트</h4>
                         </router-link>
                       </li>
                       <li class="dropdown">
-                        <router-link to="/resume/resume-insert" a class="dropdown-item dropdown-toggle">
+                        <router-link to="/resumes/resume-insert" a class="dropdown-item dropdown-toggle">
                           <h4>이력서 작성</h4>
                         </router-link>
                       </li>
                       <li class="dropdown">
-                        <router-link to="/resume/resume-detail" a class="dropdown-item dropdown-toggle">
+                        <router-link to="/resumes/resume-detail" a class="dropdown-item dropdown-toggle">
                           <h4>이력서 상세(컴포넌트 연습)</h4>
                         </router-link>
                       </li>

@@ -42,6 +42,74 @@
         <div class="row"></div>
       </div>
     </div>
+    <div class="col pb-3 pt-1">
+      <h4 class="mb-0">
+        학력 &nbsp;
+        <a href="#" class="btn btn-primary btn-circle mb-2">
+          <i class="fa fa-plus"></i>
+        </a>
+      </h4>
+      <hr class="mt-1 mb-2" />
+      <div>여기에 컴포넌트</div>
+    </div>
+    <div class="col pb-3 pt-1">
+      <h4 class="mb-0">
+        경력 &nbsp;
+        <a href="#" class="btn btn-primary btn-circle mb-2">
+          <i class="fa fa-plus"></i>
+        </a>
+      </h4>
+      <hr class="mt-1 mb-2" />
+      <div>여기에 컴포넌트</div>
+    </div>
+    <div class="col pb-3 pt-1">
+      <h4 class="mb-0">
+        스킬 &nbsp;
+        <a href="#" class="btn btn-primary btn-circle mb-2">
+          <i class="fa fa-plus"></i>
+        </a>
+      </h4>
+      <hr class="mt-1 mb-2" />
+      <div>여기에 컴포넌트</div>
+    </div>
+    <div class="col pb-3 pt-1">
+      <h4 class="mb-0">
+        자격/면허증 &nbsp;
+        <a href="#" class="btn btn-primary btn-circle mb-2">
+          <i class="fa fa-plus"></i>
+        </a>
+      </h4>
+      <hr class="mt-1 mb-2" />
+      <div>여기에 컴포넌트</div>
+    </div>
+    <div class="col pb-3 pt-1">
+      <h4 class="mb-0">
+        자기소개서 &nbsp;
+        <a href="#" class="btn btn-primary btn-circle mb-2">
+          <i class="fa fa-plus"></i>
+        </a>
+      </h4>
+      <hr class="mt-1 mb-2" />
+      <div>여기에 컴포넌트</div>
+    </div>
+    <div class="col pb-3 pt-1">
+      <div class="col-lg-4">
+        <h4 class="mb-0">
+          첨부파일 &nbsp;
+          <a href="#" class="btn btn-primary btn-circle mb-2">
+            <i class="fa fa-plus"></i>
+          </a>
+        </h4>
+        <hr class="mt-1 mb-2" />
+        <div>여기에 컴포넌트</div>
+      </div>
+      <div class="col-lg-12">
+        <div class="float-end">
+          <a href="#" class="btn btn-outline btn-xl btn-primary mb-2">저장</a>
+          <a href="#" class="btn btn-outline btn-xl btn-light mb-2">취소</a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
