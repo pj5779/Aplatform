@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>JOBPATFORM</title>
 
+    <!-- daterangepicker & moment -->
+    <script type="text/javascript" src="<%= BASE_URL %>daterangepicker/moment.min.js"></script>
+    <script type="text/javascript" src="<%= BASE_URL %>daterangepicker/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="<%= BASE_URL %>daterangepicker/daterangepicker.css" />
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="<%= BASE_URL %>img/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="<%= BASE_URL %>img/apple-touch-icon.png" />
@@ -50,6 +55,16 @@
 
     <!-- Skin CSS -->
     <link id="skinCSS" rel="stylesheet" href="<%= BASE_URL %>css/skins/default.css" />
+
+    <!-- Theme Initialization Files -->
+    <script src="js/theme.init.js"></script>
+
+    <script
+      type="text/javascript"
+      src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+      charset="utf-8"
+    ></script>
+
     <!-- 파일이 없음
   <script src="../node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
   <script src="../node_modules/@ckeditor/ckeditor5-vue/dist/ckeditor.js"></script>

@@ -1,28 +1,32 @@
-import axios from "axios";
-import { ref } from "vue";
+import axios from 'axios';
+import { ref } from 'vue';
 
 export async function useAxios(method, url, requestData) {
-  const data = ref(null);
+  const success = ref(null);
   const error = ref(null);
 
-  console.log("Axios 도착 : " + method + "     " + url + "     " + requestData);
+  console.log('Axios 도착 : ' + method + '     ' + url + '     ' + requestData);
 
   await axios({
     method: method, // 'post'
     url: url, //'/user/12345'
     data: requestData,
     header: {
-      "Context-Type": "multipart/form-data",
+      'Context-Type': 'multipart/form-data',
     },
   })
     .then((response) => {
       //console.log("axios 성공");
-      data.value = response.data;
+      if (response.data != null) {
+        success.value = response.data;
+      }
     })
-    .catch((errorRes) => {
+    .catch((response) => {
       //console.log("axios 실패");
-      error.value = errorRes;
+      if (response.data != null) {
+        error.value = response.data;
+      }
     });
 
-  return { data, error };
+  return { success, error };
 }

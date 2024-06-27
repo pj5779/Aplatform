@@ -24,7 +24,8 @@
         <div class="form-group col-md-2">
           <select class="form-select form-control h-auto py-2" @change="changeCondition($event)">
             <option value="0">상태</option>
-            <option v-for="applyCondition in applyListData.applyConditions" :key="applyCondition.code_id" :value="applyCondition.code_id">
+            <option v-for="applyCondition in applyListData.applyConditions" :key="applyCondition.code_id"
+              :value="applyCondition.code_id">
               {{ applyCondition.code_name }}
             </option>
           </select>
@@ -48,14 +49,15 @@
         </div>
         <!-- 자료있을때 for -->
         <div v-else>
-          <div v-for="applyData in applyListData.applyDatas" :key="applyData.a">
+          <div v-for="applyData in applyListData.applyDatas" :key="applyData.apy_sq">
             <ApplyDatas :applyData="applyData" />
           </div>
         </div>
       </div>
       <hr class="gradient" />
       <div class="row">
-        <div v-if="applyListData.paginationData.totalDataCount != undefined && applyListData.paginationData.totalDataCount != 0">
+        <div
+          v-if="applyListData.paginationData.totalDataCount != undefined && applyListData.paginationData.totalDataCount != 0">
           <PaginationData :paginationData="applyListData.paginationData" @change-page-no="changePageNo" />
         </div>
       </div>
@@ -66,9 +68,10 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-import ApplyDatas from "../../../../components/fo/enterprise/apply/ApplyDatas.vue";
-import PaginationData from "../../../../components/fo/enterprise/common/PaginationData.vue";
-import { useAxios } from "../../../../use/useAxios";
+import { useAxios } from "@/use/useAxios";
+import PaginationData from "@/components/fo/enterprise/common/PaginationData.vue";
+import ApplyDatas from "@/components/fo/enterprise/apply/ApplyDatas.vue";
+
 
 const applyListData = ref({
   applyDatas: [],
@@ -104,29 +107,30 @@ const callAxios = async () => {
   await useAxios(
     "get",
     "/applys/apply-list/" +
-      applyListData.value.searchListData.jbp_sq +
-      "/" +
-      applyListData.value.searchListData.division +
-      "/" +
-      applyListData.value.searchListData.condition +
-      "/" +
-      applyListData.value.searchListData.sort +
-      "/" +
-      applyListData.value.searchListData.pageNo,
+    applyListData.value.searchListData.jbp_sq +
+    "/" +
+    applyListData.value.searchListData.division +
+    "/" +
+    applyListData.value.searchListData.condition +
+    "/" +
+    applyListData.value.searchListData.sort +
+    "/" +
+    applyListData.value.searchListData.pageNo,
     null
   )
-    .then((success) => {
-      applyListData.value = success.data.value;
+    .then((data) => {
+      applyListData.value = data.success.value;
       console.log(applyListData.value.paginationData.totalDataCount);
     })
-    .catch((error) => {
-      console.log(error.error.value);
+    .catch((data) => {
+      console.log(data.error.value);
     });
 };
 
 // 이벤트 함수
 // 페이지네이션 페이지 변경 클릭
 const changePageNo = (event) => {
+  console.log(event);
   applyListData.value.searchListData.pageNo = event;
   callAxios();
 };

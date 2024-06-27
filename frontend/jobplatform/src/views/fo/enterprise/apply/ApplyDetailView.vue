@@ -3,20 +3,23 @@
     <div class="col pb-3 pt-3">
       <div class="row">
         <h1 class="form-group col-md-12">
-          <strong class="font-weight-extra-bold"> 제목 </strong>
+          <strong class="font-weight-extra-bold"> 지원자 상세 </strong>
         </h1>
+        <hr class="gradient" />
+      </div>
+      <div class="row">
+        <h3 class="form-group col-md-6">
+          <div class="col-sm-2 col-lg-4"> 제목 </div>
+        </h3>
       </div>
       <div class="row">
         <section class="call-to-action with-full-borders mb-2 mainContainer">
           <div class="col-sm-2 col-lg-2">
             <div class="col-sm-12 col-lg-12 imgContainer">
               <span class="img-thumbnail d-block">
-                <img
-                  class="img-fluid"
+                <img class="img-fluid"
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdraZyZ8CC81iPsZST1_TLB0SBOXC6wfvQ_Exx1uKkGsFpi4t_Mj4o8HhM_vPwI60yBF8&usqp=CAU"
-                  alt
-                  style="width: 200px"
-                />
+                  alt style="width: 200px" />
               </span>
             </div>
           </div>
@@ -43,20 +46,22 @@
 </template>
 
 <script setup>
+import { useAxios } from "@/use/useAxios";
 import { onMounted } from "vue";
-import { useAxios } from "../../../../use/useAxios";
+
 
 //루트에서 들고온 PK 값
 const { apy_sq } = history.state;
 
 // axios 함수
 const callAxios = async () => {
-  await useAxios("get", "/applys/applyDetail/" + apy_sq, null)
-    .then((success) => {
-      console.log(success.data.value);
+  await useAxios("get", "/applys/apply-detail/" + apy_sq, null)
+    .then((data) => {
+      console.log(data.success.value);
+      console.log(data.error.value);
     })
-    .catch((error) => {
-      console.log(error.error.value);
+    .catch((data) => {
+      console.log(data.error.value);
     });
 };
 
@@ -71,6 +76,7 @@ onMounted(() => {
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .imgContainer {
   padding-right: 5px;
 }

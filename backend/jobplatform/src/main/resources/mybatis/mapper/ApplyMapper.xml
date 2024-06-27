@@ -99,7 +99,7 @@
 			resume.rsm_sq,
 			resume.rsm_img_file_url,
 			resume.rsm_fnl_edctn_cd,
-			(select code_name from P2_TBL_COMMON_CODE_DTL_S where code_id = resume.rsm_fnl_edctn_cd) as rsm_fnl_edctn,
+			(select code_name from P2_TBL_COMMON_CODE_DTL_S where code_id = resume.rsm_fnl_edctn_cd) as rsm_fnl_edctn_name,
 			resume.rsm_grd,
 			resume.rsm_es,
 			RESUME.rsm_name,

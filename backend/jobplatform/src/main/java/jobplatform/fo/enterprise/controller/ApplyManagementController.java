@@ -56,7 +56,7 @@ public class ApplyManagementController {
 	}
 	
 	// 지원자 상세 가져오기
-	@GetMapping("/applys/applyDetail/{apy_sq}")
+	@GetMapping("/applys/apply-detail/{apy_sq}")
 	public ResponseEntity<ApplyDetailDataVO> findApplyDetailData(@PathVariable(name = "apy_sq", required = false) int apy_sq) {
 		//지원자 PK 번호 가져옴
 		System.out.println("컨트롤 도착 : " + apy_sq);
@@ -73,8 +73,6 @@ public class ApplyManagementController {
 			// e.printStackTrace();
 			httpStatus = HttpStatus.BAD_GATEWAY;
 		}
-		
-		System.out.println(applyDetailData);
 		
 		return new ResponseEntity<ApplyDetailDataVO>(applyDetailData, httpStatus);
 	}
@@ -104,7 +102,7 @@ public class ApplyManagementController {
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			httpStatus = HttpStatus.BAD_GATEWAY;
+			httpStatus = HttpStatus.BAD_GATEWAY; 
 		}
 		
 		return new ResponseEntity<HttpStatus>(httpStatus);

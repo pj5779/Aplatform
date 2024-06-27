@@ -3,20 +3,17 @@
     <div class="col-sm-2 col-lg-2">
       <div class="col-sm-12 col-lg-12 imgContainer">
         <span class="img-thumbnail d-block">
-          <img
-            class="img-fluid"
+          <img class="img-fluid"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdraZyZ8CC81iPsZST1_TLB0SBOXC6wfvQ_Exx1uKkGsFpi4t_Mj4o8HhM_vPwI60yBF8&usqp=CAU"
-            alt
-            style="width: 200px"
-          />
+            alt style="width: 200px" />
         </span>
       </div>
     </div>
     <div class="row col-sm-10 col-lg-10">
       <div class="col-sm-4 col-lg-4">이름 : {{ props.applyData.rsm_name }}</div>
-      <div class="col-sm-3 col-lg-3">희망연봉 : {{ fomatNull(props.applyData.rsm_es) }}</div>
+      <div class="col-sm-3 col-lg-3">희망연봉 : {{ fomatSalaryNull(props.applyData.rsm_es) }}</div>
       <div class="col-sm-3 col-lg-3">최종학력 : {{ props.applyData.rsm_fnl_edctn_name }}</div>
-      <div class="col-sm-2 col-lg-2">학점 : {{ fomatNull(props.applyData.rsm_grd) }}</div>
+      <div class="col-sm-2 col-lg-2">학점 : {{ fomatGradeNull(props.applyData.rsm_grd) }}</div>
       <hr class="gradient mt-4" />
       <div class="col-sm-2 col-lg-3">상태 : {{ props.applyData.apy_cndtn_name }}</div>
       <div class="col-sm-3 col-lg-2">구분 : {{ props.applyData.rnqns_name }}</div>
@@ -44,13 +41,25 @@ const fomatDate = (dateTime) => {
   return returnData;
 };
 // 학점 포멧 변경
-const fomatNull = (data) => {
+const fomatGradeNull = (data) => {
   let returnData = data;
 
   if (data == 0 || data == null) {
     returnData = "미입력";
   } else {
-    returnData = data + "/ 4.5";
+    returnData = data + " / 4.5";
+  }
+
+  return returnData;
+};
+// 연봉 포멧 변경
+const fomatSalaryNull = (data) => {
+  let returnData = data;
+
+  if (data == 0 || data == null) {
+    returnData = "미입력";
+  } else {
+    returnData = data + " 만원";
   }
 
   return returnData;
@@ -73,6 +82,7 @@ const goToDetail = (apy_sq) => {
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .imgContainer {
   padding-right: 5px;
 }
