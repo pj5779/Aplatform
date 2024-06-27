@@ -111,18 +111,18 @@
 					on posi.rsm_sq = resume.rsm_sq
 				left outer join P2_TBL_MEMBER_M as member
 					on member.mbr_sq = resume.mbr_sq
-		where apply.jbp_sq = #{searchListData.jbp_sq}
+		where apply.jbp_sq = #{searchData.jbp_sq}
 			and apply.apy_cndtn != 403
-			<if test = "searchListData.condition != 0">
+			<if test = "searchData.condition != 0">
 				and apply.apy_cndtn = #{searchListData.condition}
 			</if>
-			<if test = "searchListData.division.equals('apply')">
+			<if test = "searchData.division.equals('apply')">
 				and posi.pstn_prpsl_sq is null
 			</if>
-			<if test = "searchListData.division.equals('proposal')">
+			<if test = "searchData.division.equals('proposal')">
 				and posi.pstn_prpsl_sq is not null
 			</if>
-		order by apy_dtm ${searchListData.sort}
+		order by apy_dtm ${searchData.sort}
 		limit #{paginationData.startRowIndex},#{paginationData.showDataCountPerPage};
 	</select>
 	

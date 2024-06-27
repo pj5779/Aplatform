@@ -1,5 +1,9 @@
 package jobplatform.fo.enterprise.controller;
 
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -8,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jobplatform.fo.enterprise.domain.dto.ResumeSearchDataDTO;
 import jobplatform.fo.enterprise.service.ResumeManagementService;
 
 @RestController
@@ -20,12 +25,22 @@ public class ResumeManagementController {
 	}
 	
 	// 이력서 목록 불러오기 (정렬 일반화)
-	@GetMapping("/resumes/resume-list/{mbr_sq}/{sort}")
-	public void findResumeListData(
+	@GetMapping("/resumes/resume-list/{mbr_sq}/{sort}/{pageNo}")
+	public ResponseEntity<Map<String, Object>> findResumeListData(
 			@PathVariable("mbr_sq") int mbr_sq,
-			@PathVariable(name = "sort", required = false) String sort
+			@PathVariable("sort") String sort,
+			@PathVariable("pageNo") int pageNo
 			) {
-		System.out.println("컨트롤 도착 : " + mbr_sq);
+		System.out.println("컨트롤 도착 : " + mbr_sq + sort + pageNo);
+		ResumeSearchDataDTO resumeSearchDataDTO = new ResumeSearchDataDTO(mbr_sq, sort, pageNo);
+		Map<String, Object> map = null;
+		HttpStatus httpStatus = null;
+		
+		map = resumeManagementService.findResumeData(resumeSearchDataDTO);
+		httpStatus=HttpStatus.OK;
+		
+		return new ResponseEntity<Map<String, Object>>(map, httpStatus);
+		
 	}
 	// 이력서 상세 불러오기
 	@GetMapping("/resumes/resumeDetail/{rsm_sq}")

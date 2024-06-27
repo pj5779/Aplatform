@@ -52,26 +52,30 @@ import { onMounted, ref } from "vue";
 const resumeListData = ref({
     resumeDatas: [],
     paginationData: {},
-    searchListData: {},
+    searchData: {},
 });
 
 onMounted(() => {
     // 첫페이지 입장시 정보 받아오기
     console.log("온마운트");
-    console.log(resumeListData.value.paginationData.totalDataCount);
-    // applyListData.value.searchListData = { rsm_sq: 1, division: "all", condition: 0, sort: "asc", pageNo: 1 };
-    // callAxios();
+    resumeListData.value.searchData = { mbr_sq: 1, sort: "asc", pageNo: 1 };
+    callAxios();
 });
 
 // axios 함수
 const callAxios = async () => {
     await useAxios(
         "get",
-        "/resumes/resume-list/" + resumeListData.value.searchListData.rsm_sq + "/" + resumeListData.value.searchListData.sort + "/" + resumeListData.value.searchListData.pageNo,
+        "/resumes/resume-list/" + resumeListData.value.searchData.mbr_sq + "/" + resumeListData.value.searchData.sort + "/" + resumeListData.value.searchData.pageNo,
         null
     )
         .then((data) => {
-            resumeListData.value = data.success.value;
+            console.log("여기" + data.error)
+            console.log(data.success.value)
+            console.log(data.error.value)
+            //resumeListData.value = data.success.value;
+            // 디비 작업해야함.
+            resumeListData.value = null;
             console.log(resumeListData.value.paginationData.totalDataCount);
         })
         .catch((data) => {
@@ -83,13 +87,13 @@ const callAxios = async () => {
 // 페이지네이션 페이지 변경 클릭
 const changePageNo = (event) => {
     console.log(event);
-    resumeListData.value.searchListData.pageNo = event;
+    resumeListData.value.searchData.pageNo = event;
     callAxios();
 };
 // 정렬 select 변경
 const changeSort = (value) => {
-    resumeListData.value.searchListData.sort = value.target.value;
-    resumeListData.value.searchListData.pageNo = 1;
+    resumeListData.value.searchData.sort = value.target.value;
+    resumeListData.value.searchData.pageNo = 1;
     callAxios();
 };
 </script>

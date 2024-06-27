@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchListDataDTO {
+public class ApplySearchDataDTO {
 	// 공고번호
 	private int jbp_sq;
 	// 구분

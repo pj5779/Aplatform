@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jobplatform.fo.enterprise.domain.dto.ApplyConditionDataDTO;
-import jobplatform.fo.enterprise.domain.dto.SearchListDataDTO;
+import jobplatform.fo.enterprise.domain.dto.ApplySearchDataDTO;
 import jobplatform.fo.enterprise.domain.vo.ApplyDetailDataVO;
 import jobplatform.fo.enterprise.service.ApplyManagementService;
 
@@ -37,14 +37,14 @@ public class ApplyManagementController {
 			@PathVariable(name = "pageNo", required = false) int pageNo
 			) {
 		//검색 정보 DTO (공고번호, 구분(지원apply / 제안proposal), 상태, 정렬, 페이지번호)
-		SearchListDataDTO searchListDataDTO = new SearchListDataDTO(jbp_sq, division, condition, sort, pageNo);
+		ApplySearchDataDTO applySearchDataDTO = new ApplySearchDataDTO(jbp_sq, division, condition, sort, pageNo);
 		
 		Map<String, Object> map = null;
 		HttpStatus httpStatus = null;
-		
+	
 		try {
 			
-			map = applyManagementService.findApplyData(searchListDataDTO);
+			map = applyManagementService.findApplyData(applySearchDataDTO);
 			httpStatus = HttpStatus.OK;
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block

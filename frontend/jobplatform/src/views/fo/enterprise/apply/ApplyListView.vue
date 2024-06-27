@@ -76,7 +76,7 @@ import ApplyDatas from "@/components/fo/enterprise/apply/ApplyDatas.vue";
 const applyListData = ref({
   applyDatas: [],
   paginationData: {},
-  searchListData: {},
+  searchData: {},
   applyConditions: [],
 });
 
@@ -98,7 +98,7 @@ onMounted(() => {
   // 첫페이지 입장시 정보 받아오기
   console.log("온마운트");
   console.log(applyListData.value.paginationData.totalDataCount);
-  applyListData.value.searchListData = { jbp_sq: 1, division: "all", condition: 0, sort: "asc", pageNo: 1 };
+  applyListData.value.searchData = { jbp_sq: 1, division: "all", condition: 0, sort: "asc", pageNo: 1 };
   callAxios();
 });
 
@@ -107,15 +107,15 @@ const callAxios = async () => {
   await useAxios(
     "get",
     "/applys/apply-list/" +
-    applyListData.value.searchListData.jbp_sq +
+    applyListData.value.searchData.jbp_sq +
     "/" +
-    applyListData.value.searchListData.division +
+    applyListData.value.searchData.division +
     "/" +
-    applyListData.value.searchListData.condition +
+    applyListData.value.searchData.condition +
     "/" +
-    applyListData.value.searchListData.sort +
+    applyListData.value.searchData.sort +
     "/" +
-    applyListData.value.searchListData.pageNo,
+    applyListData.value.searchData.pageNo,
     null
   )
     .then((data) => {
@@ -131,25 +131,25 @@ const callAxios = async () => {
 // 페이지네이션 페이지 변경 클릭
 const changePageNo = (event) => {
   console.log(event);
-  applyListData.value.searchListData.pageNo = event;
+  applyListData.value.searchData.pageNo = event;
   callAxios();
 };
 // 구분 select 변경
 const changeDivision = (value) => {
-  applyListData.value.searchListData.division = value.target.value;
-  applyListData.value.searchListData.pageNo = 1;
+  applyListData.value.searchData.division = value.target.value;
+  applyListData.value.searchData.pageNo = 1;
   callAxios();
 };
 // 상태 select 변경
 const changeCondition = (value) => {
-  applyListData.value.searchListData.condition = value.target.value;
-  applyListData.value.searchListData.pageNo = 1;
+  applyListData.value.searchData.condition = value.target.value;
+  applyListData.value.searchData.pageNo = 1;
   callAxios();
 };
 // 정렬 select 변경
 const changeSort = (value) => {
-  applyListData.value.searchListData.sort = value.target.value;
-  applyListData.value.searchListData.pageNo = 1;
+  applyListData.value.searchData.sort = value.target.value;
+  applyListData.value.searchData.pageNo = 1;
   callAxios();
 };
 </script>

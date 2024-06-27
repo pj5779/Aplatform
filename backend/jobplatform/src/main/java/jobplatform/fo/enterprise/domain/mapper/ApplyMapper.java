@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import jobplatform.fo.enterprise.domain.dto.ApplyConditionDataDTO;
-import jobplatform.fo.enterprise.domain.dto.SearchListDataDTO;
+import jobplatform.fo.enterprise.domain.dto.ApplySearchDataDTO;
 import jobplatform.fo.enterprise.domain.vo.ApplyDetailDataVO;
 import jobplatform.fo.enterprise.domain.vo.ApplyListVO;
 
@@ -16,7 +16,7 @@ import jobplatform.fo.enterprise.domain.vo.ApplyListVO;
 public interface ApplyMapper {
 	
 	// 총 지원자 숫자 받아오기
-	int loadApplyListCount(SearchListDataDTO searchListDataDTO) throws SQLException, IOException;;
+	int loadApplyListCount(ApplySearchDataDTO searchListDataDTO) throws SQLException, IOException;;
 	// 지원자 리스트 얻기
 	List<ApplyListVO> selectApplyListData(Map<String, Object> map) throws SQLException, IOException;;
 	// 지원자 디테일 데이터 얻기

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import jobplatform.fo.enterprise.common.Pagination;
 import jobplatform.fo.enterprise.domain.dto.ApplyConditionDataDTO;
-import jobplatform.fo.enterprise.domain.dto.SearchListDataDTO;
+import jobplatform.fo.enterprise.domain.dto.ApplySearchDataDTO;
 import jobplatform.fo.enterprise.domain.mapper.ApplyMapper;
 import jobplatform.fo.enterprise.domain.mapper.CommonCodeMapper;
 import jobplatform.fo.enterprise.domain.vo.ApplyDetailDataVO;
@@ -29,19 +29,19 @@ public class ApplyManagementService {
 	}
 	
 	// 지원자 리스트 불러오기(정렬, 초기화면 일반화)
-	public Map<String, Object> findApplyData(SearchListDataDTO searchListDataDTO) throws SQLException, IOException {		
+	public Map<String, Object> findApplyData(ApplySearchDataDTO applySearchDataDTO) throws SQLException, IOException {		
 		// 총 데이터 갯수
-		int totalCount= applyMapper.loadApplyListCount(searchListDataDTO);
+		int totalCount= applyMapper.loadApplyListCount(applySearchDataDTO);
 		
 		// 페이지네이션 정보 생성 (기본 1페이지 = 데이터10 / 페이지그룹= 페이지5)
-		Pagination pagination = new Pagination(totalCount, searchListDataDTO.getPageNo());
+		Pagination pagination = new Pagination(totalCount, applySearchDataDTO.getPageNo());
 			
 		Map<String, Object> map = new HashMap<String, Object>();
 		//페이지네이션 정보 map 추가
 		map.put("paginationData", pagination);
 		
 		// 검색/정렬 정보 map 추가
-		map.put("searchListData", searchListDataDTO);
+		map.put("searchData", applySearchDataDTO);
 		
 		//-----------------------에러!!!--------------------------------------------------------------
 		// 지원자 리스트 정보 얻기
