@@ -9,7 +9,9 @@
     <hr class="mt-1 mb-2" />
     <div>
       <div v-for="(selfintoductionData, index) in selfintoductionDatas" :key="index">
-        <SelfintoductionDatas :id="selfintoductionData.id" @remove-components="removeComponents" />
+        <SelfintoductionDatas :selfintoductionDatas="selfintoductionData" @remove-components="removeComponents" />
+
+        <!-- 여기에 박아넣는다 SelfintoductionDatas-->
       </div>
     </div>
   </div>
@@ -23,15 +25,16 @@ const selfintoductionDatas = ref([]);
 let count = 1;
 
 const addComponents = () => {
-  selfintoductionDatas.value.push({ id: count });
+  selfintoductionDatas.value.push({ id: count, title: "", content: "" });
+
   count++;
 };
 
 const removeComponents = (emit) => {
   let index = -1;
-  console.log(emit)
+
   for (let i = 0; i < selfintoductionDatas.value.length; i++) {
-    console.log(selfintoductionDatas.value[i].id);
+
     if (selfintoductionDatas.value[i].id == emit) {
       index = i;
     }
