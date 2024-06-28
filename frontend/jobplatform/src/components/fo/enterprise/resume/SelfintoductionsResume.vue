@@ -9,9 +9,37 @@
     <hr class="mt-1 mb-2" />
     <div>
       <div v-for="(selfintoductionData, index) in selfintoductionDatas" :key="index">
-        <SelfintoductionDatas :selfintoductionDatas="selfintoductionData" @remove-components="removeComponents" />
+        <!-- <SelfintoductionDatas :selfintoductionDatas="selfintoductionData" @remove-components="removeComponents" /> -->
 
         <!-- 여기에 박아넣는다 SelfintoductionDatas-->
+        <section class="call-to-action with-full-borders mb-2">
+          <div class="col-lg-12">
+            <div class="form-group col">
+              <div class="col-lg-5 form-check-inline">
+                <input type="text" maxlength="50" class="form-control text-3 h-auto py-2" name="title" placeholder="제목" v-model="title" required />
+              </div>
+              <div class="col-lg-1 form-check-inline">
+                <a class="btn btn-primary btn-circle mb-2 imgIcon" @click="removeComponents(selfintoductionData.id)">
+                  <i class="fa fa-minus"></i>
+                </a>
+                {{ selfintoductionData.id }}
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="form-group col">
+              <textarea
+                maxlength="5000"
+                rows="8"
+                class="form-control text-3 h-auto py-2"
+                name="content"
+                placeholder="내용"
+                v-model="content"
+                required
+              ></textarea>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </div>
@@ -19,23 +47,25 @@
 
 <script setup>
 import { ref } from "vue";
-import SelfintoductionDatas from "./SelfintoductionDatas.vue";
+// import SelfintoductionDatas from "./SelfintoductionDatas.vue";
 
 const selfintoductionDatas = ref([]);
 let count = 1;
 
 const addComponents = () => {
-  selfintoductionDatas.value.push({ id: count, title: "", content: "" });
+  selfintoductionDatas.value.push({ id: count });
+  console.log(selfintoductionDatas.value);
 
   count++;
 };
 
-const removeComponents = (emit) => {
+const removeComponents = (event) => {
   let index = -1;
 
-  for (let i = 0; i < selfintoductionDatas.value.length; i++) {
+  console.log(event);
 
-    if (selfintoductionDatas.value[i].id == emit) {
+  for (let i = 0; i < selfintoductionDatas.value.length; i++) {
+    if (selfintoductionDatas.value[i].id == event) {
       index = i;
     }
   }
