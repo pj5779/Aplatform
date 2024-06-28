@@ -43,7 +43,7 @@ public class ApplyManagementController {
 		HttpStatus httpStatus = null;
 	
 		try {
-			
+			// 지원자 리스트 얻기
 			map = applyManagementService.findApplyData(applySearchDataDTO);
 			httpStatus = HttpStatus.OK;
 		} catch (SQLException | IOException e) {
@@ -58,8 +58,6 @@ public class ApplyManagementController {
 	// 지원자 상세 가져오기
 	@GetMapping("/applys/apply-detail/{apy_sq}")
 	public ResponseEntity<ApplyDetailDataVO> findApplyDetailData(@PathVariable(name = "apy_sq", required = false) int apy_sq) {
-		//지원자 PK 번호 가져옴
-		System.out.println("컨트롤 도착 : " + apy_sq);
 		
 		ApplyDetailDataVO applyDetailData = null;
 		HttpStatus httpStatus = null;
@@ -85,8 +83,6 @@ public class ApplyManagementController {
 			@RequestParam Timestamp intv_dtm
 			) {
 		
-		System.out.println("컨트롤 도착 : " + apy_sq + " / " + apy_cndtn);
-		System.out.println("날짜 : " + intv_dtm);
 		ApplyConditionDataDTO applyConditionDataDTO = new ApplyConditionDataDTO(apy_sq, apy_cndtn, intv_dtm);
 		
 		HttpStatus httpStatus = null;

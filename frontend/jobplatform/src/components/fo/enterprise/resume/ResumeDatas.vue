@@ -13,13 +13,14 @@
           <a v-if="props.resumeData.rsm_rprsntv_yn === 'Y'" href="#"
             class="btn btn-rounded btn-quaternary mb-2">대표이력서</a>
           <a v-if="props.resumeData.rsm_rprsntv_yn === 'N'" href="#"
-            class="btn btn-outline btn-rounded btn-quaternary mb-2">대표이력서 설정</a>
+            class="btn btn-outline btn-rounded btn-quaternary mb-2"
+            @click="$emit('modifyRepresentative', props.resumeData.rsm_sq)">대표이력서 설정</a>
         </div>
       </div>
     </div>
     <div class="row col-sm-12 col-lg-12">
       <div class="col-sm-4 col-lg-4">
-        <p class="mb-0">{{ props.resumeData.insrt_dtm }}</p>
+        <p class="mb-0">{{ fomatDate(props.resumeData.updt_dtm) }}</p>
       </div>
       <div class="col-sm-5 col-lg-5"></div>
       <div class="col-sm-1 col-lg-1">
@@ -50,6 +51,14 @@
 import { defineProps } from "vue";
 
 const props = defineProps(["resumeData"]);
+
+// 포멧 함수
+// 날짜 포멧 변경
+const fomatDate = (dateTime) => {
+  const returnData = new Date(dateTime).toLocaleDateString();
+
+  return returnData;
+};
 
 </script>
 

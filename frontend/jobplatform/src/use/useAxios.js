@@ -16,17 +16,32 @@ export async function useAxios(method, url, requestData) {
     },
   })
     .then((response) => {
-      //console.log("axios 성공");
-      if (response.data != null) {
-        success.value = response.data;
-      }
+      //console.log('axios 성공');
+      success.value = response.data;
     })
     .catch((response) => {
-      //console.log("axios 실패");
-      if (response.data != null) {
-        error.value = response.data;
-      }
+      //console.log('axios 실패');
+      error.value = response.data;
     });
-  console.log('Axios 리턴 직전');
+
   return { success, error };
+
+  // const { success, error } = await useAxios(
+  //     "get",
+  //     "/resumes/resume-list/" +
+  //     resumeListData.value.searchData.mbr_sq +
+  //     "/" +
+  //     resumeListData.value.searchData.sort +
+  //     "/" +
+  //     resumeListData.value.searchData.pageNo,
+  //     null
+  // );
+
+  // if (success.value != null) {
+  //     // 성공 로직
+  //     resumeListData.value = success.value;
+  // } else if (error.value != null) {
+  //     // 실패시 로직
+  //     console.log("useAxios 실패" + error.value);
+  // }
 }

@@ -13,8 +13,8 @@
                 <!-- 코드화 안되어있어서 하드코딩 -->
                 <div class="form-group col-md-2">
                     <select class="form-select form-control h-auto py-2" @change="changeSort($event)">
-                        <option value="asc">올림차순</option>
                         <option value="desc">내림차순</option>
+                        <option value="asc">올림차순</option>
                     </select>
                 </div>
             </div>
@@ -27,7 +27,8 @@
                 <!-- 자료있을때 for -->
                 <div v-else>
                     <div v-for="resumeData in resumeListData.resumeDatas" :key="resumeData.rsm_sq">
-                        <ResumeDatas :resumeData="resumeData" />
+                        <ResumeDatas :resumeData="resumeData" @modify-representative="modifyRepresentative"
+                            @delete-resumes="deleteResumes" />
                     </div>
                 </div>
             </div>
@@ -45,7 +46,7 @@
 <script setup>
 import PaginationData from "@/components/fo/enterprise/common/PaginationData.vue";
 import ResumeDatas from "@/components/fo/enterprise/resume/ResumeDatas.vue";
-import { useAxios } from "@/use/useAxios";
+import axios from "axios";
 import { onMounted, ref } from "vue";
 
 const resumeListData = ref({
@@ -55,43 +56,63 @@ const resumeListData = ref({
 });
 
 onMounted(() => {
-    // 첫페이지 입장시 정보 받아오기
-    console.log("온마운트");
-    resumeListData.value.searchData = { mbr_sq: 1, sort: "asc", pageNo: 1 };
+    // 첫페이지 입장시 정보 넣어주기
+    resumeListData.value.searchData = { mbr_sq: 1, sort: "desc", pageNo: 1 };
     callAxios();
 });
 
 // axios 함수
 const callAxios = async () => {
-    const { success, error } = await useAxios(
-        "get",
-        "/resumes/resume-list/" +
-        resumeListData.value.searchData.mbr_sq +
-        "/" +
-        resumeListData.value.searchData.sort +
-        "/" +
-        resumeListData.value.searchData.pageNo,
-        null
-    )
+    await axios.get("/resumes/resume-list/" + resumeListData.value.searchData.mbr_sq + "/" + resumeListData.value.searchData.sort + "/" + resumeListData.value.searchData.pageNo)
+        .then((success) => {
+            console.log('axios 성공' + success.data);
+            resumeListData.value = success.data;
+        })
+        .catch((error) => {
+            console.log('axios 실패' + error.data);
 
-    // 성공 로직
-    resumeListData.value = success.value;
-    // 실패시 로직 
-    console.log("useAxios 실패" + error.value);
+        });
 };
 
 // 이벤트 함수
 // 페이지네이션 페이지 변경 클릭
-const changePageNo = (event) => {
-    console.log(event);
-    resumeListData.value.searchData.pageNo = event;
+const changePageNo = (emit) => {
+    resumeListData.value.searchData.pageNo = emit;
     callAxios();
 };
 // 정렬 select 변경
-const changeSort = (value) => {
-    resumeListData.value.searchData.sort = value.target.value;
+const changeSort = (event) => {
+    resumeListData.value.searchData.sort = event.target.value;
     resumeListData.value.searchData.pageNo = 1;
     callAxios();
+};
+
+// 대표 이력서 변경 클릭 (rsm_sq 들고 Axios)
+const modifyRepresentative = async (emit) => {
+    await axios.patch("/resumes/representative/" + emit)
+        .then((success) => {
+            console.log('axios 성공' + success);
+            callAxios();
+        })
+        .catch((error) => {
+            console.log('axios 실패' + error);
+        });
+};
+
+// 이력서 복제 (rsm_sq 들고 Axios)
+
+// 이력서 수정 (rsm_sq 들고 페이지 이동)
+
+// 이력서 삭제 (rsm_sq 들고 Axios)
+const deleteResumes = async (emit) => {
+    await axios.delete("/resumes/" + emit)
+        .then((success) => {
+            console.log('axios 성공' + success);
+            callAxios();
+        })
+        .catch((error) => {
+            console.log('axios 실패' + error);
+        });
 };
 </script>
 

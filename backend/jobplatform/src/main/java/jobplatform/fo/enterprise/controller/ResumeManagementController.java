@@ -1,5 +1,7 @@
 package jobplatform.fo.enterprise.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -31,19 +33,26 @@ public class ResumeManagementController {
 			@PathVariable("sort") String sort,
 			@PathVariable("pageNo") int pageNo
 			) {
-		System.out.println("컨트롤 도착 : " + mbr_sq + sort + pageNo);
+		
 		ResumeSearchDataDTO resumeSearchDataDTO = new ResumeSearchDataDTO(mbr_sq, sort, pageNo);
 		Map<String, Object> map = null;
 		HttpStatus httpStatus = null;
 		
-		map = resumeManagementService.findResumeData(resumeSearchDataDTO);
+		try {
+			
+			map = resumeManagementService.findResumeData(resumeSearchDataDTO);
+			
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
 		httpStatus=HttpStatus.OK;
 		
 		return new ResponseEntity<Map<String, Object>>(map, httpStatus);
 		
 	}
 	// 이력서 상세 불러오기
-	@GetMapping("/resumes/resumeDetail/{rsm_sq}")
+	@GetMapping("/resumes/resume-detail/{rsm_sq}")
 	public void findResumeDetailData(@PathVariable("rsm_sq") int rsm_sq) {
 		System.out.println("컨트롤 도착 : " + rsm_sq);
 		// 지원자 상세와 일반화하면 좋음
@@ -68,19 +77,53 @@ public class ResumeManagementController {
 
 	// 이력서 삭제
 	@DeleteMapping("/resumes/{rsm_sq}")
-	public void deleteResumeFullData(@PathVariable("rsm_sq") int rsm_sq) {
+	public ResponseEntity<HttpStatus> deleteResumeFullData(@PathVariable("rsm_sq") int rsm_sq) {
 		System.out.println("컨트롤 도착 : " + rsm_sq);
-		// 하위들 까지 전부다 YN
+		HttpStatus httpStatus = null;
+		Boolean result = false;
 		
+		try {
+			
+			if(result = resumeManagementService.deleteResumeFullData(rsm_sq)) {
+				// 성공
+				httpStatus = HttpStatus.OK;
+			} else {
+				// 실패 로직
+			}
+			
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return new ResponseEntity<HttpStatus>(httpStatus);
 	}
 	
 	/////////////////////////// 리스트 페이지 기능 ///////////////////////////////////
 	// 대표이력서 수정
 	@PatchMapping("/resumes/representative/{rsm_sq}")
-	public void chageResumeRepresentative(@PathVariable("rsm_sq") int rsm_sq) {
+	public ResponseEntity<HttpStatus> modifyResumeRepresentative(@PathVariable("rsm_sq") int rsm_sq) {
 		System.out.println("컨트롤 도착 : " + rsm_sq);
-		// 변경로직 -> Y인걸 전부 N 시키고 , 보낸PK를 Y로
+		HttpStatus httpStatus = null;
+		Boolean result = false;
 		
+		// 변경로직 -> Y인걸 전부 N 시키고 , 보낸PK를 Y로
+		try {
+			
+			if(result = resumeManagementService.modifyResumeyRepresentative(rsm_sq)) {
+				// 성공
+				httpStatus = HttpStatus.OK;
+			} else {
+				// 실패 로직
+			}
+			
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		return new ResponseEntity<HttpStatus>(httpStatus);
 	}
 	
 	// 복제

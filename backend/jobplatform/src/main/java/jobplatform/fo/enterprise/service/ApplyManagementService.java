@@ -55,10 +55,11 @@ public class ApplyManagementService {
 		//코드 정보 map 추가
 		map.put("applyConditions", commonCodeListVO);
 		
-//		System.out.println(applyListVO);
+		System.out.println(applyListVO);
 		System.out.println(applyListVO.size());
-//		System.out.println(pagination);
-//		System.out.println(searchListDataDTO);
+		System.out.println(pagination);
+		System.out.println(pagination.getTotalDataCount());
+		System.out.println(applySearchDataDTO);
 //		System.out.println(commonCodeListVO);
 		
 		return map;
@@ -79,7 +80,9 @@ public class ApplyManagementService {
 		
 		if(applyMapper.updateApplyCondition(applyConditionDataDTO) == 1) {
 			result = true;
-		};
+		} else {
+			//실패 예외
+		}
 
 		return result;
 	}

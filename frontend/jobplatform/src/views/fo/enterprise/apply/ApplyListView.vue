@@ -45,7 +45,7 @@
       <div class="row">
         <!-- 자료없을때 예외 -->
         <div v-if="applyListData.applyDatas.length === 0">
-          <strong class="font-weight-extra-bold"> 자료가 없습니다. {{ applyListData.searchData }}</strong>
+          <strong class="font-weight-extra-bold"> 자료가 없습니다. </strong>
         </div>
         <!-- 자료있을때 for -->
         <div v-else>
@@ -68,9 +68,9 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-import { useAxios } from "@/use/useAxios";
 import PaginationData from "@/components/fo/enterprise/common/PaginationData.vue";
 import ApplyDatas from "@/components/fo/enterprise/apply/ApplyDatas.vue";
+import axios from "axios";
 
 const applyListData = ref({
   applyDatas: [],
@@ -103,9 +103,7 @@ onMounted(() => {
 
 // axios 함수
 const callAxios = async () => {
-  const { success, error } = await useAxios(
-    "get",
-    "/applys/apply-list/" +
+  await axios.get("/applys/apply-list/" +
     applyListData.value.searchData.jbp_sq +
     "/" +
     applyListData.value.searchData.division +
@@ -114,38 +112,40 @@ const callAxios = async () => {
     "/" +
     applyListData.value.searchData.sort +
     "/" +
-    applyListData.value.searchData.pageNo,
-    null
-  );
+    applyListData.value.searchData.pageNo)
+    .then((success) => {
+      console.log('axios 성공' + success.data);
+      applyListData.value = success.data;
+    })
+    .catch((error) => {
+      console.log('axios 실패' + error.data);
 
-  // 데이터 넣어줌
-  applyListData.value = success.value;
-  // 실패시 로직 짜면 좋음
-  console.log("useAxios 실패" + error.value);
+    });
+
 };
 
 // 이벤트 함수
 // 페이지네이션 페이지 변경 클릭
-const changePageNo = (event) => {
-  console.log(event);
-  applyListData.value.searchData.pageNo = event;
+const changePageNo = (emit) => {
+  console.log(emit);
+  applyListData.value.searchData.pageNo = emit;
   callAxios();
 };
 // 구분 select 변경
-const changeDivision = (value) => {
-  applyListData.value.searchData.division = value.target.value;
+const changeDivision = (event) => {
+  applyListData.value.searchData.division = event.target.value;
   applyListData.value.searchData.pageNo = 1;
   callAxios();
 };
 // 상태 select 변경
-const changeCondition = (value) => {
-  applyListData.value.searchData.condition = value.target.value;
+const changeCondition = (event) => {
+  applyListData.value.searchData.condition = event.target.value;
   applyListData.value.searchData.pageNo = 1;
   callAxios();
 };
 // 정렬 select 변경
-const changeSort = (value) => {
-  applyListData.value.searchData.sort = value.target.value;
+const changeSort = (event) => {
+  applyListData.value.searchData.sort = event.target.value;
   applyListData.value.searchData.pageNo = 1;
   callAxios();
 };
