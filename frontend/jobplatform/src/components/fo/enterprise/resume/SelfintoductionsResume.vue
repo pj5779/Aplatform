@@ -9,7 +9,12 @@
     <hr class="mt-1 mb-2" />
     <div>
       <div v-for="(selfintoductionData, index) in selfintoductionDatas" :key="index">
-        <SelfintoductionDatas :selfintoductionDatas="selfintoductionData" @remove-components="removeComponents" />
+        <SelfintoductionDatas
+          :id="selfintoductionData.id"
+          v-model:title="selfintoductionData.title"
+          v-model:content="selfintoductionData.content"
+          @remove-components="removeComponents"
+        />
 
         <!-- 여기에 박아넣는다 SelfintoductionDatas-->
       </div>
@@ -34,7 +39,6 @@ const removeComponents = (emit) => {
   let index = -1;
 
   for (let i = 0; i < selfintoductionDatas.value.length; i++) {
-
     if (selfintoductionDatas.value[i].id == emit) {
       index = i;
     }
