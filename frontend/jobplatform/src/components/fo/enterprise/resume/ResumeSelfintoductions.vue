@@ -16,10 +16,10 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { ref } from "vue";
 import SelfintoductionDatas from "./SelfintoductionDatas.vue";
 
-const selfintoductionDatas = reactive([]);
+const selfintoductionDatas = ref([]);
 let count = 1;
 
 const addComponents = () => {

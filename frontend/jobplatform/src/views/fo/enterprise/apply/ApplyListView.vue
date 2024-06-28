@@ -24,7 +24,8 @@
         <div class="form-group col-md-2">
           <select class="form-select form-control h-auto py-2" @change="changeCondition($event)">
             <option value="0">상태</option>
-            <option v-for="applyCondition in applyListData.applyConditions" :key="applyCondition.code_id" :value="applyCondition.code_id">
+            <option v-for="applyCondition in applyListData.applyConditions" :key="applyCondition.code_id"
+              :value="applyCondition.code_id">
               {{ applyCondition.code_name }}
             </option>
           </select>
@@ -43,8 +44,8 @@
 
       <div class="row">
         <!-- 자료없을때 예외 -->
-        <div v-if="applyListData.applyDatas.length == 0">
-          <strong class="font-weight-extra-bold"> 자료가 없습니다. </strong>
+        <div v-if="applyListData.applyDatas.length === 0">
+          <strong class="font-weight-extra-bold"> 자료가 없습니다. {{ applyListData.searchData }}</strong>
         </div>
         <!-- 자료있을때 for -->
         <div v-else>
@@ -55,7 +56,8 @@
       </div>
       <hr class="gradient" />
       <div class="row">
-        <div v-if="applyListData.paginationData.totalDataCount != undefined && applyListData.paginationData.totalDataCount != 0">
+        <div
+          v-if="applyListData.paginationData.totalDataCount != undefined && applyListData.paginationData.totalDataCount != 0">
           <PaginationData :paginationData="applyListData.paginationData" @change-page-no="changePageNo" />
         </div>
       </div>
@@ -64,13 +66,13 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from "vue";
+import { onMounted, ref } from "vue";
 
 import { useAxios } from "@/use/useAxios";
 import PaginationData from "@/components/fo/enterprise/common/PaginationData.vue";
 import ApplyDatas from "@/components/fo/enterprise/apply/ApplyDatas.vue";
 
-const applyListData = reactive({
+const applyListData = ref({
   applyDatas: [],
   paginationData: {},
   searchData: {},
@@ -94,34 +96,32 @@ const applyListData = reactive({
 onMounted(() => {
   // 첫페이지 입장시 정보 받아오기
   console.log("온마운트");
-  console.log(applyListData.value.paginationData.totalDataCount);
+  //console.log(applyListData.value.paginationData.totalDataCount);
   applyListData.value.searchData = { jbp_sq: 1, division: "all", condition: 0, sort: "asc", pageNo: 1 };
   callAxios();
 });
 
 // axios 함수
 const callAxios = async () => {
-  await useAxios(
+  const { success, error } = await useAxios(
     "get",
     "/applys/apply-list/" +
-      applyListData.value.searchData.jbp_sq +
-      "/" +
-      applyListData.value.searchData.division +
-      "/" +
-      applyListData.value.searchData.condition +
-      "/" +
-      applyListData.value.searchData.sort +
-      "/" +
-      applyListData.value.searchData.pageNo,
+    applyListData.value.searchData.jbp_sq +
+    "/" +
+    applyListData.value.searchData.division +
+    "/" +
+    applyListData.value.searchData.condition +
+    "/" +
+    applyListData.value.searchData.sort +
+    "/" +
+    applyListData.value.searchData.pageNo,
     null
-  )
-    .then((data) => {
-      applyListData.value = data.success.value;
-      console.log(applyListData.value.paginationData.totalDataCount);
-    })
-    .catch((data) => {
-      console.log(data.error.value);
-    });
+  );
+
+  // 데이터 넣어줌
+  applyListData.value = success.value;
+  // 실패시 로직 짜면 좋음
+  console.log("useAxios 실패" + error.value);
 };
 
 // 이벤트 함수

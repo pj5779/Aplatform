@@ -123,14 +123,12 @@ const { apy_sq } = history.state;
 
 // axios 함수
 const callAxios = async () => {
-  await useAxios("get", "/applys/apply-detail/" + apy_sq, null)
-    .then((data) => {
-      console.log(data.success.value);
-      console.log(data.error.value);
-    })
-    .catch((data) => {
-      console.log(data.error.value);
-    });
+  const { success, error } = await useAxios("get", "/applys/apply-detail/" + apy_sq, null);
+
+  // 성공 로직
+  console.log("useAxios 실패" + success.value);
+  // 실패시 로직
+  console.log("useAxios 실패" + error.value);
 };
 
 onMounted(() => {

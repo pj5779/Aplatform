@@ -56,7 +56,7 @@ public class ApplyManagementService {
 		map.put("applyConditions", commonCodeListVO);
 		
 //		System.out.println(applyListVO);
-//		System.out.println(applyListVO.size());
+		System.out.println(applyListVO.size());
 //		System.out.println(pagination);
 //		System.out.println(searchListDataDTO);
 //		System.out.println(commonCodeListVO);

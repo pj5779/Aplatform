@@ -27,6 +27,6 @@ export async function useAxios(method, url, requestData) {
         error.value = response.data;
       }
     });
-
+  console.log('Axios 리턴 직전');
   return { success, error };
 }
