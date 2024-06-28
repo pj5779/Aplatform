@@ -10,13 +10,19 @@
     <div>
       <div v-for="(selfintoductionData, index) in selfintoductionDatas" :key="index">
         <!-- <SelfintoductionDatas :selfintoductionDatas="selfintoductionData" @remove-components="removeComponents" /> -->
-
-        <!-- 여기에 박아넣는다 SelfintoductionDatas-->
         <section class="call-to-action with-full-borders mb-2">
           <div class="col-lg-12">
             <div class="form-group col">
               <div class="col-lg-5 form-check-inline">
-                <input type="text" maxlength="50" class="form-control text-3 h-auto py-2" name="title" placeholder="제목" v-model="title" required />
+                <input
+                  type="text"
+                  maxlength="50"
+                  class="form-control text-3 h-auto py-2"
+                  name="title"
+                  placeholder="제목"
+                  v-model="selfintoductionData.title"
+                  required
+                />
               </div>
               <div class="col-lg-1 form-check-inline">
                 <a class="btn btn-primary btn-circle mb-2 imgIcon" @click="removeComponents(selfintoductionData.id)">
@@ -34,7 +40,7 @@
                 class="form-control text-3 h-auto py-2"
                 name="content"
                 placeholder="내용"
-                v-model="content"
+                v-model="selfintoductionData.content"
                 required
               ></textarea>
             </div>
@@ -50,25 +56,23 @@ import { ref } from "vue";
 // import SelfintoductionDatas from "./SelfintoductionDatas.vue";
 
 const selfintoductionDatas = ref([]);
-let count = 1;
+const count = ref(1);
 
+// 입력창 생성
 const addComponents = () => {
-  selfintoductionDatas.value.push({ id: count });
-  console.log(selfintoductionDatas.value);
-
-  count++;
+  selfintoductionDatas.value.push({ id: count, title: "", content: "" });
+  count.value++;
 };
-
+// 입력창 삭제
 const removeComponents = (event) => {
-  let index = -1;
+  let index = 0;
 
-  console.log(event);
-
-  for (let i = 0; i < selfintoductionDatas.value.length; i++) {
-    if (selfintoductionDatas.value[i].id == event) {
-      index = i;
+  selfintoductionDatas.value.forEach((selfintoductionData, dataIndex) => {
+    if (selfintoductionData.id == event) {
+      index = dataIndex;
+      return;
     }
-  }
+  });
 
   selfintoductionDatas.value.splice(index, 1);
 };
