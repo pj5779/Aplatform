@@ -2,7 +2,6 @@
     <form class="contact-form form-style-4 form-style-4-text-dark">
         <div id="examples" class="container py-2">
             <div class="col pb-3 pt-3">
-
                 <div class="row">
                     <h1 class="form-group col-md-12">
                         <strong class="font-weight-extra-bold"> 이력서 등록 </strong>
@@ -125,7 +124,8 @@
                     <hr class="mt-1 mb-2" />
                     <div>여기에 컴포넌트</div>
                 </div>
-                <ResumeSelfintoductions />
+                <SelfintoductionsResume />
+                <AttachmentsResume />
                 <!-- <div class="col pb-3 pt-1">
                     <h4 class="mb-0">
                         자기소개서 &nbsp;
@@ -135,7 +135,7 @@
                     </h4>
                     <hr class="mt-1 mb-2" />
                     <div>여기에 컴포넌트</div>
-                </div> -->
+                </div> 
                 <div class="col pb-3 pt-1">
                     <div class="col-lg-4">
                         <h4 class="mb-0">
@@ -154,14 +154,15 @@
                         </div>
                     </div>
                 </div>
+                -->
             </div>
         </div>
     </form>
 </template>
 
 <script setup>
-import ResumeSelfintoductions from '@/components/fo/enterprise/resume/ResumeSelfintoductions.vue';
-
+import AttachmentsResume from '@/components/fo/enterprise/resume/AttachmentsResume.vue';
+import SelfintoductionsResume from '@/components/fo/enterprise/resume/SelfintoductionsResume.vue';
 
 </script>
 

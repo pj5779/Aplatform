@@ -27,12 +27,12 @@ const addComponents = () => {
   count++;
 };
 
-const removeComponents = (event) => {
+const removeComponents = (emit) => {
   let index = -1;
-
+  console.log(emit)
   for (let i = 0; i < selfintoductionDatas.value.length; i++) {
     console.log(selfintoductionDatas.value[i].id);
-    if (selfintoductionDatas.value[i].id == event) {
+    if (selfintoductionDatas.value[i].id == emit) {
       index = i;
     }
   }

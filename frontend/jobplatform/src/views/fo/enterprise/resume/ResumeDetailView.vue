@@ -1,12 +1,11 @@
 <template>
     <div>
-        <ResumeSelfintoductions />
+        <SelfintoductionsResume />
     </div>
 </template>
 
 <script setup>
-import ResumeSelfintoductions from '@/components/fo/enterprise/resume/ResumeSelfintoductions.vue';
-
+import SelfintoductionsResume from '@/components/fo/enterprise/resume/SelfintoductionsResume.vue';
 
 </script>
 
