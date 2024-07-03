@@ -13,8 +13,8 @@
           <div class="col-lg-12">
             <div class="form-group col">
               <div class="col-lg-5 form-check-inline">
-                <input type="text" maxlength="50" class="form-control text-3 h-auto py-2" name="'title'"
-                  placeholder="제목" v-model="selfintoductionData.title" required />
+                <input type="text" maxlength="50" class="form-control text-3 h-auto py-2" name="title" placeholder="제목"
+                  v-model="selfintoductionData.title" required />
               </div>
               <div class="col-lg-1 form-check-inline">
                 <a class="btn btn-primary btn-circle mb-2 imgIcon" @click="removeComponents(selfintoductionData.id)">

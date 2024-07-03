@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jobplatform.fo.enterprise.domain.dto.ResumeDataDTO;
@@ -73,7 +73,7 @@ public class ResumeManagementController {
 	@PostMapping("/resumes/test")
 	public void test(
 			@ModelAttribute ResumeDataDTO resumeDataDTO
-			//@ModelAttribute SelfintoductionsDataDTO selfintoductionsDataDTO
+			//@ModelAttribute List<SelfintoductionsDataDTO> selfintoductionsDataDTO
 			) {
 		System.out.println("test 도착");
 		System.out.println(resumeDataDTO);

@@ -1,5 +1,5 @@
 <template>
-  <form id="completeForm" class="contact-form form-style-4 form-style-4-text-dark" @submit.prevent="testSubmit">
+  <form id="completeForm" class="contact-form form-style-4 form-style-4-text-dark" @submit.prevent="submit">
     <div id="examples" class="container py-2">
       <div class="col pb-3 pt-3">
         <div class="row">
@@ -11,8 +11,8 @@
         <div class="col pb-3 pt-3">
           <div class="row">
             <div class="form-group col-md-6">
-              <input type="text" v-model="rsm_tl" maxlength="20" class="form-control text-3 h-auto py-2"
-                placeholder="제목" name="rsm_tl" required />
+              <input type="text" value="" maxlength="20" class="form-control text-3 h-auto py-2" placeholder="제목"
+                name="rsm_tl" required />
             </div>
           </div>
           <div class="row">
@@ -31,53 +31,60 @@
               </div>
               <div class="row col-sm-10 col-lg-10">
                 <div class="col-sm-4 col-lg-4">
-                  <input type="text" v-model="rsm_name" maxlength="100" class="form-control text-3 h-auto py-2"
-                    placeholder="이름" name="rsm_name" required />
+                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" placeholder="이름"
+                    name="rsm_name" required />
                 </div>
                 <div class="col-sm-3 col-lg-2">
                   <div class="form-check form-check-inline">
                     <label class="form-check-label">
                       <input class="form-check-input" type="radio" id="rsm_gndr_cd1" value="201" name="rsm_gndr_cd"
-                        v-model="rsm_gndr_cd" required /> 남
+                        required /> 남
                     </label>
                   </div>
                   <div class="form-check form-check-inline">
                     <label class="form-check-label">
                       <input class="form-check-input" type="radio" id="rsm_gndr_cd2" value="202" name="rsm_gndr_cd"
-                        v-model="rsm_gndr_cd" required /> 여
+                        _required /> 여
                     </label>
                   </div>
                 </div>
                 <div class="col-sm-2 col-lg-2">
                   <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_bd"
-                    v-model="rsm_bd" placeholder="생년월일" required />
+                    placeholder="생년월일" required />
                 </div>
                 <div class="col-sm-2 col-lg-4">
                   <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_mp"
-                    v-model="rsm_mp" placeholder="전화번호" required />
+                    placeholder="전화번호" required />
                 </div>
                 <hr class="mt-3 mb-1" />
                 <div class="col-sm-2 col-lg-8">
                   <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_adrs"
-                    v-model="rsm_adrs" placeholder="주소" required />
+                    placeholder="주소" required />
                 </div>
                 <div class="col-sm-3 col-lg-4">
                   <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_eml"
-                    v-model="rsm_eml" placeholder="이메일" required />
+                    placeholder="이메일" required />
                 </div>
                 <hr class="mt-3 mb-1" />
                 <div class="col-sm-4 col-lg-3">
                   <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_es"
-                    v-model="rsm_es" placeholder="희망연봉" required />
+                    placeholder="희망연봉" required />
                 </div>
                 <div class="col-sm-3 col-lg-3">
                   <!-- 셀랙박스로 만들어야할듯 -->
                   <input type="text" value="000" maxlength="100" class="form-control text-3 h-auto py-2"
-                    v-model="rsm_fnl_edctn_cd" placeholder="최종학력" required />
+                    placeholder="최종학력" required />
+
+                  <!-- <select class="form-select form-control h-auto py-2" @change="changeCondition($event)">
+                    <option v-for="applyCondition in applyListData.applyConditions" :key="applyCondition.code_id" :value="applyCondition.code_id">
+                      {{ applyCondition.code_name }}
+                    </option>
+                    </select> -->
+
                 </div>
                 <div class="col-sm-3 col-lg-3">
                   <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_grd"
-                    v-model="rsm_grd" placeholder="학점" required />
+                    placeholder="학점" required />
                 </div>
                 <div class="col-sm-3 col-lg-3"></div>
               </div>
@@ -170,38 +177,44 @@ import AttachmentsResume from "@/components/fo/enterprise/resume/AttachmentsResu
 import SelfintoductionsResume from "@/components/fo/enterprise/resume/SelfintoductionsResume.vue";
 import CertificatesResume from "@/components/fo/enterprise/resume/CertificatesResume.vue";
 import SkillsResume from "@/components/fo/enterprise/resume/SkillsResume.vue";
-// import axios from "axios";
-
-// const testSubmit = () => {
-//   console.log("오나?");
-
-//   const formData = document.getElementById("completeForm");
+import axios from "axios";
+import { onMounted } from "vue";
 
 
-//   for (let i = 0; i < formData.title.length; i++) {
-//     formData.append("selfintoductionData[" + i + "].title", formData.title[i]);
-//     formData.append("selfintoductionData[" + i + "].content", formData.content[i]);
-//     console.log(formData.title[i]);
-//   }
+// 첫페이지 입장시 정보 받아오기(최종학력 코드 리스트 , 성별 코드 리스트 , 스킬 코드리스트 )
+onMounted(() => {
+  console.log("온마운트");
 
-//   // this.title.forEach((data, index) => {
-//   //   formData.append("selfintoductionData[" + index + "].title", data);
-//   // });
+});
 
 
-//   axios.post("/resumes/test", formData, {
-//     header: {
-//       'Context-Type': 'multipart/form-data',
-//     }
-//   })
-//     .then((success) => {
-//       console.log(success);
-//     })
-//     .catch((error) => {
-//       console.log(error)
-//     })
 
-// }
+// form submit 함수
+const submit = () => {
+  console.log("오나?");
+  // form 정보 formData화
+  const formData = new FormData(document.getElementById('completeForm'));
+
+  // 자기소개서 List 형식으로 추가시키기
+  for (let i = 0; i < formData.getAll("title").length; i++) {
+    formData.append("selfintoductionData[" + i + "].title", formData.getAll("title")[i]);
+    formData.append("selfintoductionData[" + i + "].content", formData.getAll("content")[i]);
+  }
+
+  // axios 보내기
+  axios.post("/resumes/test", formData, {
+    header: {
+      'Context-Type': 'multipart/form-data',
+    }
+  })
+    .then((success) => {
+      console.log(success);
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+
+}
 
 </script>
 
