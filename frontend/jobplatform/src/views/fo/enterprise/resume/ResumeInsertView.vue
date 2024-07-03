@@ -1,5 +1,5 @@
 <template>
-  <form class="contact-form form-style-4 form-style-4-text-dark">
+  <form id="completeForm" class="contact-form form-style-4 form-style-4-text-dark" @submit.prevent="testSubmit">
     <div id="examples" class="container py-2">
       <div class="col pb-3 pt-3">
         <div class="row">
@@ -11,7 +11,8 @@
         <div class="col pb-3 pt-3">
           <div class="row">
             <div class="form-group col-md-6">
-              <input type="text" value="" maxlength="20" class="form-control text-3 h-auto py-2" name="name" placeholder="제목" required />
+              <input type="text" v-model="rsm_tl" maxlength="20" class="form-control text-3 h-auto py-2"
+                placeholder="제목" name="rsm_tl" required />
             </div>
           </div>
           <div class="row">
@@ -19,12 +20,9 @@
               <div class="col-sm-2 col-lg-2">
                 <div class="col-sm-12 col-lg-12 imgContainer">
                   <span class="img-thumbnail d-block">
-                    <img
-                      class="img-fluid"
+                    <img class="img-fluid"
                       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdraZyZ8CC81iPsZST1_TLB0SBOXC6wfvQ_Exx1uKkGsFpi4t_Mj4o8HhM_vPwI60yBF8&usqp=CAU"
-                      alt
-                      style="width: 200px"
-                    />
+                      alt style="width: 200px" />
                     <a href="#" class="imgIcon">
                       <i class="fa-regular fa-trash-can"></i>
                     </a>
@@ -33,42 +31,53 @@
               </div>
               <div class="row col-sm-10 col-lg-10">
                 <div class="col-sm-4 col-lg-4">
-                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="name" placeholder="이름" required />
+                  <input type="text" v-model="rsm_name" maxlength="100" class="form-control text-3 h-auto py-2"
+                    placeholder="이름" name="rsm_name" required />
                 </div>
                 <div class="col-sm-3 col-lg-2">
                   <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" name="radios" id="tabContent16Radio1" value="201" required /> 남
+                      <input class="form-check-input" type="radio" id="rsm_gndr_cd1" value="201" name="rsm_gndr_cd"
+                        v-model="rsm_gndr_cd" required /> 남
                     </label>
                   </div>
                   <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" name="radios" id="tabContent16Radio2" value="202" required /> 여
+                      <input class="form-check-input" type="radio" id="rsm_gndr_cd2" value="202" name="rsm_gndr_cd"
+                        v-model="rsm_gndr_cd" required /> 여
                     </label>
                   </div>
                 </div>
                 <div class="col-sm-2 col-lg-2">
-                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="name" placeholder="생년월일" required />
+                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_bd"
+                    v-model="rsm_bd" placeholder="생년월일" required />
                 </div>
                 <div class="col-sm-2 col-lg-4">
-                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="name" placeholder="전화번호" required />
+                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_mp"
+                    v-model="rsm_mp" placeholder="전화번호" required />
                 </div>
                 <hr class="mt-3 mb-1" />
                 <div class="col-sm-2 col-lg-8">
-                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="name" placeholder="주소" required />
+                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_adrs"
+                    v-model="rsm_adrs" placeholder="주소" required />
                 </div>
                 <div class="col-sm-3 col-lg-4">
-                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="name" placeholder="이메일" required />
+                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_eml"
+                    v-model="rsm_eml" placeholder="이메일" required />
                 </div>
                 <hr class="mt-3 mb-1" />
                 <div class="col-sm-4 col-lg-3">
-                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="name" placeholder="희망연봉" required />
+                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_es"
+                    v-model="rsm_es" placeholder="희망연봉" required />
                 </div>
                 <div class="col-sm-3 col-lg-3">
-                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="name" placeholder="최종학력" required />
+                  <!-- 셀랙박스로 만들어야할듯 -->
+                  <input type="text" value="000" maxlength="100" class="form-control text-3 h-auto py-2"
+                    v-model="rsm_fnl_edctn_cd" placeholder="최종학력" required />
                 </div>
                 <div class="col-sm-3 col-lg-3">
-                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="name" placeholder="학점" required />
+                  <input type="text" value="" maxlength="100" class="form-control text-3 h-auto py-2" name="rsm_grd"
+                    v-model="rsm_grd" placeholder="학점" required />
                 </div>
                 <div class="col-sm-3 col-lg-3"></div>
               </div>
@@ -96,17 +105,20 @@
           <hr class="mt-1 mb-2" />
           <div>여기에 컴포넌트</div>
         </div>
-        <div class="col pb-3 pt-1">
+        <SkillsResume />
+        <!-- <div class="col pb-3 pt-1">
           <h4 class="mb-0">
-            스킬 &nbsp;
+            기술 &nbsp;
             <a href="#" class="btn btn-primary btn-circle mb-2">
               <i class="fa fa-plus"></i>
             </a>
           </h4>
           <hr class="mt-1 mb-2" />
           <div>여기에 컴포넌트</div>
-        </div>
-        <div class="col pb-3 pt-1">
+        </div> -->
+
+        <CertificatesResume />
+        <!-- <div class="col pb-3 pt-1">
           <h4 class="mb-0">
             자격/면허증 &nbsp;
             <a href="#" class="btn btn-primary btn-circle mb-2">
@@ -115,7 +127,7 @@
           </h4>
           <hr class="mt-1 mb-2" />
           <div>여기에 컴포넌트</div>
-        </div>
+        </div> -->
         <SelfintoductionsResume />
         <!-- <div class="col pb-3 pt-1">
                     <h4 class="mb-0">
@@ -128,6 +140,7 @@
                     <div>여기에 컴포넌트</div>
                 </div>  -->
         <div class="col pb-3 pt-1">
+          <!-- 여긴 다시 생각해봐야할듯 드래그인 드랍으로 하면 될꺼같기도?-->
           <AttachmentsResume />
           <!-- <div class="col-lg-4">
                         <h4 class="mb-0">
@@ -143,6 +156,7 @@
             <div class="float-end">
               <a href="#" class="btn btn-outline btn-xl btn-primary mb-2">저장</a>
               <a href="#" class="btn btn-outline btn-xl btn-light mb-2">취소</a>
+              <button type="submit">테스트</button>
             </div>
           </div>
         </div>
@@ -154,6 +168,41 @@
 <script setup>
 import AttachmentsResume from "@/components/fo/enterprise/resume/AttachmentsResume.vue";
 import SelfintoductionsResume from "@/components/fo/enterprise/resume/SelfintoductionsResume.vue";
+import CertificatesResume from "@/components/fo/enterprise/resume/CertificatesResume.vue";
+import SkillsResume from "@/components/fo/enterprise/resume/SkillsResume.vue";
+// import axios from "axios";
+
+// const testSubmit = () => {
+//   console.log("오나?");
+
+//   const formData = document.getElementById("completeForm");
+
+
+//   for (let i = 0; i < formData.title.length; i++) {
+//     formData.append("selfintoductionData[" + i + "].title", formData.title[i]);
+//     formData.append("selfintoductionData[" + i + "].content", formData.content[i]);
+//     console.log(formData.title[i]);
+//   }
+
+//   // this.title.forEach((data, index) => {
+//   //   formData.append("selfintoductionData[" + index + "].title", data);
+//   // });
+
+
+//   axios.post("/resumes/test", formData, {
+//     header: {
+//       'Context-Type': 'multipart/form-data',
+//     }
+//   })
+//     .then((success) => {
+//       console.log(success);
+//     })
+//     .catch((error) => {
+//       console.log(error)
+//     })
+
+// }
+
 </script>
 
 <style scoped>

@@ -23,12 +23,12 @@ import { ref } from "vue";
 // import AttachmentsDatas from "./AttachmentsDatas.vue";
 
 const attachmentsDatas = ref([]);
-const count = ref(1);
+let count = 1;
 
 // 입력창 생성
 const addComponents = () => {
   attachmentsDatas.value.push({ id: count });
-  count.value++;
+  count++;
 };
 // 입력창 생성
 const removeComponents = (event) => {

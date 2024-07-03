@@ -2,19 +2,24 @@ package jobplatform.fo.enterprise.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jobplatform.fo.enterprise.domain.dto.ResumeDataDTO;
 import jobplatform.fo.enterprise.domain.dto.ResumeSearchDataDTO;
+import jobplatform.fo.enterprise.domain.dto.SelfintoductionsDataDTO;
 import jobplatform.fo.enterprise.service.ResumeManagementService;
 
 @RestController
@@ -61,6 +66,17 @@ public class ResumeManagementController {
 	// 이력서 등록
 	@PostMapping("/resumes")
 	public void inputResumeFullData(@RequestBody String Data) {
+		
+	}
+	
+	// 이력서 등록  테스트 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	@PostMapping("/resumes/test")
+	public void test(
+			@ModelAttribute ResumeDataDTO resumeDataDTO
+			//@ModelAttribute SelfintoductionsDataDTO selfintoductionsDataDTO
+			) {
+		System.out.println("test 도착");
+		System.out.println(resumeDataDTO);
 		
 	}
 	
