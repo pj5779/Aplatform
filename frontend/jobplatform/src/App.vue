@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <BaseHeader />
+  <CommonHeader />
+  <div role="main" class="main">
     <router-view />
-    <BaseFooter />
   </div>
+  <CommonFooter />
 </template>
 
 <script setup>
-import BaseHeader from "./components/fo/user/common/BaseHeader.vue";
-import BaseFooter from "./components/fo/user/common/BaseFooter.vue";
+import CommonHeader from "@/components/fo/user/CommonHeader.vue";
+import CommonFooter from "@/components/fo/user/CommonFooter.vue";
 </script>
-
-<style></style>
