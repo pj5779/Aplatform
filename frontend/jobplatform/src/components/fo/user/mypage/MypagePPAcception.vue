@@ -10,6 +10,8 @@
                 <input type="checkbox" v-model="ppAcceptYN" style="margin-left:auto; zoom:1.7;">
             </div>
         </div>
+
+
         <!-- 대표이력서 row -->
         <div class="row" style="margin-top: 35px;">
             <div class="col-6" style="padding-top: 7px;">
@@ -21,11 +23,12 @@
                 </h4>
             </div>
             <div class="col-6" style="display : flex; padding:0">
+                <!-- 변경 버튼은 클릭시 이력서 관리 페이지로 이동 -->
                 <button class="btn btn-outline btn-rounded btn-primary mb-2" style="margin-left:auto; font-size: medium; padding: 2px 10px;">변경</button>
             </div>
         </div>
         <div class="row" style="margin-top: 10px; border: 1px solid #eaeaea; padding: 20px 10px;">
-            <div class="col-3" style="display: flex; align-items: center; justify-items: center;">
+            <div class="col-3" style="display: flex; align-items: center; justify-content: center;">
                 <div class="thumb-info-side-image-wrapper">
                     <img src="@/assets/profile.webp" class="img-fluid" alt="" style="width: 100px;">
                 </div>
@@ -40,23 +43,35 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody style="text-align: center;">
+                    <tbody style="text-align: left;">
                         <tr>
                             <th>
-                                TBD
+                                등록일자 : {{ formatDateYMD(result.rsmInfo.insrt_dtm) }}
                             </th>
                             <th>
-                                TBD
+                                최종수정일자 : {{ formatDateYMD(result.rsmInfo.updt_dtm) }}
                             </th>
                             <th>
-                                TBD
+                                
                             </th>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <!-- 저장된 지역 보여주기 -->
+            <div v-if="selectedArea.length != 0">
+                <span v-for="(area, i) in selectedArea" :key="i" class="showChecked">
+                    {{ area.area_name }}
+                </span>
+            </div>
+            <!-- 저장된 직업 보여주기 -->
+            <div v-if="selectedJob.length != 0">
+                <span v-for="(job, i) in selectedJob" :key="i" class="showChecked">
+                    {{ job.job_sc_name }}
+                </span>
+            </div>
         </div>
-
+        
 
         <div :class="{ 'disabled' : !ppAcceptYN }" style="margin-top: 30px;">  
             
@@ -135,7 +150,7 @@
 
             <!-- 보내기 버튼 -->
              <div class="row" style="margin-top: 25px; display: flex; justify-content: center;">
-                <button class="btn btn-outline btn-rounded btn-primary mb-2" style="width: 100px;">저 장</button>
+                <button class="btn btn-outline btn-rounded btn-primary mb-2 " style="width: 100px;" @click="submitChecked()" >저 장</button>
              </div>
         </div>
     </div>
@@ -144,6 +159,7 @@
 <script setup>
     import { ref, onMounted, computed, watch } from 'vue';
     import { api } from '@/axios.js';
+    import { formatDateYMD } from '@/tools';
 
     let result = ref(null);
     let parentAreaCode = ref(101000);
@@ -151,6 +167,8 @@
     let ppAcceptYN = ref(false);
     let checkedArea = ref([]);
     let checkedJob = ref([]);
+    let selectedArea = ref([]);
+    let selectedJob = ref([]);
 
     onMounted(async() => {
         result.value = await api.$get("/user/mypage/ppAcception", {
@@ -160,6 +178,8 @@
             });
 
             ppAcceptYN.value = result.value.ppAcceptYN === 'Y';
+            selectedArea.value = result.value.areaList.filter(area => result.value.selectedAreas.includes(area.area_sq));
+            selectedJob.value = result.value.jobList.filter(job => result.value.selectedJobs.includes(job.job_sq));
     });
 
     watch(ppAcceptYN, async (newValue, oldValue) => {
@@ -213,6 +233,21 @@
             return;
         }
     }
+
+    async function submitChecked(){
+        let areaAndJobLists = {checkedArea, checkedJob};
+        try{
+            const temp = await api.$post("/user/mypage/ppAcception?mbr_sq=1", areaAndJobLists);
+            selectedArea.value = checkedArea.value;
+            selectedJob.value = checkedJob.value;
+            window.scrollTo({top : 0, behavior: "smooth"});
+            alert(temp + '개 입력 완료');
+        }catch(err){
+            console.error(err);
+        }
+    }
+
+
 </script>
 
 

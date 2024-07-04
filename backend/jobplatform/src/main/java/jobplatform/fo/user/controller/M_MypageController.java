@@ -59,11 +59,8 @@ public class M_MypageController {
 
 	//포지션 제안 받기 설정 후 원하는 지역, 직종 선택 -> 기존 데이터 삭제 후 재입력
 	@PostMapping("/ppAcception")
-	@SuppressWarnings("unchecked")
 	public int postMethodName(@RequestParam("mbr_sq") int mbr_sq, @RequestBody Map<String, Object> areaAndJobLists) {
-		List<Integer> areaList = (List<Integer>)areaAndJobLists.get("areaList");
-		List<Integer> jobList = (List<Integer>)areaAndJobLists.get("jobList");
-		return myPageService.insertSelectAreasAndJobs(mbr_sq, areaList, jobList);
+		return myPageService.insertSelectAreasAndJobs(mbr_sq, areaAndJobLists);
 	}
 
 	//제안 받은 포지션 공고 리스트

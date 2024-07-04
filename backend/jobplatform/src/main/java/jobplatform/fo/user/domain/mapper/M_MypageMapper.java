@@ -40,7 +40,7 @@ public interface M_MypageMapper {
 // 	포지션 제안 수락 여부 변경
 	public int updatePstnPrpslAcceptYN(@Param("mbr_sq") int mbr_sq, @Param("pstn_prpsl_accept_yn") String pstn_prpsl_accept_yn);
 
-//	 지역 정보 가져오기
+//	지역 정보 가져오기
 	public List<Map<String, Object>> getAreaCodes();
 
 // 	직업 정보 가져오기

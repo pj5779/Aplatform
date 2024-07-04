@@ -22,7 +22,7 @@ public interface M_MypageService {
 	public int updatePstnPrpslAcceptYN(int mbr_sq, String pstn_prpsl_accept_yn);
 
 	//포지션 제안 받을 때, 지역, 직업 선택
-	public int insertSelectAreasAndJobs(int mbr_sq, List<Integer> areaList, List<Integer> jobList);
+	public int insertSelectAreasAndJobs(int mbr_sq, Map<String, Object> areaAndJobLists);
 
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

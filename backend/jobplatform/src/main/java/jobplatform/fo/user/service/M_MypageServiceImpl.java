@@ -1,11 +1,15 @@
 package jobplatform.fo.user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jobplatform.fo.user.domain.mapper.M_MypageMapper;
 import jobplatform.fo.user.domain.vo.M_JobPosting_pp;
@@ -83,13 +87,34 @@ public class M_MypageServiceImpl implements M_MypageService{
 
     //포지션 제안 받을 때, 지역, 직업 선택
     @Override
-    public int insertSelectAreasAndJobs(int mbr_sq, List<Integer> areaList, List<Integer> jobList) {
+    @SuppressWarnings("unchecked")
+    public int insertSelectAreasAndJobs(int mbr_sq, Map<String, Object> areaAndJobLists) {
         int result = 0;
-
+        
+        ObjectMapper om = new ObjectMapper();
+        
+        List<Integer> areaList = new ArrayList<>();
+        List<Integer> jobList = new ArrayList<>();
+        
+        
+        Map<String, Object> checkedAreaMap = (Map<String, Object>) areaAndJobLists.get("checkedArea");
+        Map<String, Object> checkedJobMap = (Map<String, Object>) areaAndJobLists.get("checkedJob");
+        
+        List<Map<String, Object>> areas = om.convertValue(checkedAreaMap.get("_rawValue"), new TypeReference<List<Map<String, Object>>>() {});
+        List<Map<String, Object>> jobs = om.convertValue(checkedJobMap.get("_rawValue"), new TypeReference<List<Map<String, Object>>>() {});
+        
+        for(Map<String, Object> area : areas) {
+        	areaList.add((int)area.get("area_sq"));
+        }
+        
+        for(Map<String, Object> job : jobs) {
+        	jobList.add((int)job.get("job_sq"));
+        }
+        
         mypageMapper.resetSelectedAreas(mbr_sq);
         mypageMapper.resetSelectedJobs(mbr_sq);
-        result += mypageMapper.insertSelectAreas(mbr_sq, areaList);
-        result += mypageMapper.insertSelectJobs(mbr_sq, jobList);
+        if(areaList.size() != 0) result += mypageMapper.insertSelectAreas(mbr_sq, areaList);
+        if(jobList.size() != 0) result += mypageMapper.insertSelectJobs(mbr_sq, jobList);
 
         return result;
     }

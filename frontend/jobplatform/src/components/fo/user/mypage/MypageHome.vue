@@ -1,9 +1,9 @@
 <template>
     <div v-if="result">
         <div class="row" style="padding-bottom: 20px; border-bottom: 1px solid #eaeaea;">
-            <div class="col-3">
+            <div class="col-3" style="display: flex; align-items: center; justify-content: center;">
                 <div class="thumb-info-side-image-wrapper">
-                    <img src="@/assets/profile.webp" class="img-fluid" alt="" style="width: 180px;">
+                    <img src="@/assets/profile.webp" class="img-fluid" alt="" style="width: 140px;">
                 </div>
                 <!-- 나중에 야돈대신 들어갈 자리 :src="{{result.rsmInfo.rsm_img_file_url}}" -->
             </div>
@@ -13,7 +13,7 @@
                         <tr>
                             <th colspan="3">
                                 <h2 class="font-weight-bold" style="margin-bottom: 10px;">{{result.rsmInfo.rsm_tl}}</h2>
-                                <span>-최종 수정일자&nbsp;&nbsp;:&nbsp;&nbsp;{{ formatDateYMD(result.rsmInfo.insrt_dtm) }}</span><span style="margin-left: 20px;">-포지션 수락 여부&nbsp;&nbsp;:&nbsp;&nbsp;{{ result.mbrInfo.pstn_prpsl_accept_yn = 'Y'? '수락':'거절'}}</span>
+                                <span>-최종 수정일자&nbsp;&nbsp;:&nbsp;&nbsp;{{ formatDateYMD(result.rsmInfo.updt_dtm) }}</span><span style="margin-left: 20px;">-포지션 수락 여부&nbsp;&nbsp;:&nbsp;&nbsp;{{ result.mbrInfo.pstn_prpsl_accept_yn = 'Y'? '수락':'거절'}}</span>
                             </th>
                         </tr>
                     </thead>
@@ -28,17 +28,6 @@
                             <th>
                                 {{ result.mbrInfo.mbr_eml_adrs }}
                             </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                tbd
-                            </td>
-                            <td>
-                                tbd
-                            </td>
-                            <td>
-                                tbd
-                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -117,7 +106,7 @@
             </div>
         </div>
         <div class="row" style="padding-top:20px;">
-            <Calendar :events="calendarEvents" />
+            <Calendar :events="calendarEvents" :customButtons="customButtons" ref="fc" />
         </div>
     </div>
 
@@ -132,12 +121,13 @@
     let result = ref(null);
     let applyStateSum = computed(() => getApplyStateSum());
     let calendarEvents = computed(() => makeCalendarDatas());
+    let fc = ref(null);
 
     onMounted(async() => {
             result.value = await api.$get("/user/mypage/", {
                 params: {
                     mbr_sq : 1,
-                    month : 6
+                    month : new Date().getMonth() + 1
                 }
             });
     });
@@ -166,7 +156,7 @@
                 id : '',
                 title : '',
                 date : '',
-                borderColor : '',
+                backgroundColor : '',
                 description : ''
              };
 
@@ -174,19 +164,19 @@
              switch(temp.tbl_type){
                 case 'S' : 
                     event.title = '스크랩공고마감';
-                    event.borderColor = '#6495ed'
+                    event.backgroundColor = '#d3d3d3'
                     break;
                 case 'I' :
                     event.title = '면접';
-                    event.borderColor = '#ff69b4'
+                    event.backgroundColor = '#add8e6'
                     break;
                 case 'PP' : 
                     event.title = '제안받은공고마감';
-                    event.borderColor = '#7fff00'
+                    event.backgroundColor = '#f08080'
                     break;
                 case 'AC' : 
                     event.title = '지원공고'
-                    event.borderColor = '#a9a9a9'
+                    event.backgroundColor = '#87cefa'
                     break;
              }
              event.date = temp.dtm;
@@ -196,6 +186,22 @@
         }
 
         return events;
+    }
+
+    // 달력 버튼 눌렀을 때 이벤트 정의
+    let customButtons = {
+        myPrev: {
+            text: '<',
+            click: function(){
+                fc.value.calendar.getApi().prev();
+            }
+        },
+        myNext: {
+            text: '>',
+            click: function(){
+                fc.value.calendar.getApi().next();
+            }
+        }
     }
 
 </script>
