@@ -96,11 +96,10 @@ public class ResumeManagementController {
 	public ResponseEntity<HttpStatus> deleteResumeFullData(@PathVariable("rsm_sq") int rsm_sq) {
 		System.out.println("컨트롤 도착 : " + rsm_sq);
 		HttpStatus httpStatus = null;
-		Boolean result = false;
 		
 		try {
 			
-			if(result = resumeManagementService.deleteResumeFullData(rsm_sq)) {
+			if(resumeManagementService.deleteResumeFullData(rsm_sq)) {
 				// 성공
 				httpStatus = HttpStatus.OK;
 			} else {
@@ -122,12 +121,11 @@ public class ResumeManagementController {
 	public ResponseEntity<HttpStatus> modifyResumeRepresentative(@PathVariable("rsm_sq") int rsm_sq) {
 		System.out.println("컨트롤 도착 : " + rsm_sq);
 		HttpStatus httpStatus = null;
-		Boolean result = false;
 		
 		// 변경로직 -> Y인걸 전부 N 시키고 , 보낸PK를 Y로
 		try {
 			
-			if(result = resumeManagementService.modifyResumeyRepresentative(rsm_sq)) {
+			if(resumeManagementService.modifyResumeyRepresentative(rsm_sq)) {
 				// 성공
 				httpStatus = HttpStatus.OK;
 			} else {
@@ -143,9 +141,26 @@ public class ResumeManagementController {
 	}
 	
 	// 복제
-	@PostMapping("/resumes/add")
-	public void addResumeFullData(@RequestBody String Data) {
+	@PostMapping("/resumes/copy/{rsm_sq}")
+	public ResponseEntity<HttpStatus> copyResumeData(@PathVariable("rsm_sq") int rsm_sq) {
+		System.out.println("컨트롤 도착 : " + rsm_sq);
+		HttpStatus httpStatus = null;
 		
+		try {
+			
+			if(resumeManagementService.copyResumeData(rsm_sq)) {
+				// 성공
+				httpStatus = HttpStatus.OK;
+			} else {
+				// 실패 로직
+			}
+			
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		return new ResponseEntity<HttpStatus>(httpStatus);
 	}
 	
 	

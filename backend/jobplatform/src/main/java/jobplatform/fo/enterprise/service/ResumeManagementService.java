@@ -62,7 +62,7 @@ public class ResumeManagementService {
 	public Boolean deleteResumeFullData(int rsm_sq) throws SQLException, IOException {
 		Boolean result = false;
 		System.out.println(rsm_sq);
-		
+		//이력서 메인 + 자식 테이블 전부 업데이트
 		if(resumeMapper.deleteResumeFullData(rsm_sq) == 1) {
 			if(resumeMapper.delectRsmAtchmnt(rsm_sq) >= 0) {
 				if(resumeMapper.delectRsmSi(rsm_sq) >= 0) {
@@ -75,9 +75,20 @@ public class ResumeManagementService {
 					};
 				};
 			};
-			
-			result = true;
 		} 
+		
+		return result;
+	}
+	
+	// 이력서 카피 로직수행
+	@Transactional
+	public Boolean copyResumeData(int rsm_sq) throws SQLException, IOException {
+		Boolean result = false;
+		
+		//이력서 메인 + 자식 테이블 전부 insert
+		if(resumeMapper.insertCopyResume(rsm_sq) == 1) {
+			// 이력서 아랫 테이블 전부 만들어야함.
+		};
 		
 		return result;
 	}

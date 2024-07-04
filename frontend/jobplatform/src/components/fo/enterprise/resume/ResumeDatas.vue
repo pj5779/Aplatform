@@ -26,7 +26,7 @@
       <div class="col-sm-1 col-lg-1">
         <div class="call-to-action-btn">
           <a class="btn btn-outline btn-rounded btn-primary mb-2"
-            @click="$emit('addResumes', props.resumeData.rsm_sq)">복제</a>
+            @click="$emit('copyResumes', props.resumeData.rsm_sq)">복제</a>
         </div>
       </div>
       <div class="col-sm-1 col-lg-1">
@@ -44,7 +44,6 @@
     </div>
   </section>
 
-  <!-- <Resumes :resumeData="item" @add-resumes="addResumes" @modify-resumes="modifyResumes" @adelete-resumes="deleteResumes"/> -->
 </template>
 
 <script setup>
