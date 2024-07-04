@@ -12,7 +12,7 @@
                                 목록</router-link></li>
                     </ul>
                 </li>
-                <li class="nav-item"><router-link class="nav-link" to="applycompanylist">입사지원현황</router-link></li>
+                <li class="nav-item"><router-link class="nav-link" to="/applycompanylist">입사지원현황</router-link></li>
                 <li class="nav-item"><router-link class="nav-link" to="#">포지션 제안</router-link>
                     <ul>
                         <li class="nav-item"><router-link class="nav-link active" to="ppAcception">포지션 제안

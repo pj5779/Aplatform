@@ -30,7 +30,7 @@
                     <div v-else>
                         <div v-for="resumeData in resumeListData.resumeDatas" :key="resumeData.rsm_sq">
                             <ResumeDatas :resumeData="resumeData" @modify-representative="modifyRepresentative"
-                                @delete-resumes="deleteResumes" />
+                                @delete-resumes="deleteResumes" @copy-resumes="copyResumes" />
                         </div>
                     </div>
                 </div>
@@ -68,8 +68,7 @@ onMounted(() => {
 
 // axios 함수
 const callAxios = async () => {
-    console.log(resumeListData.value.searchData.mbr_sq + "/" + resumeListData.value.searchData.sort + "/" + resumeListData.value.searchData.pageNo);
-
+    // 리스트 뿌려주는 기본 axios
     await axios.get("http://localhost:80/resumes/resume-list/" + resumeListData.value.searchData.mbr_sq + "/" + resumeListData.value.searchData.sort + "/" + resumeListData.value.searchData.pageNo)
         .then((success) => {
             console.log('axios 성공' + success.data);
@@ -107,7 +106,16 @@ const modifyRepresentative = async (emit) => {
 };
 
 // 이력서 복제 (rsm_sq 들고 Axios)
-
+const copyResumes = async (emit) => {
+    await axios.post("http://localhost:80/resumes/copy/" + emit)
+        .then((success) => {
+            console.log('axios 성공' + success);
+            callAxios();
+        })
+        .catch((error) => {
+            console.log('axios 실패' + error);
+        });
+};
 // 이력서 수정 (rsm_sq 들고 페이지 이동)
 
 // 이력서 삭제 (rsm_sq 들고 Axios)

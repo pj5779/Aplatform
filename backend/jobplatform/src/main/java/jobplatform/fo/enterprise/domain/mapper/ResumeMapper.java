@@ -32,6 +32,10 @@ public interface ResumeMapper {
 	int delectRsmCrtfct(int rsm_sq) throws SQLException, IOException;
 	// 이력서 경력 삭제
 	int delectRsmCr(int rsm_sq) throws SQLException, IOException;
+	
+	// 이력서 복사
+	// 이력서 메인테이블 복사
+	int insertCopyResume(int rsm_sq) throws SQLException, IOException;
 
 
 }
