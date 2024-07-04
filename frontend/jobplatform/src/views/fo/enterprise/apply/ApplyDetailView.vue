@@ -114,8 +114,8 @@
 </template>
 
 <script setup>
-import { useAxios } from "@/use/useAxios";
 import { onMounted } from "vue";
+import axios from "axios";
 
 
 //루트에서 들고온 PK 값
@@ -123,12 +123,14 @@ const { apy_sq } = history.state;
 
 // axios 함수
 const callAxios = async () => {
-  const { success, error } = await useAxios("get", "/applys/apply-detail/" + apy_sq, null);
+  await axios.get("http://localhost:80/applys/apply-detail/" + apy_sq)
+    .then((success) => {
+      console.log('axios 성공' + success.data);
+    })
+    .catch((error) => {
+      console.log('axios 실패' + error.data);
 
-  // 성공 로직
-  console.log("useAxios 실패" + success.value);
-  // 실패시 로직
-  console.log("useAxios 실패" + error.value);
+    });
 };
 
 onMounted(() => {

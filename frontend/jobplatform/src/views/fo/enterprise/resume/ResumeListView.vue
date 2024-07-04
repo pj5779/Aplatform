@@ -1,42 +1,46 @@
 <template>
     <div id="examples" class="container py-2">
-        <div class="col pb-3 pt-3">
-            <div class="row">
-                <h1 class="form-group col-md-12">
-                    <strong class="font-weight-extra-bold"> 이력서 목록 </strong>
-                </h1>
-                <hr class="gradient" />
-            </div>
-
-            <div class="row">
-                <div class="form-group col-md-10"></div>
-                <!-- 코드화 안되어있어서 하드코딩 -->
-                <div class="form-group col-md-2">
-                    <select class="form-select form-control h-auto py-2" @change="changeSort($event)">
-                        <option value="desc">내림차순</option>
-                        <option value="asc">올림차순</option>
-                    </select>
+        <div class="row">
+            <MypageSidebar />
+            <div class="col-lg-9 pb-3 pt-3">
+                <div class="row">
+                    <h1 class="form-group col-md-12">
+                        <strong class="font-weight-extra-bold"> 이력서 목록 </strong>
+                    </h1>
+                    <hr class="gradient" />
                 </div>
-            </div>
 
-            <div class="row">
-                <!-- 자료없을때 예외 -->
-                <div v-if="resumeListData.resumeDatas.length == 0">
-                    <strong class="font-weight-extra-bold"> 자료가 없습니다. </strong>
-                </div>
-                <!-- 자료있을때 for -->
-                <div v-else>
-                    <div v-for="resumeData in resumeListData.resumeDatas" :key="resumeData.rsm_sq">
-                        <ResumeDatas :resumeData="resumeData" @modify-representative="modifyRepresentative"
-                            @delete-resumes="deleteResumes" />
+                <div class="row">
+                    <div class="form-group col-md-10"></div>
+                    <!-- 코드화 안되어있어서 하드코딩 -->
+                    <div class="form-group col-md-2">
+                        <select class="form-select form-control h-auto py-2" @change="changeSort($event)">
+                            <option value="desc">내림차순</option>
+                            <option value="asc">올림차순</option>
+                        </select>
                     </div>
                 </div>
-            </div>
-            <hr class="gradient" />
-            <div class="row">
-                <div
-                    v-if="resumeListData.paginationData.totalDataCount != undefined && resumeListData.paginationData.totalDataCount != 0">
-                    <PaginationData :paginationData="resumeListData.paginationData" @change-page-no="changePageNo" />
+
+                <div class="row">
+                    <!-- 자료없을때 예외 -->
+                    <div v-if="resumeListData.resumeDatas.length == 0">
+                        <strong class="font-weight-extra-bold"> 자료가 없습니다. </strong>
+                    </div>
+                    <!-- 자료있을때 for -->
+                    <div v-else>
+                        <div v-for="resumeData in resumeListData.resumeDatas" :key="resumeData.rsm_sq">
+                            <ResumeDatas :resumeData="resumeData" @modify-representative="modifyRepresentative"
+                                @delete-resumes="deleteResumes" />
+                        </div>
+                    </div>
+                </div>
+                <hr class="gradient" />
+                <div class="row">
+                    <div
+                        v-if="resumeListData.paginationData.totalDataCount != undefined && resumeListData.paginationData.totalDataCount != 0">
+                        <PaginationData :paginationData="resumeListData.paginationData"
+                            @change-page-no="changePageNo" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,6 +50,7 @@
 <script setup>
 import PaginationData from "@/components/fo/enterprise/common/PaginationData.vue";
 import ResumeDatas from "@/components/fo/enterprise/resume/ResumeDatas.vue";
+import MypageSidebar from "@/components/fo/user/mypage/MypageSidebar";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 
@@ -63,7 +68,9 @@ onMounted(() => {
 
 // axios 함수
 const callAxios = async () => {
-    await axios.get("/resumes/resume-list/" + resumeListData.value.searchData.mbr_sq + "/" + resumeListData.value.searchData.sort + "/" + resumeListData.value.searchData.pageNo)
+    console.log(resumeListData.value.searchData.mbr_sq + "/" + resumeListData.value.searchData.sort + "/" + resumeListData.value.searchData.pageNo);
+
+    await axios.get("http://localhost:80/resumes/resume-list/" + resumeListData.value.searchData.mbr_sq + "/" + resumeListData.value.searchData.sort + "/" + resumeListData.value.searchData.pageNo)
         .then((success) => {
             console.log('axios 성공' + success.data);
             resumeListData.value = success.data;
@@ -89,7 +96,7 @@ const changeSort = (event) => {
 
 // 대표 이력서 변경 클릭 (rsm_sq 들고 Axios)
 const modifyRepresentative = async (emit) => {
-    await axios.patch("/resumes/representative/" + emit)
+    await axios.patch("http://localhost:80/resumes/representative/" + emit)
         .then((success) => {
             console.log('axios 성공' + success);
             callAxios();
@@ -105,7 +112,7 @@ const modifyRepresentative = async (emit) => {
 
 // 이력서 삭제 (rsm_sq 들고 Axios)
 const deleteResumes = async (emit) => {
-    await axios.delete("/resumes/" + emit)
+    await axios.delete("http://localhost:80/resumes/" + emit)
         .then((success) => {
             console.log('axios 성공' + success);
             callAxios();

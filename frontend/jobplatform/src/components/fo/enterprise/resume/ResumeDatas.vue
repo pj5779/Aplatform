@@ -1,14 +1,14 @@
 <template>
   <section class="call-to-action with-full-borders mb-2">
     <div class="row col-sm-12 col-lg-12">
-      <div class="col-sm-10 col-lg-10">
+      <div class="col-sm-9 col-lg-9">
         <div class="call-to-action-content">
           <h3>
             <strong class="font-weight-extra-bold">{{ props.resumeData.rsm_tl }}</strong>
           </h3>
         </div>
       </div>
-      <div class="col-sm-2 col-lg-2">
+      <div class="col-sm-3 col-lg-3">
         <div class="call-to-action-btn">
           <a v-if="props.resumeData.rsm_rprsntv_yn === 'Y'" href="#"
             class="btn btn-rounded btn-quaternary mb-2">대표이력서</a>

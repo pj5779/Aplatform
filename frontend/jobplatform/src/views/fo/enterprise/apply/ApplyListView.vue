@@ -103,7 +103,7 @@ onMounted(() => {
 
 // axios 함수
 const callAxios = async () => {
-  await axios.get("/applys/apply-list/" +
+  await axios.get("http://localhost:80/applys/apply-list/" +
     applyListData.value.searchData.jbp_sq +
     "/" +
     applyListData.value.searchData.division +

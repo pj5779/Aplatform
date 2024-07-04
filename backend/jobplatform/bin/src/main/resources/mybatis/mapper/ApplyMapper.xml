@@ -3,6 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jobplatform.fo.enterprise.domain.mapper.ApplyMapper">
+
 	<!-- 지원디테일(자격증 + 지원상태) -->
 	<resultMap type="jobplatform.fo.enterprise.domain.vo.ApplyDetailDataVO" id="ApplyDetailDataVO">
 		<id property="rsm_sq" column="rsm_sq"/>
@@ -64,9 +65,6 @@
 		<result property="entrprs_jac_date" column="entrprs_jac_date"/>
 		<result property="entrprs_rsgntn_date" column="entrprs_rsgntn_date"/>
 	</resultMap>
-
-
-
 	
 	<!-- 지원자리스트 페이지네이션을 위한 카운트 -->
 	<select id="loadApplyListCount" resultType="int">
@@ -99,7 +97,7 @@
 			resume.rsm_sq,
 			resume.rsm_img_file_url,
 			resume.rsm_fnl_edctn_cd,
-			(select code_name from P2_TBL_COMMON_CODE_DTL_S where code_id = resume.rsm_fnl_edctn_cd) as rsm_fnl_edctn,
+			(select code_name from P2_TBL_COMMON_CODE_DTL_S where code_id = resume.rsm_fnl_edctn_cd) as rsm_fnl_edctn_name,
 			resume.rsm_grd,
 			resume.rsm_es,
 			RESUME.rsm_name,
@@ -111,19 +109,19 @@
 					on posi.rsm_sq = resume.rsm_sq
 				left outer join P2_TBL_MEMBER_M as member
 					on member.mbr_sq = resume.mbr_sq
-		where apply.jbp_sq = #{searchListData.jbp_sq}
+		where apply.jbp_sq = #{searchData.jbp_sq}
 			and apply.apy_cndtn != 403
-			<if test = "searchListData.condition != 0">
-				and apply.apy_cndtn = #{searchListData.condition}
+			<if test = "searchData.condition != 0">
+				and apply.apy_cndtn = #{searchData.condition}
 			</if>
-			<if test = "searchListData.division.equals('apply')">
+			<if test = "searchData.division.equals('apply')">
 				and posi.pstn_prpsl_sq is null
 			</if>
-			<if test = "searchListData.division.equals('proposal')">
+			<if test = "searchData.division.equals('proposal')">
 				and posi.pstn_prpsl_sq is not null
 			</if>
-		order by apy_dtm ${searchListData.sort}
-		limit #{paginationData.startRowIndex},#{paginationData.showDataCountPerPage};
+		order by apply.apy_dtm ${searchData.sort}
+		limit #{paginationData.startRowIndex}, #{paginationData.showDataCountPerPage};
 	</select>
 	
 	<!-- 지원자 상세정보 얻기 -->
@@ -145,11 +143,27 @@
 			RESUME.rsm_eml,
 			APPLY.apy_cndtn,
 			(select code_name from P2_TBL_COMMON_CODE_DTL_S where code_id = APPLY.apy_cndtn) as apy_cndtn_name,
-			ATTACHMENT.*,
-			SELFINTRODUCTION.*,
-			EDUCATION.*,
-			CERTIFICATE.*,
-			CAREER.*
+			ATTACHMENT.atchmnt_sq,
+			ATTACHMENT.atchmnt_orgnl_fn,
+			ATTACHMENT.atchmnt_url,
+			SELFINTRODUCTION.si_sq,
+			SELFINTRODUCTION.si_tl,
+			SELFINTRODUCTION.si_cntnt,
+			EDUCATION.edctn_sq,
+			EDUCATION.schl_name,
+			(select code_name from P2_TBL_COMMON_CODE_DTL_S where code_id EDUCATION.schl_cndtn_cd) as schl_cndtn_cd_name,
+			EDUCATION.schl_dprtmnt,
+			EDUCATION.schl_admsn_date,
+			EDUCATION.schl_grdtn_date,
+			CERTIFICATE.crtfct_sq,
+			CERTIFICATE.crtfct_name,
+			CERTIFICATE.crtfct_isr,
+			CERTIFICATE.crtfct_ad,
+			CAREER.cr_sq,
+			CAREER.entrprs_name,
+			CAREER.entrprs_pstn,
+			CAREER.entrprs_jac_date,
+			CAREER.entrprs_rsgntn_date
 		from P2_TBL_APPLY_H as APPLY
 			left outer join P2_TBL_RESUME_M as RESUME
 				on APPLY.rsm_sq = RESUME.rsm_sq
