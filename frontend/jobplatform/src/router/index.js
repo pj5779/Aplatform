@@ -16,6 +16,7 @@ import ApplyDetailView from '../views/fo/enterprise/apply/ApplyDetailView';
 import ResumeInsertView from '../views/fo/enterprise/resume/ResumeInsertView';
 import ResumeListView from '../views/fo/enterprise/resume/ResumeListView';
 import ResumeDetailView from '../views/fo/enterprise/resume/ResumeDetailView';
+import MypageProposedPositionList from '@/components/fo/user/mypage/MypageProposedPositionList.vue'
 
 const routes = [
   {
@@ -33,6 +34,10 @@ const routes = [
       {
         path: 'ppAcception',
         component: MypagePPAcception,
+      },
+      {
+        path: 'proposedPosition',
+        component : MypageProposedPositionList
       },
       // 지연님 컴포넌트 경로
       {

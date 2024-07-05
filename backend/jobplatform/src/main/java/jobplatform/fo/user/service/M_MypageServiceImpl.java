@@ -130,11 +130,13 @@ public class M_MypageServiceImpl implements M_MypageService{
         List<M_JobPosting_pp> result = mypageMapper.getPPJopPostingData(rsm_sq);
         for(M_JobPosting_pp temp : result){
             int jbp_sq = temp.getJbp_sq();
-            temp.setAreas(mypageMapper.areaCodeToName(mypageMapper.getAreasOfJobPost(jbp_sq)));
-            temp.setJobs(mypageMapper.jobCodeToName(mypageMapper.getJobsOfJobPost(jbp_sq)));
-            temp.setSkills(mypageMapper.skillCodeToName(mypageMapper.getSkillsOfJobPost(jbp_sq)));
-            temp.setForSeacrch(temp.toString());
-            System.out.println(temp);
+            List<Integer> areas = mypageMapper.getAreasOfJobPost(jbp_sq);
+            List<Integer> jobs = mypageMapper.getJobsOfJobPost(jbp_sq);
+            List<Integer> skills = mypageMapper.getSkillsOfJobPost(jbp_sq);
+            if(areas.size() != 0) temp.setAreas(mypageMapper.areaCodeToName(areas));
+            if(jobs.size() != 0) temp.setJobs(mypageMapper.jobCodeToName(jobs));
+            if(skills.size() != 0) temp.setSkills(mypageMapper.skillCodeToName(skills));
+//            temp.setForSeacrch(temp.toString());
         }
 
         return result;

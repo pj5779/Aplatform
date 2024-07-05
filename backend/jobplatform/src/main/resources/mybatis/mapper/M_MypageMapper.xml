@@ -235,14 +235,22 @@
 	<!-- 포지션 제안 받은 공고 리스트 가져오기 -->
 	<select id="getPPJopPostingData" resultType="jobplatform.fo.user.domain.vo.M_JobPosting_pp">
 		SELECT 
-			sjp.jbp_sq, sjp.entrprs_sq, sjp.jbp_tl, sjp.jbp_cntnt, sjp.cr, sjp.edctn, sjp.regstr_dln_dtm, sjp.pstn_prpsl_sq, sjp.pstn_prpsl_cndtn, sjp.prpsl_dtm, em.entrprs_name
+			sjp.jbp_sq, sjp.entrprs_sq, sjp.jbp_tl, sjp.jbp_cntnt,
+			(SELECT code_name FROM p2_tbl_common_code_dtl_s ccd WHERE ccd.code_id = sjp.cr) cr,
+			(SELECT code_name FROM p2_tbl_common_code_dtl_s ccd WHERE ccd.code_id = sjp.edctn) edctn,
+			sjp.regstr_dln_dtm, sjp.pstn_prpsl_sq, sjp.pstn_prpsl_cndtn, sjp.prpsl_dtm, em.entrprs_name,
+			sjp.hits, sjp.work_form, sjp.slry
 		FROM
 			(SELECT 
-				jp.jbp_sq, jp.entrprs_sq, jp.jbp_tl, jp.jbp_cntnt, jp.cr, jp.edctn, jp.regstr_dln_dtm, pp.pstn_prpsl_sq, pp.pstn_prpsl_cndtn, pp.prpsl_dtm
+				jp.jbp_sq, jp.entrprs_sq, jp.jbp_tl, jp.jbp_cntnt, jp.cr, jp.edctn, jp.regstr_dln_dtm, jp.hits, jp.work_form, jp.slry,
+				pp.pstn_prpsl_sq, pp.pstn_prpsl_cndtn, pp.prpsl_dtm
 			FROM
 				p2_tbl_job_posting_m jp, p2_tbl_position_proposal_m pp
 			WHERE 
-				jp.jbp_sq IN (SELECT jbp_sq FROM p2_tbl_position_proposal_m WHERE rsm_sq = #{rsm_sq} AND pstn_prpsl_cndtn = 301)) sjp
+				jp.jbp_sq IN (SELECT jbp_sq FROM p2_tbl_position_proposal_m WHERE rsm_sq = #{rsm_sq} AND pstn_prpsl_cndtn = 301)
+				AND
+				jp.jbp_sq = pp.jbp_sq
+			) sjp
 		LEFT OUTER JOIN p2_tbl_enterprise_member_m em ON sjp.entrprs_sq = em.entrprs_sq
 		ORDER BY sjp.prpsl_dtm DESC
 	</select>
@@ -274,7 +282,7 @@
         SELECT area_name
         FROM p2_tbl_area_code_s
         WHERE area_sq IN
-        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>
@@ -283,7 +291,7 @@
         SELECT job_sc_name
         FROM p2_tbl_job_code_s
         WHERE job_sq IN
-        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        <foreach item="item" index="index" collection="jobs" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>
@@ -292,7 +300,7 @@
         SELECT skl_sc_name
         FROM p2_tbl_skill_code_s
         WHERE skl_cd_sq IN
-        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        <foreach item="item" index="index" collection="skills" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>

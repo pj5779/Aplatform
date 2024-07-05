@@ -120,14 +120,16 @@
  
     let result = ref(null);
     let applyStateSum = computed(() => getApplyStateSum());
-    let calendarEvents = computed(() => makeCalendarDatas());
+    let calendarEvents = computed(() => makeCalendarDatas(result.value.calendarData));
     let fc = ref(null);
+    let month = new Date().getMonth() + 1
+    let checkedMonth = [month];
 
     onMounted(async() => {
             result.value = await api.$get("/user/mypage/", {
                 params: {
                     mbr_sq : 1,
-                    month : new Date().getMonth() + 1
+                    month : month
                 }
             });
     });
@@ -144,14 +146,14 @@
         return sum;
     }
 
-    function makeCalendarDatas(){
-        if (!result.value || !result.value.calendarData) {
+    function makeCalendarDatas(toParsingData){
+        if (!toParsingData) {
             return [];
         }
 
         let events = [];
 
-        for(const temp of result.value.calendarData){
+        for(const temp of toParsingData){
             let event = {
                 id : '',
                 title : '',
@@ -188,20 +190,34 @@
         return events;
     }
 
-    // 달력 버튼 눌렀을 때 이벤트 정의
+    // fullcalendar 커스텀버튼
     let customButtons = {
         myPrev: {
             text: '<',
             click: function(){
                 fc.value.calendar.getApi().prev();
+                month--;
+                fetchCalendarData();
             }
         },
         myNext: {
             text: '>',
             click: function(){
                 fc.value.calendar.getApi().next();
+                month++;
+                fetchCalendarData();
             }
         }
+    }
+    // 달력 월 이동시 해당 월 데이터 가져오기
+    async function fetchCalendarData(){
+        if(!checkedMonth.includes(month)){
+            const selectedMonthData = await api.$get("/user/mypage/calendar", {params: {month : month}});
+            for(const event of makeCalendarDatas(selectedMonthData)){
+                fc.value.calendar.getApi().addEvent(event);
+            }
+        }
+        checkedMonth.push(month);
     }
 
 </script>

@@ -21,7 +21,11 @@ public class M_JobPosting_pp {
     private List<String> areas;
     private List<String> jobs;
     private List<String> skills;
+    private int hits;
+    private String work_form;
+    private String slry;
     private String forSeacrch;
+    
 
     @Override
     public String toString(){
