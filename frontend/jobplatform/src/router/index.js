@@ -50,6 +50,7 @@ const routes = [
   { path: '/enter/register', name: 'enterRegister', component: EnterMemberRegister },
   { path: '/sample', component: SampleView },
   { path: '/enter/login', name: 'enterLogin', component: EnterLogin },
+  { path: '/enter/emlSend', name: 'enterFind', component: EnterFind },
   // 세추님 컴포넌트 경로
   {
     path: '/board/list/jobPosting',

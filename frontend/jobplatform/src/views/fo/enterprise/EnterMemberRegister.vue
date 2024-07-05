@@ -1,233 +1,227 @@
 <template>
-    <div role="main" class="main">
-      <section class="page-header page-header-modern bg-color-grey page-header-lg">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12 align-self-center p-static order-2 text-center">
-              <h1 class="font-weight-bold text-dark">회원가입</h1>
-            </div>
+  <div role="main" class="main">
+    <section class="page-header page-header-modern bg-color-grey page-header-lg">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 align-self-center p-static order-2 text-center">
+            <h1 class="font-weight-bold text-dark">회원가입</h1>
           </div>
         </div>
-      </section>
-  
-      <div class="container py-4">
-        <div class="row justify-content-center">
-          <div class="col-md-6 col-lg-5">
-            <!-- <h2 class="font-weight-bold text-5 mb-0">회원가입</h2> -->
-  
-            <!-- vue에서 양식은 제출할때 @click 대신 @submit.prevent="submitForm" 방식은 선호함 
+      </div>
+    </section>
+
+    <div class="container py-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+          <!-- <h2 class="font-weight-bold text-5 mb-0">회원가입</h2> -->
+
+          <!-- vue에서 양식은 제출할때 @click 대신 @submit.prevent="submitForm" 방식은 선호함 
             필수로 된 필드나 비동기로 방식으로 제춣할 때 이점을 가질 수 있음.
             Ajax를 사용하는 경우 양식 제출을 방지해야 한다?.
              -->
-            <!-- 제출 이벤트가 페이지를 다시 로드 하지 않습니다 -->
-            <!-- <form id="frmSignUp"> -->
-  
-            <form id="frmSignUp">
-              <!-- 사업자 번호 입력 -->
-              <div class="form-group col">
-                <label class="form-label text-color-dark text-3">사업자 번호 입력
-                  <span class="text-color-danger">*</span></label>
-                <input type="text" v-model="cmnRgtrrtnNmbr" class="form-control form-control-lg text-4" required
-                  placeholder="사업자 번호 10자리를 입력해주세요" />
+          <!-- 제출 이벤트가 페이지를 다시 로드 하지 않습니다 -->
+          <!-- <form id="frmSignUp"> -->
+
+          <form id="frmSignUp" @submit.prevent="enterRegister">
+            <!-- 사업자 번호 입력 -->
+            <div class="form-group col">
+              <label class="form-label text-color-dark text-3">사업자 번호 입력
+                <span class="text-color-danger">*</span></label>
+              <input type="text" v-model="cmnRgtrrtnNmbr" class="form-control form-control-lg text-4" required
+                placeholder="사업자 번호 10자리를 입력해주세요" />
+            </div>
+            <!-- 사업자 번호 입력 끝 -->
+            <div v-if="numState == true">
+
+              <div class="row">
+                <div class="form-group col">
+                  <label class="form-label text-color-dark text-3">아이디 <span class="text-color-danger">*</span></label>
+                  <input type="text" v-model="entrprsId" class="form-control form-control-lg text-4" required
+                    placeholder="영문, 숫자를 포함한 4자 이상 20자 이내" />
+                  <div v-if="entrprsIdYn">{{ errorEntrprsId}}</div>
+                </div>
+                <div class="form-group col-3">
+                  <div class="form-label text-color-dark text-3">&nbsp;</div>
+                  <button type="button" @click="idCheck" class="btn btn-quaternary mb-2">
+                    중복확인
+                  </button>
+                </div>
               </div>
-              <!-- 사업자 번호 입력 끝 -->
-              <div v-if="numState == true">
-  
-                <div class="row">
-                  <div class="form-group col">
-                    <label class="form-label text-color-dark text-3">아이디 <span class="text-color-danger">*</span></label>
-                    <input type="text" v-model="entrprsId" class="form-control form-control-lg text-4" required
-                      placeholder="영문, 숫자를 포함한 4자 이상 20자 이내" />
-                    <div v-if="entrprsIdYn">{{ errorEntrprsId}}</div>
+
+              <div class="row">
+                <div class="form-group col">
+                  <label class="form-label text-color-dark text-3">비밀번호 <span class="text-color-danger">*</span></label>
+                  <input type="password" v-model="entrprsPswrd" class="form-control form-control-lg text-4" required
+                    placeholder="영문, 숫자를 포함한 4자 이상 20자 이내" />
+                  <div v-if="errorEntrprsPswrd" class="error">
+                    {{ errorEntrprsPswrd }}
                   </div>
-                  <div class="form-group col-3">
-                    <div class="form-label text-color-dark text-3">&nbsp;</div>
-                    <button type="button" @click="idCheck" class="btn btn-quaternary mb-2">
-                      중복확인
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col">
+                  <label class="form-label text-color-dark text-3">비밀번호 확인
+                    <span class="text-color-danger">*</span></label>
+                  <input type="password" v-model="pswrdConfirm" class="form-control form-control-lg text-4" required />
+                  <div v-if="errorEntrprsPswrdConfirm" class="error">
+                    {{ errorEntrprsPswrdConfirm }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col">
+                  <label class="form-label text-color-dark text-3">이름 <span class="text-color-danger">*</span></label>
+                  <input type="text" v-model="entrprsPicName" class="form-control form-control-lg text-4" required />
+                  <div v-if="errorEntrprsPicName" class="error">
+                    {{ errorEntrprsPicName }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col">
+                  <label class="form-label text-color-dark text-3">기업명 <span class="text-color-danger">*</span></label>
+                  <input type="text" v-model="entrprsName" class="form-control form-control-lg text-4" required
+                    placeholder="기업명" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col">
+                  <label class="form-label text-color-dark text-3">휴대폰 <span class="text-color-danger">*</span></label>
+                  <input type="text" v-model="entrprsPicMp" class="form-control form-control-lg text-4" required
+                    placeholder="-(다시)는 제외하고 입력" />
+                  <div v-if="errorEntrprsPicMp" class="error">
+                    {{ errorEntrprsPicMp }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-9">
+                  <label class="form-label text-color-dark text-3">이메일 <span class="text-color-danger">*</span></label>
+                  <input type="email" v-model="entrprsPicEml" class="form-control form-control-lg text-4" required />
+                  <div v-if="errorEntrprsPicEml" class="error">
+                    {{ errorEntrprsPicEml }}
+                  </div>
+                </div>
+                <div class="form-group col-3">
+                  <div class="form-label text-color-dark text-3">&nbsp;</div>
+                  <button type="button" v-on:click="emlSend" class="btn btn-quaternary mb-2">
+                    인증요청
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-9">
+                  <label class="form-label text-color-dark text-3">인증 코드 <span
+                      class="text-color-danger">*</span></label>
+                  <input type="text" v-model="emailKey" @input="updateEmailCheck"
+                    class="form-control form-control-lg text-4" required />
+                </div>
+                <div class="form-group col-3">
+                  <div class="form-label text-color-dark text-3">&nbsp;</div>
+                  <button type="button" v-on:click="emlChck" class="btn btn-quaternary mb-2">
+                    확인
+                  </button>
+                </div>
+                <div v-if="errorEntrprsEmlRcvYn" class="error">
+                  {{ errorEntrprsEmlRcvYn }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col">
+                  <label class="form-label text-color-dark text-3">이메일 수신 체크
+                    <span class="text-color-danger">*</span></label>
+                  <div class="form-group col form-control form-control-lg text-4">
+                    <input type="radio" value="Y" v-model="entrprsEmlRcvYn" required class="form-check-input" />
+                    예
+                    <input type="radio" value="N" v-model="entrprsEmlRcvYn" required class="form-check-input" />
+                    아니오
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col">
+                  <label class="form-label text-color-dark text-3">성별 <span class="text-color-danger">*</span></label>
+                  <div class="form-group col form-control form-control-lg text-4">
+                    <input type="radio" value="M" v-model="gndrCtryCd" required class="form-check-input" />
+                    남
+                    <input type="radio" value="F" v-model="gndrCtryCd" required class="form-check-input" />
+                    여
+                  </div>
+                </div>
+              </div>
+              <!-- 약관 동의 모달 팝업-->
+              <div class="d-flex mb-3 justify-content-center">
+                <div class="row justify-content-between">
+                  <div class="col-auto">
+                    <button type="button" class="col btn btn-dark rounded-0 text-3" data-bs-toggle="modal"
+                      data-bs-target="#largeModal" @click="fetchTerms">
+                      회원정보 약관
                     </button>
                   </div>
-                </div>
-  
-                <div class="row">
-                  <div class="form-group col">
-                    <label class="form-label text-color-dark text-3">비밀번호 <span class="text-color-danger">*</span></label>
-                    <input type="password" v-model="entrprsPswrd" class="form-control form-control-lg text-4" required
-                      placeholder="영문, 숫자를 포함한 4자 이상 20자 이내" />
-                    <div v-if="errorEntrprsPswrd" class="error">
-                      {{ errorEntrprsPswrd }}
-                    </div>
+                  <div class="col-auto d-flex align-items-center text-4">
+                    <input type="checkbox" true-value="Y" false-value="N" v-model="entrprsPrvcyTrmsYn" required
+                      class="form-check-input" />동의
                   </div>
                 </div>
-                <div class="row">
-                  <div class="form-group col">
-                    <label class="form-label text-color-dark text-3">비밀번호 확인
-                      <span class="text-color-danger">*</span></label>
-                    <input type="password" v-model="pswrdConfirm" class="form-control form-control-lg text-4" required />
-                    <div v-if="errorEntrprsPswrdConfirm" class="error">
-                      {{ errorEntrprsPswrdConfirm }}
-                    </div>
+                <div>
+                  <div v-if="errorEntrprsPrvcyTrmsYn" class="error">
+                    {{ errorEntrprsPrvcyTrmsYn }}
                   </div>
                 </div>
-                <div class="row">
-                  <div class="form-group col">
-                    <label class="form-label text-color-dark text-3">이름 <span class="text-color-danger">*</span></label>
-                    <input type="text" v-model="entrprsPicName" class="form-control form-control-lg text-4" required />
-                    <div v-if="errorEntrprsPicName" class="error">
-                      {{ errorEntrprsPicName }}
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col">
-                    <label class="form-label text-color-dark text-3">기업명 <span class="text-color-danger">*</span></label>
-                    <input type="text" v-model="entrprsName" class="form-control form-control-lg text-4" required
-                      placeholder="기업명" />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col">
-                    <label class="form-label text-color-dark text-3">휴대폰 <span class="text-color-danger">*</span></label>
-                    <input type="text" v-model="entrprsPicMp" class="form-control form-control-lg text-4" required
-                      placeholder="-(다시)는 제외하고 입력" />
-                    <div v-if="errorEntrprsPicMp" class="error">
-                      {{ errorEntrprsPicMp }}
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col-9">
-                    <label class="form-label text-color-dark text-3">이메일 <span class="text-color-danger">*</span></label>
-                    <input type="email" v-model="entrprsPicEml" class="form-control form-control-lg text-4" required />
-                    <div v-if="errorEntrprsPicEml" class="error">
-                      {{ errorEntrprsPicEml }}
-                    </div>
-                  </div>
-                  <div class="form-group col-3">
-                    <div class="form-label text-color-dark text-3">&nbsp;</div>
-                    <button type="button" v-on:click="emlSend" class="btn btn-quaternary mb-2">
-                      인증요청
-                    </button>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col-9">
-                    <label class="form-label text-color-dark text-3">인증 코드 <span
-                        class="text-color-danger">*</span></label>
-                    <input type="text" v-model="emailKey" @input="updateEmailCheck"
-                      class="form-control form-control-lg text-4" required />
-                  </div>
-                  <div class="form-group col-3">
-                    <div class="form-label text-color-dark text-3">&nbsp;</div>
-                    <button type="button" v-on:click="emlChck" class="btn btn-quaternary mb-2">
-                      확인
-                    </button>
-                  </div>
-                  <div v-if="errorEntrprsEmlRcvYn" class="error">
-                    {{ errorEntrprsEmlRcvYn }}
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col">
-                    <label class="form-label text-color-dark text-3">이메일 수신 체크
-                      <span class="text-color-danger">*</span></label>
-                    <div class="form-group col form-control form-control-lg text-4">
-                      <input type="radio" value="Y" v-model="entrprsEmlRcvYn" required class="form-check-input" />
-                      예
-                      <input type="radio" value="N" v-model="entrprsEmlRcvYn" required class="form-check-input" />
-                      아니오
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="row">
-                  <div class="form-group col">
-                    <label class="form-label text-color-dark text-3">성별 <span class="text-color-danger">*</span></label>
-                    <div class="form-group col form-control form-control-lg text-4">
-                      <input type="radio" value="M" v-model="gndrCtryCd" required class="form-check-input" />
-                      남
-                      <input type="radio" value="F" v-model="gndrCtryCd" required class="form-check-input" />
-                      여
-                    </div>
-                  </div>
-                </div>
-                <!-- 약관 동의 모달 팝업-->
-                <div class="d-flex mb-3 justify-content-center">
-                  <div class="row justify-content-between">
-                    <div class="col-auto">
-                      <button type="button" class="col btn btn-dark rounded-0 text-3" data-bs-toggle="modal"
-                        data-bs-target="#largeModal" @click="fetchTerms">
-                        회원정보 약관
-                      </button>
-                    </div>
-                    <div class="col-auto d-flex align-items-center text-4">
-                      <input type="checkbox" true-value="Y" false-value="N" v-model="entrprsPrvcyTrmsYn" required
-                        class="form-check-input" />동의
-                    </div>
-                  </div>
-                  <div>
-                    <div v-if="errorEntrprsPrvcyTrmsYn" class="error">
-                      {{ errorEntrprsPrvcyTrmsYn }}
-                    </div>
-                  </div>
-  
-                  <div class="modal fade" id="largeModal" tabindex="-1" aria-labelledby="largeModalLabel"
-                    style="display: none" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="largeModalLabel">
-                            회원정보 약관
-                          </h4>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div v-if="state.terms.length">
-                            <div v-for="(term, index) in state.terms" :key="index">
-                              <p>{{ term.trmsCntnt }}</p>
-                            </div>
+
+                <div class="modal fade" id="largeModal" tabindex="-1" aria-labelledby="largeModalLabel"
+                  style="display: none" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="largeModalLabel">
+                          회원정보 약관
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div v-if="state.terms.length">
+                          <div v-for="(term, index) in state.terms" :key="index">
+                            <p>{{ term.trmsCntnt }}</p>
                           </div>
                         </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                            확인
-                          </button>
-                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                          확인
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- 약관 동의 모달 팝업-->
-                <!-- <div class="row">
-                              <div class="form-group col">
-                                  <p class="text-2 mb-2">Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <a href="#" class="text-decoration-none">privacy policy.</a></p>
-                              </div>
-                          </div> -->
-  
-                <div class="row">
-                  <div class="form-group col">
-                    <!-- 조건 생성 후 login 되는걸로  -->
-                    <button type="submit" @click="enterRegister"
-                      class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3"
-                      data-loading-text="Loading...">
-                      회원가입 완료
-                    </button>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col">
-                    <a href="#"
-                      class="btn btn-dark btn-modern w-100 text-transform-none rounded-0 font-weight-bold align-items-center d-inline-flex justify-content-center text-3 py-3"
-                      data-loading-text="Loading..."><i class="fab fa-facebook text-5 me-2"></i> 소셜
-                      회원가입</a>
-                  </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col">
+                  <!-- 조건 생성 후 login 되는걸로  -->
+                  <button type="submit"
+                    class="btn btn-dark btn-modern w-100 text-uppercase rounded-0 font-weight-bold text-3 py-3"
+                    data-loading-text="Loading...">
+                    회원가입 완료
+                  </button>
                 </div>
               </div>
-            </form>
-          </div>
+              <div class="row">
+                <div class="form-group col">
+                  <a href="#"
+                    class="btn btn-dark btn-modern w-100 text-transform-none rounded-0 font-weight-bold align-items-center d-inline-flex justify-content-center text-3 py-3"
+                    data-loading-text="Loading..."><i class="fab fa-facebook text-5 me-2"></i> 소셜
+                    회원가입</a>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup>
   import { ref, reactive, watch } from "vue";
@@ -266,7 +260,6 @@
   const errorEntrprsPrvcyTrmsYn = ref("");
   const errorPswrdConfirm = ref("");
   const errorEmlChck = ref("");
-  // const enterData = ref({});
   
   
   const state = reactive({
@@ -302,10 +295,10 @@
             headers: headers,
           })
           .then((response) => {
+            //사업자 번호 조회 성공 시 match된 숫자 
             if (response.data.match_cnt == 1) {
+              //사업자 번호 성공 후 register form v-if로 보여주기
               numState.value = true;
-              console.log(response.data.match_cnt);
-              console.log("numState:" + numState.value);
             } else {
               // 여기 비동기 통신으로 올바르지 않은 입력으로 표기.
             }
@@ -320,12 +313,9 @@
       }
     }
   });
-  
-  // id 중복체크 만들기 axios로 요청해서 중복체크하기.  
-  // * 중복체크 했을 때 성공한 true 값 보관할 변수
-  // 중복 체크 전에는  watch가 작동하지 않게 만들기
-  //  watch를 보관한 변수가 바뀌면 false 
-  
+
+  // id중복확인
+  // 중복확인 후 entrprsId.value 변경시 다시 중복확인 문구 
     const idCheck = () => {
       axios.get("http://localhost:80/enter/check", {
         params: {
@@ -333,16 +323,13 @@
         }
       }).then(() => {
         entrprsIdYn.value = true;
-        console.log("entrprsIdYn.value:" + entrprsIdYn.value);
         errorEntrprsId.value = "아이디 사용가능";
   
   
       }).catch((error) => {
         entrprsIdYn.value = true;
-        console.log("entrprsIdYn.value:" + entrprsIdYn.value);
-        console.log("error: " + error);
         errorEntrprsId.value = "중복된 아이디입니다";
-  
+        console.log("중복 아이디 오류 " + error);
       }
       );
       watch(entrprsId, (newQuestion, oldQuestion) => {
