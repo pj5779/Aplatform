@@ -17,6 +17,7 @@ import ResumeInsertView from '../views/fo/enterprise/resume/ResumeInsertView';
 import ResumeListView from '../views/fo/enterprise/resume/ResumeListView';
 import ResumeDetailView from '../views/fo/enterprise/resume/ResumeDetailView';
 import MypageProposedPositionList from '@/components/fo/user/mypage/MypageProposedPositionList.vue'
+import EnterFind from '@/views/fo/enterprise/EnterFind.vue'
 
 const routes = [
   {
