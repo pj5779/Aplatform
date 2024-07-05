@@ -18,6 +18,12 @@ import ResumeListView from '../views/fo/enterprise/resume/ResumeListView';
 import ResumeDetailView from '../views/fo/enterprise/resume/ResumeDetailView';
 import MypageProposedPositionList from '@/components/fo/user/mypage/MypageProposedPositionList.vue'
 import EnterFind from '@/views/fo/enterprise/EnterFind.vue'
+import EntMypageView from '@/views/fo/enterprise/EntMypageView.vue'
+import EnterInfoUpdate from '@/views/fo/enterprise/EnterInfoUpdate.vue'
+import TempTemp from '@/components/fo/enterprise/enterpriseMypage/TempTemp.vue'
+import EnterSignOut from '@/views/fo/enterprise/EnterSignOut.vue'
+import EnterChangePassword from '@/views/fo/enterprise/EnterChangePassword.vue'
+
 
 const routes = [
   {
@@ -79,6 +85,28 @@ const routes = [
   { path: '/resumes/resume-detail', component: ResumeDetailView },
   { path: '/resumes/resume-insert', component: ResumeInsertView },
   { path: '/resumes/resume-list', component: ResumeListView },
+  // ㅈㅣ연님 경로
+  {  path : '/enter',  // 기업 마이페이지
+    component : EntMypageView,
+    children:[
+      { 
+        path : 'mypage',  // 기업 마이페이지
+        component : TempTemp,
+      },
+      { 
+        path : 'infoUpdate',  // 기업정보 수정
+        component : EnterInfoUpdate,
+      },
+      {
+        path : 'signOut',
+        component : EnterSignOut,
+      },
+      {
+        path : 'chagePassword',
+        component : EnterChangePassword,
+      }
+    ]
+  }
 ];
 
 const router = createRouter({

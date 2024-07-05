@@ -84,7 +84,7 @@
             <div class="col-3"></div>
             <div class="col-6" style="display: flex; justify-content: center;">
                 <paginate
-                    :page-count="'{{ result.length }}'"
+                    :page-count="result.length"
                     :page-range="5"
                     :margin-pages="0"
                     :break-view-class="'dispalyNone pointer'"
@@ -113,7 +113,8 @@
     onMounted(async() => {
         result.value = await api.$get("user/mypage/ppJobPost", {
             params: {
-                mbr_sq : 1
+                mbr_sq : 1,
+                page_num : 1
             }
         });
     });

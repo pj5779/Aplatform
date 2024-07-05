@@ -23,9 +23,6 @@
                             <span class="badge bg-white text-primary ms-2 p-2 border">미열람</span>
                         </div>
                     </div>
-                    {{  props.data.apySq }}
-                    {{  props.data.codeName }}
-                    {{  applyCancel }}
                     <div v-if="applyCancel === '지원취소'">
                         <button class="btn btn-gray btn-sm border">취소완료</button>
                     </div>
@@ -43,15 +40,21 @@
 
 <script setup>
 import axios from 'axios';
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, onMounted } from 'vue';
 
 const props = defineProps(['data'])
 
-const applyCancel = ref(props.data.codeName); // 지원취소
+const applyCancel = ref(''); // 지원취소
+
+onMounted( () => {
+    applyCancel.value = props.data.codeName;
+    console.log(props.data.codeName)
+})
 
 
 const delapply = () => { // 지원취소
     console.log(props.data.apySq);
+    // confirm("지원 취소 하시겠습니까?")
     axios.post("http://localhost:80/mypage/delApply",{apySq : props.data.apySq})
     .then(res => {
         console.log(res);

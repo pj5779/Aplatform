@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jobplatform.fo.enterprise.domain.mapper.EnterpriseMypageMapper">
+	
+	<!--기업회원정보 수정 -> 기업정보 가져오기-->
+	<select id="getEnterpriseInfo" resultType="jobplatform.fo.enterprise.domain.dto.EnterInfoDTO">
+		select 
+		   entrprs_sq,
+		   entrprs_id,
+		   entrprs_name,
+		   entrprs_hp,
+		   entrprs_adrs,
+		   entrprs_pic_name,
+		   entrprs_pic_mp,
+		   entrprs_pic_eml
+		from p2_tbl_enterprise_member_m 
+		where entrprs_sq =#{entrprsSq};
+		   
+	</select>
+	
+	<!-- 기업회원 아이디 중복체크 -->
+	<select id="idRepetitionCheck" resultType="Integer">
+		select count(entrprs_sq)
+		from p2_tbl_enterprise_member_m 
+		where entrprs_id = #{entrprsId}
+	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="updateEnterInfo" parameterType="jobplatform.fo.enterprise.domain.dto.EnterInfoDTO">
+		update p2_tbl_enterprise_member_m
+		SET 
+		entrprs_id = #{entrprsId},
+		entrprs_name = #{entrprsName},
+		entrprs_hp = #{entrprsHp},
+		entrprs_adrs = #{entrprsAdrs},
+		entrprs_pic_name = #{entrprsPicName},
+		entrprs_pic_mp = #{entrprsPicMp},
+		entrprs_pic_eml = #{entrprsPicEml}
+		where
+		entrprs_sq = #{entrprsSq}
+	</update>
+	
+	<!-- 기업회원 비밀번호 -->
+	<select id="getEnterSq" resultType="String">
+		select entrprs_pswrd
+		from p2_tbl_enterprise_member_m
+		where entrprs_sq = #{entrprsSp}
+	</select>
+	
+	<!-- 비밀번호 수정-->
+	<update id="passwordUpdate" parameterType="java.util.Map">
+		update p2_tbl_enterprise_member_m
+		set 
+		entrprs_pswrd = #{encodePswrd}
+		where entrprs_sq=#{entrprsSp}
+	</update>
+	
+	<!--기업회원 탈퇴-->
+	<update id="enterSignOut">
+		update p2_tbl_enterprise_member_m
+		set 
+		dlt_yn = 'Y',
+		updt_entrpts_dtm = NOW()
+		where entrprs_sq = #{entrprsSp}
+	</update>
+	
+</mapper>

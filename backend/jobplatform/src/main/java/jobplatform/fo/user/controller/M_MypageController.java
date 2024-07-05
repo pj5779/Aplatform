@@ -65,8 +65,8 @@ public class M_MypageController {
 
 	//제안 받은 포지션 공고 리스트
 	@GetMapping("/ppJobPost")
-	public List<M_JobPosting_pp> getMethodName(@RequestParam("mbr_sq") int mbr_sq) {
-		return myPageService.getPPJopPostingData(mbr_sq);
+	public List<M_JobPosting_pp> getMethodName(@RequestParam("mbr_sq") int mbr_sq, @RequestParam("page_num") int page_num) {
+		return myPageService.getPPJopPostingData(mbr_sq, page_num);
 	}
 	
 	

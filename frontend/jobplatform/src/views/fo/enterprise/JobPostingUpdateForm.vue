@@ -184,7 +184,7 @@ const submitPost = () => {
         return;
     }
 
-    axios.post(`/board/jobPostingUpdate/${jbpSq}`, {
+    api.$post(`/board/jobPostingUpdate/${jbpSq}`, {
         jbpSq : jbpSq,
         jbpTl: jbpTl.value,
         jbpCntnt: jbpCntnt.value,
