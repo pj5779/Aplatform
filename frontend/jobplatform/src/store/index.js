@@ -14,7 +14,7 @@ const store = createStore({
     },
     setMember(state, payLoad) {
       state.member = payLoad;
-      sessionStorage.setItem("member", JSON.stringify(payLoad)); 
+      sessionStorage.setItem("member", JSON.stringify(payLoad));
     },
     clearMember(state) {
       state.member = null;
@@ -26,7 +26,7 @@ const store = createStore({
   },
   getters: {
     isLoginMember(state) {
-      return state.member !== null; 
+      return state.member !== null;
 
     }, isLoginEnter(state) {
       return state.enterMember !== null;
@@ -36,8 +36,9 @@ const store = createStore({
     getMember(state) {
       return state.member; // 사용자 정보 반환
     },
+
     enterMember(state) {
-      return state.member; // 사용자 정보 반환
+      return state.enterMember; // 사용자 정보 반환
     }
   }
 })
