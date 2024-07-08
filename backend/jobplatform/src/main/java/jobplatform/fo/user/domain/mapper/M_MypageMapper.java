@@ -64,9 +64,16 @@ public interface M_MypageMapper {
 // 	선택한 직업 INSERT
 	public int insertSelectJobs(@Param("mbr_sq") int mbr_sq, @Param("jobList") List<Integer> jobList);
 
-//	포지션 제안 받은 공고 리스트 출력
+//	포지션 제안 받은 공고 리스트 출력(해당 페이지 데이터)
 	public List<M_JobPosting_pp> getPPJopPostingData(@Param("rsm_sq") int rsm_sq, @Param("limit") int limit, @Param("offset") int offset);
 
+//	포지션 제안 받은 공고 총 개수
+	public int getPPPostsCount(@Param("rsm_sq") int rsm_sq);
+	
+//	제안 받은 포지션 거절
+	public int refuseProposedPostion(@Param("pstn_prpsl_sq") int pstn_prpsl_sq);
+	
+	
 //	공고-지역 관계 가지고오기
 	public List<Integer> getAreasOfJobPost(int jbp_sq);
 //	공고-직업 관계 가지고오기
@@ -74,6 +81,9 @@ public interface M_MypageMapper {
 //	공고-스킬 관계 가지고오기
 	public List<Integer> getSkillsOfJobPost(int jbp_sq);
 
+	
+	
+	
 // 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@tools@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //	대표이력서 rsm_sq 구하는 메서드
 	public int getRRsm_sq(int mbr_sq);

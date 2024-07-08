@@ -10,7 +10,7 @@
         </div>
         <div class="row" style="margin-top: 20px;">
             <!-- 리스트 -->
-            <div v-for="(post, i) in result" :key="i" style="border-bottom: 1px solid #eae; margin-bottom: 16px;">
+            <div v-for="(post, i) in result.jobPosts" :key="i" style="border-bottom: 1px solid #eae; margin-bottom: 16px;">
                 <table class="table table-bordered" style="margin-bottom: 10; table-layout: fixed; width: 100%;">
                     <thead>
                         <tr>
@@ -18,7 +18,7 @@
                                 {{ post.entrprs_name }}
                             </th>
                             <th colspan="3">
-                                {{ post.jbp_tl }}
+                                {{ post.pstn_prpsl_sq }} / {{ post.jbp_tl }}
                             </th>
                             <th colspan="1" style="text-align: center;">
                                 조회수&nbsp;&nbsp;{{ post.hits }}
@@ -71,8 +71,8 @@
                                 </template>
                             </th>
                             <th>
-                                <a href="#" class="btn btn-outline btn-primary" style="padding: 4px 8px;">수 락</a>
-                                <a href="#" class="btn btn-outline btn-secondary" style="padding: 4px 8px; margin-left: 10px;">거 절</a>
+                                <a class="btn btn-outline btn-primary" style="padding: 4px 8px;">수 락</a>
+                                <a class="btn btn-outline btn-secondary" @click="refuseProposedPostion(post.pstn_prpsl_sq)" style="padding: 4px 8px; margin-left: 10px;">거 절</a>
                             </th>
                         </tr>
                     </tbody>
@@ -84,14 +84,14 @@
             <div class="col-3"></div>
             <div class="col-6" style="display: flex; justify-content: center;">
                 <paginate
-                    :page-count="result.length"
+                    :page-count="result.totalPostsCount"
                     :page-range="5"
                     :margin-pages="0"
                     :break-view-class="'dispalyNone pointer'"
                     :page-class="'pointer'"
                     :prev-class="'pointer'"
                     :next-class="'pointer'"
-                    :click-handler="'functionName'"
+                    :click-handler="getProposedPositionList"
                     :prev-text="'<<'"
                     :next-text="'>>'"
                 >
@@ -109,15 +109,30 @@
     import { formatDateYMD } from '@/tools';
 
     let result = ref(null);
+    let currentPage = ref(1);
 
-    onMounted(async() => {
+    onMounted(() => getProposedPositionList(currentPage.value));
+
+    async function getProposedPositionList(pageNum){
+        currentPage.value = pageNum;
         result.value = await api.$get("user/mypage/ppJobPost", {
-            params: {
+            params : {
                 mbr_sq : 1,
-                page_num : 1
+                page_num : currentPage.value
             }
-        });
-    });
+        })
+    }
+
+    async function refuseProposedPostion(pstn_prpsl_sq){
+        try{
+            await api.$patch("/user/mypage/refusePp", {pstn_prpsl_sq : pstn_prpsl_sq});
+            alert("포지션 제안을 거절했습니다.");
+            // result.value.jobPosts.splice(result.value.findIndex(jobPost => jobPost.pstn_prpsl_sq == pstn_prpsl_sq), 1);
+            getProposedPositionList(currentPage.value);
+        }catch(err){
+            alert(err);
+        }
+    }
 
 </script>
 

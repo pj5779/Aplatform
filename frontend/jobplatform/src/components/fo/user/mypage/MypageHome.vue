@@ -80,22 +80,22 @@
                                 {{ applyStateSum }}
                             </td>
                             <td>
-                                {{ result.EachCndtnApplyCount.cndtn_402 || 0 }}
+                                {{ result.EachCndtnApplyCount.cndtn_402 }}
                             </td>
                             <td>
-                                {{ result.EachCndtnApplyCount.cndtn_401 || 0 }}
+                                {{ result.EachCndtnApplyCount.cndtn_401 }}
                             </td>
                             <td>
-                                {{ result.EachCndtnApplyCount.cndtn_405 || 0 }}
+                                {{ result.EachCndtnApplyCount.cndtn_405 }}
                             </td>
                             <td>
-                                {{ result.EachCndtnApplyCount.cndtn_406 || 0 }}
+                                {{ result.EachCndtnApplyCount.cndtn_406 }}
                             </td>
                             <td>
-                                {{ result.EachCndtnApplyCount.cndtn_408 || 0 }}
+                                {{ result.EachCndtnApplyCount.cndtn_408 }}
                             </td>
                             <td>
-                                {{ result.EachCndtnApplyCount.cndtn_407 || 0 }}
+                                {{ result.EachCndtnApplyCount.cndtn_407 }}
                             </td>
                             <td>
                                 (준비중)

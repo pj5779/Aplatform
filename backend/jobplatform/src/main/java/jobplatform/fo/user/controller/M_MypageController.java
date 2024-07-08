@@ -65,10 +65,16 @@ public class M_MypageController {
 
 	//제안 받은 포지션 공고 리스트
 	@GetMapping("/ppJobPost")
-	public List<M_JobPosting_pp> getMethodName(@RequestParam("mbr_sq") int mbr_sq, @RequestParam("page_num") int page_num) {
-		return myPageService.getPPJopPostingData(mbr_sq, page_num);
+	public ResponseEntity<Map<String, Object>> getMethodName(@RequestParam("mbr_sq") int mbr_sq, @RequestParam("page_num") int page_num) {
+		return ResponseEntity.ok(myPageService.getPPJopPostingData(mbr_sq, page_num));
 	}
 	
+	//제안 받은 포지션 거절
+	@PatchMapping("/refusePp")
+	public int refuseProposedPostion(@RequestBody Map<String, Object> data) {
+		System.out.println((int)data.get("pstn_prpsl_sq") + "번 제안이 거절되었습니다.");
+		return myPageService.refuseProposedPostion((int)data.get("pstn_prpsl_sq"));
+	};
 	
 	
 	
