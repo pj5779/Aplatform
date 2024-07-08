@@ -125,9 +125,11 @@ public class M_MypageServiceImpl implements M_MypageService{
     //제안 받은 포지션 공고 리스트 출력
     //검색에 사용하기 위해 vo에 추가 변수(forSearch)
     @Override
-    public List<M_JobPosting_pp> getPPJopPostingData(int mbr_sq){
+    public List<M_JobPosting_pp> getPPJopPostingData(int mbr_sq, int page_num){
         int rsm_sq = mypageMapper.getRRsm_sq(mbr_sq);
-        List<M_JobPosting_pp> result = mypageMapper.getPPJopPostingData(rsm_sq);
+        int limit = 5; //한페이지에 보여줄 글 수
+        int offset = limit * (page_num - 1);
+        List<M_JobPosting_pp> result = mypageMapper.getPPJopPostingData(rsm_sq, limit, offset);
         for(M_JobPosting_pp temp : result){
             int jbp_sq = temp.getJbp_sq();
             List<Integer> areas = mypageMapper.getAreasOfJobPost(jbp_sq);

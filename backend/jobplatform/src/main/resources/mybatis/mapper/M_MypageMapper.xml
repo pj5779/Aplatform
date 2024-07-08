@@ -253,6 +253,8 @@
 			) sjp
 		LEFT OUTER JOIN p2_tbl_enterprise_member_m em ON sjp.entrprs_sq = em.entrprs_sq
 		ORDER BY sjp.prpsl_dtm DESC
+		LIMIT #{limit}
+		OFFSET #{offset}
 	</select>
 
 	<!-- 공고-지역 관계 가지고오기 -->

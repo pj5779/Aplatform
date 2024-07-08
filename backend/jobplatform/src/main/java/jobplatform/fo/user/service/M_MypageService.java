@@ -27,7 +27,7 @@ public interface M_MypageService {
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	//제안 받은 포지션 공고
-	public List<M_JobPosting_pp> getPPJopPostingData(int mbr_sq);
+	public List<M_JobPosting_pp> getPPJopPostingData(int mbr_sq, int page_num);
 
 	//@@예정@@포지션 제안 수락했을 때 -> 같은 공고로 지원한 내역 있는지 확인 + 지원 프로세스 진행 + 포지션 제안 상태 변경 
 	//@@예정@@포지션 제안 거절했을 때 -> 포지션 제안 상태 변경
