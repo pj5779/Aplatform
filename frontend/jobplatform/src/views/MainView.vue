@@ -2,7 +2,11 @@
   <div id="examples" class="container py-2">메인입니다</div>
 </template>
 
-<script setup></script>
+<script setup>
+
+
+
+</script>
 
 <style scoped>
 .container-fluid {
