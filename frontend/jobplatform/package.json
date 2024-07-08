@@ -12,6 +12,7 @@
     "@fullcalendar/daygrid": "^6.1.14",
     "@fullcalendar/interaction": "^6.1.14",
     "@fullcalendar/vue3": "^6.1.14",
+    "@vue/cli": "^5.0.8",
     "axios": "^1.7.2",
     "bootstrap-icons": "^1.11.3",
     "core-js": "^3.8.3",
@@ -51,5 +52,9 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "description": "'",
+  "main": "babel.config.js",
+  "author": "",
+  "license": "ISC"
 }
