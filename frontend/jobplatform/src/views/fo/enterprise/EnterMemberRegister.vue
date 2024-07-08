@@ -104,7 +104,7 @@
                 </div>
                 <div class="form-group col-3">
                   <div class="form-label text-color-dark text-3">&nbsp;</div>
-                  <button type="button" v-on:click="emlSend" class="btn btn-quaternary mb-2">
+                  <button type="button" @click="emlSend" class="btn btn-quaternary mb-2">
                     인증요청
                   </button>
                 </div>
@@ -226,7 +226,7 @@
   <script setup>
   import { ref, reactive, watch } from "vue";
   import axios from "axios";
-  import { sendEmlRegister, getTermsContents } from "@/api/member";
+  import {  getTermsContents } from "@/api/member";
   import { useRouter } from "vue-router";
   
   // import EnterLogin from "../../router/index.js";
@@ -260,7 +260,6 @@
   const errorEntrprsPrvcyTrmsYn = ref("");
   const errorPswrdConfirm = ref("");
   const errorEmlChck = ref("");
-  
   
   const state = reactive({
     terms: [],
@@ -429,38 +428,68 @@
       console.error("데이터를 가져오는 중 오류가 발생했습니다.", error);
     }
   };
-  () => { 
-    axios.
+
+
+  const emlSend = () => { 
+  
+    emailCode.value = "";
+
+    if (!/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/.test(
+      entrprsPicEml.value)) { 
+      alert("이메일 형식이 올바르지 않습니다.");
+    }  
+
+    const map = {
+      entrprsPicEml : entrprsPicEml.value
+    }
+    axios.post("http://localhost:80/enter/emlSend",map
+
+    ).then((response) => { 
+
+      alert("인증코드가 발송되었습니다.");
+
+      //실제 이메일에도 보내짐 
+      
+      alert("인증코드 : " + response.data.key);
+
+       emailCode.value = response.data.key;
+
+    }).catch((error) => { 
+
+      console.error("이메일 전송 중 오류 발생:", error.data);
+    
+      alert("이메일 전송 중 오류가 발생했습니다.");
+    })
 
   }
   
-  const emlSend = async () => {
+  // const emlSend = async () => {
   
-    emailCode.value = "";
+  //   emailCode.value = "";
   
-    try {
-      const response = await sendEmlRegister(entrprsPicEml.value);
-      if (
-        !/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/.test(
-          entrprsPicEml.value
-        )
-      ) {
-        errorEntrprsPicEml.value = "이메일 형식이 올바르지 않습니다.";
-      } else if (response.data.exist) {
-        alert(response.data.exist);
-      } else if (response.status === 200) {
-        alert("인증코드가 발송되었습니다.");
-        const key = response.data.key;
-        alert(key);
-        emailCode.value = key;
-      } else {
-        alert("잘못된 이메일입니다");
-      }
-    } catch (error) {
-      console.error("이메일 전송 중 오류 발생:", error);
-      alert("이메일 전송 중 오류가 발생했습니다.");
-    }
-  };
+  //   try {
+  //     const response = await sendEmlRegister(entrprsPicEml.value);
+  //     if (
+  //       !/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/.test(
+  //         entrprsPicEml.value
+  //       )
+  //     ) {
+  //       errorEntrprsPicEml.value = "이메일 형식이 올바르지 않습니다.";
+  //     } else if (response.data.exist) {
+  //       alert(response.data.exist);
+  //     } else if (response.status === 200) {
+  //       alert("인증코드가 발송되었습니다.");
+  //        key = response.data.key;
+  //       alert(key);
+  //       emailCode.value = key;
+  //     } else {
+  //       alert("잘못된 이메일입니다");
+  //     }
+  //   } catch (error) {
+  //     console.error("이메일 전송 중 오류 발생:", error);
+  //     alert("이메일 전송 중 오류가 발생했습니다.");
+  //   }
+  // };
   
   const updateEmailCheck = (event) => {
   
