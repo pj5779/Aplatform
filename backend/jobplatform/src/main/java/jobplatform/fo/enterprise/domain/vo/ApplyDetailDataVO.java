@@ -1,6 +1,5 @@
 package jobplatform.fo.enterprise.domain.vo;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
