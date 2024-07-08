@@ -112,7 +112,7 @@
 
 <script setup>
 import axios from "axios";
-import {  ref } from "vue";
+import {  ref , computed} from "vue";
 import { useRouter } from "vue-router";
 import store from "@/store";
 
@@ -122,6 +122,12 @@ const router = useRouter();
 
 const entrprsId = ref("");
 const entrprsPswrd = ref("");
+const doneTodosCount = computed(() => { 
+
+  return store.getters.enterMember
+
+});
+ 
 
 
 
@@ -147,7 +153,7 @@ const LoginSubmit = async () => {
 
    axios
      .post("http://localhost:80/enter/login", loginData, {
-      
+
        withCredentials: true,
      })
     
@@ -156,11 +162,15 @@ const LoginSubmit = async () => {
    
       store.commit("setEnter", response.data); // store에 기업 정보 저장(pk, id)
 
-      
+     
+       console.log(doneTodosCount.value);
 
-     await router.push('/');
+       await router.push('/');
+     
     })
-     .catch();
+     .catch((error) => { 
+       alert(error);
+     });
     
 };
 

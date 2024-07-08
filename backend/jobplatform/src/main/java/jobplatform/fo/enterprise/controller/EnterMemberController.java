@@ -90,18 +90,22 @@ public class EnterMemberController {
         if(enterLoginDTO.getEntrprsId() != null && enterLoginDTO.getEntrprsPswrd() != null){
 
             try {
+                
                 pk =	enterMemberService.login(enterLoginDTO);
+                
+                if(pk == null ){
+
+                    return ResponseEntity.badRequest().body("아이디 정보가 없습니다");
+
+                }
 
             }catch(Exception e) {
-
                 return ResponseEntity.badRequest().body("jpa login 오류" + e);
             }
 
-            if(pk == null ){
-                return ResponseEntity.badRequest().body("아이디 정보가 없습니다" );
-            }
-
         }
+
+
         Map map = new HashMap();
 
         map.put("pk",pk);

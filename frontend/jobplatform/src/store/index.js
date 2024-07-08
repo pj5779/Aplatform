@@ -36,9 +36,7 @@ const store = createStore({
     getMember(state) {
       return state.member; // 사용자 정보 반환
     },
-    getMember(state) {
-      return state.member; // 사용자 정보 반환
-    },
+
     enterMember(state) {
       return state.enterMember; // 사용자 정보 반환
     }
