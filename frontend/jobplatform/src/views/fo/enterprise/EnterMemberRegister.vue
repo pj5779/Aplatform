@@ -160,7 +160,7 @@
                     </button>
                   </div>
                   <div class="col-auto d-flex align-items-center text-4">
-                    <input type="checkbox" true-value="Y" false-value="N" v-model="entrprsPrvcyTrmsYn" required
+                    <input type="checkbox" v-model="entrprsPrvcyTrmsYn" required
                       class="form-check-input" />동의
                   </div>
                 </div>
@@ -246,7 +246,7 @@
   const entrprsPicMp = ref("");
   const entrprsPicEml = ref("");
   const entrprsEmlRcvYn = ref("");
-  const entrprsPrvcyTrmsYn = ref("");
+  const entrprsPrvcyTrmsYn = ref(false);
   const gndrCtryCd = ref("");
   const emailKey = ref("");
   const emailCode = ref("");
@@ -381,18 +381,18 @@
       errorEntrprsPicEml.value = "이메일 형식이 올바르지 않습니다.";
                     return alert(errorEntrprsPicEml.value);
     }
-    }
-  
-  if (emailCode.value && emailKey.value !== emailCode.value){
-    errorEmlChck.value = "인증코드가 일치하지 않습니다.";
-  
-    } 
-  
-    if (entrprsPrvcyTrmsYn.value !== "Y"){
-      errorEntrprsPrvcyTrmsYn.value = "개인정보 처리방침에 동의해 주세요.";
-  
-    } 
-    const enterData = {
+
+    if (emailCode.value && emailKey.value !== emailCode.value){
+      errorEmlChck.value = "인증코드가 일치하지 않습니다.";
+    
+      } 
+    
+      if (!entrprsPrvcyTrmsYn.value){
+        errorEntrprsPrvcyTrmsYn.value = "개인정보 처리방침에 동의해 주세요.";
+    
+      }
+      
+      const enterData = {
       cmnRgtrrtnNmbr: cmnRgtrrtnNmbr.value,
       entrprsId: entrprsId.value,
       entrprsPswrd: entrprsPswrd.value,
@@ -416,6 +416,9 @@
         console.log(error.data);
         
       });
+  }
+  
+    
   
   
   const fetchTerms = async () => {
