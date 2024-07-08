@@ -46,12 +46,12 @@
 			rsm_sq = #{rsm_sq}
 		GROUP BY apy_cndtn -->
 		SELECT
-			SUM(CASE WHEN apy_cndtn = 401 THEN 1 ELSE 0 END) AS cndtn_401,
-			SUM(CASE WHEN apy_cndtn = 402 THEN 1 ELSE 0 END) AS cndtn_401,
-			SUM(CASE WHEN apy_cndtn = 405 THEN 1 ELSE 0 END) AS cndtn_405,
-			SUM(CASE WHEN apy_cndtn = 406 THEN 1 ELSE 0 END) AS cndtn_406,
-			SUM(CASE WHEN apy_cndtn = 407 THEN 1 ELSE 0 END) AS cndtn_407,
-			SUM(CASE WHEN apy_cndtn = 408 THEN 1 ELSE 0 END) AS cndtn_408
+			COALESCE(SUM(CASE WHEN apy_cndtn = 401 THEN 1 ELSE 0 END), 0) AS cndtn_401,
+		    COALESCE(SUM(CASE WHEN apy_cndtn = 402 THEN 1 ELSE 0 END), 0) AS cndtn_402,
+		    COALESCE(SUM(CASE WHEN apy_cndtn = 405 THEN 1 ELSE 0 END), 0) AS cndtn_405,
+		    COALESCE(SUM(CASE WHEN apy_cndtn = 406 THEN 1 ELSE 0 END), 0) AS cndtn_406,
+		    COALESCE(SUM(CASE WHEN apy_cndtn = 407 THEN 1 ELSE 0 END), 0) AS cndtn_407,
+		    COALESCE(SUM(CASE WHEN apy_cndtn = 408 THEN 1 ELSE 0 END), 0) AS cndtn_408
 		FROM p2_tbl_apply_h
 		WHERE
 			rsm_sq = #{rsm_sq}
@@ -233,8 +233,9 @@
 	</select> -->
 
 	<!-- 포지션 제안 받은 공고 리스트 가져오기 -->
+	<!-- COUNT(*) OVER() as total_count 한번에 구하기 -> vo 등 다 바꿔줘야함 -->
 	<select id="getPPJopPostingData" resultType="jobplatform.fo.user.domain.vo.M_JobPosting_pp">
-		SELECT 
+		SELECT
 			sjp.jbp_sq, sjp.entrprs_sq, sjp.jbp_tl, sjp.jbp_cntnt,
 			(SELECT code_name FROM p2_tbl_common_code_dtl_s ccd WHERE ccd.code_id = sjp.cr) cr,
 			(SELECT code_name FROM p2_tbl_common_code_dtl_s ccd WHERE ccd.code_id = sjp.edctn) edctn,
@@ -256,6 +257,22 @@
 		LIMIT #{limit}
 		OFFSET #{offset}
 	</select>
+	
+	<!-- 포지션 제안 받은 공고 총 개수 -->
+	<select id="getPPPostsCount">
+		SELECT 
+			COUNT(*)
+		FROM
+			p2_tbl_job_posting_m jp, p2_tbl_position_proposal_m pp
+		WHERE 
+			jp.jbp_sq IN (SELECT jbp_sq FROM p2_tbl_position_proposal_m WHERE rsm_sq = #{rsm_sq} AND pstn_prpsl_cndtn = 301)
+			AND
+			jp.jbp_sq = pp.jbp_sq
+	</select>
+	
+	<update id="refuseProposedPostion">
+		UPDATE p2_tbl_position_proposal_m SET pstn_prpsl_cndtn = 303 WHERE pstn_prpsl_sq = #{pstn_prpsl_sq}
+	</update>
 
 	<!-- 공고-지역 관계 가지고오기 -->
 	<select id="getAreasOfJobPost">

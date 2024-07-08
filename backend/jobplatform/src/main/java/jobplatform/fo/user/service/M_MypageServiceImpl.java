@@ -125,11 +125,14 @@ public class M_MypageServiceImpl implements M_MypageService{
     //제안 받은 포지션 공고 리스트 출력
     //검색에 사용하기 위해 vo에 추가 변수(forSearch)
     @Override
-    public List<M_JobPosting_pp> getPPJopPostingData(int mbr_sq, int page_num){
+    public Map<String, Object> getPPJopPostingData(int mbr_sq, int page_num){
         int rsm_sq = mypageMapper.getRRsm_sq(mbr_sq);
+        
         int limit = 5; //한페이지에 보여줄 글 수
         int offset = limit * (page_num - 1);
+        
         List<M_JobPosting_pp> result = mypageMapper.getPPJopPostingData(rsm_sq, limit, offset);
+        
         for(M_JobPosting_pp temp : result){
             int jbp_sq = temp.getJbp_sq();
             List<Integer> areas = mypageMapper.getAreasOfJobPost(jbp_sq);
@@ -140,9 +143,18 @@ public class M_MypageServiceImpl implements M_MypageService{
             if(skills.size() != 0) temp.setSkills(mypageMapper.skillCodeToName(skills));
 //            temp.setForSeacrch(temp.toString());
         }
+        
+        Map<String, Object> response = new HashMap<>();
+        
+        response.put("jobPosts", result);
+        response.put("totalPostsCount", Math.ceil(mypageMapper.getPPPostsCount(rsm_sq)/(double)limit));
 
-        return result;
+        return response;
     };
+    
+    public int refuseProposedPostion(int pstn_prpsl_sq) {
+    	return mypageMapper.refuseProposedPostion(pstn_prpsl_sq);
+    }
 
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
