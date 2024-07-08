@@ -147,6 +147,7 @@ const LoginSubmit = async () => {
 
    axios
      .post("http://localhost:80/enter/login", loginData, {
+      
        withCredentials: true,
      })
     
@@ -155,6 +156,7 @@ const LoginSubmit = async () => {
    
       store.commit("setEnter", response.data); // store에 기업 정보 저장(pk, id)
 
+      
 
      await router.push('/');
     })
