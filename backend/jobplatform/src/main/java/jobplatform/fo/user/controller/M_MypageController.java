@@ -53,7 +53,6 @@ public class M_MypageController {
 	@PatchMapping("/ppAcception/{ppyn}")
 	public int putMethodName(@PathVariable String ppyn, @RequestBody Map<String, Object> data) {
 		int mbr_sq = (int)data.get("mbr_sq");
-		System.out.println("요청 : " + mbr_sq + "/" + ppyn);
 		return myPageService.updatePstnPrpslAcceptYN(mbr_sq, ppyn);
 	}
 
