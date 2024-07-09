@@ -2,7 +2,12 @@ package jobplatform.fo.enterprise.domain.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import jobplatform.fo.enterprise.domain.entity.AreaEntity;
+import jobplatform.fo.enterprise.domain.entity.JobEntity;
 import jobplatform.fo.enterprise.domain.entity.JobPostingEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,9 +26,9 @@ public class JobPostingDTO {
     private int hits;
     private String cr;
     private String sklName;
-    private String jobName;
+    private List<String> jobName;
     private String edctn;
-    private String workArea;
+    private List<String> workArea;
     private String workForm;
     private String slry;
     private String workHour;
@@ -40,9 +45,32 @@ public class JobPostingDTO {
     private LocalDateTime updtDtm;
     private String dltYn;
     private String useYn;
-    private String enterpriseName; // 추가된 기업 이름 필드
+    private Long entrprsSq;
+    private String enterpriseName;
 
+    @Builder.Default
+    private List<Integer> areaIds = new ArrayList<>(); // 빈 리스트로 초기화
+    @Builder.Default
+    private List<Integer> jobIds = new ArrayList<>(); // 빈 리스트로 초기화
+
+    // from 메소드 추가
     public static JobPostingDTO from(JobPostingEntity entity) {
+//        List<String> jobName = entity.getJobName().stream()
+//                .map(JobEntity::getJobScName)
+//                .collect(Collectors.toList());
+//
+//        List<String> areaName = entity.getWorkArea().stream()
+//                .map(AreaEntity::getAreaName)
+//                .collect(Collectors.toList());
+//
+//        List<Integer> jobIds = entity.getJobName().stream()
+//                .map(JobEntity::getJobSq)
+//                .collect(Collectors.toList());
+//
+//        List<Integer> areaIds = entity.getWorkArea().stream()
+//                .map(AreaEntity::getAreaSq)
+//                .collect(Collectors.toList());
+
         return JobPostingDTO.builder()
                 .jbpSq(entity.getJbpSq())
                 .jbpTl(entity.getJbpTl())
@@ -51,8 +79,8 @@ public class JobPostingDTO {
                 .cr(entity.getCr())
                 .sklName(entity.getSklName())
                 .jobName(entity.getJobName())
-                .edctn(entity.getEdctn())
                 .workArea(entity.getWorkArea())
+                .edctn(entity.getEdctn())
                 .workForm(entity.getWorkForm())
                 .slry(entity.getSlry())
                 .workHour(entity.getWorkHour())
@@ -67,9 +95,10 @@ public class JobPostingDTO {
                 .insrtDtm(entity.getInsrtDtm())
                 .updtMbrSq(entity.getUpdtMbrSq())
                 .updtDtm(entity.getUpdtDtm())
-                .dltYn(entity.getDltYn().name()) // Enum 타입 처리
-                .useYn(entity.getUseYn().name()) // Enum 타입 처리
-                .enterpriseName(entity.getEnterpriseMember().getEntrprsName()) // 기업 이름 추가
+                .dltYn(entity.getDltYn().name())
+                .useYn(entity.getUseYn().name())
+                .entrprsSq(entity.getEnterpriseMember().getEntrprsSq())
+                .enterpriseName(entity.getEnterpriseMember().getEntrprsName())
                 .build();
     }
 }

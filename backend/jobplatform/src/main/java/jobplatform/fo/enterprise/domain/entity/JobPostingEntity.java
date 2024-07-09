@@ -2,10 +2,12 @@ package jobplatform.fo.enterprise.domain.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,8 +17,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jobplatform.common.StringListConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -60,14 +62,16 @@ public class JobPostingEntity {
     @Column(name = "skl_name", nullable = false, length = 30)
     private String sklName = "";
 
+    @Convert(converter = StringListConverter.class)
     @Column(name = "job_name", nullable = false, length = 20)
-    private String jobName = "";
+    private List<String> jobName;
 
     @Column(name = "edctn", nullable = false, length = 10)
     private String edctn = "";
 
+    @Convert(converter = StringListConverter.class)
     @Column(name = "work_area", nullable = false, length = 50)
-    private String workArea = "";
+    private List<String> workArea;
 
     @Column(name = "work_form", nullable = false, length = 10)
     private String workForm = "";

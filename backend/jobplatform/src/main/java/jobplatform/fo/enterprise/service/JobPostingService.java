@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import jobplatform.fo.enterprise.domain.dto.JobPostingDTO;
+import jobplatform.fo.enterprise.domain.entity.ApplyEntity;
 import jobplatform.fo.enterprise.domain.entity.JobPostingEntity;
 
 @Service
@@ -12,7 +13,7 @@ public interface JobPostingService {
 
 	public List<JobPostingEntity> jobPostingList(String sortBy);
 
-	public int insertJobPosting(JobPostingEntity jpe);
+//	public int insertJobPosting(JobPostingEntity jpe);
 
 	public JobPostingDTO jobPostingDetail(int jbpSq);
 
@@ -24,6 +25,12 @@ public interface JobPostingService {
 
 
 	public List<JobPostingEntity> searchJobPostings(String searchTerm, String searchField);
+
+	public Long insertApply(ApplyEntity ae);
+
+	public int insertJobPosting(JobPostingEntity jpe);
+
+
 
 
 

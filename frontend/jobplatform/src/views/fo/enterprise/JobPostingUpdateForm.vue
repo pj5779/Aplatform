@@ -3,7 +3,7 @@
         <div class="container">
             <section class="card card-admin">
                 <header class="card-header">
-                    <h2 class="card-title">공고 등록</h2>
+                    <h2 class="card-title">공고 수정</h2>
                 </header>
             </section>
 
@@ -14,9 +14,14 @@
 
             <div class="row">
                 <div class="col-md-3 mb-3">
-                    <label for="jobName" class="form-label">직업명</label>
-                    <input type="text" v-model="jobName" class="form-control" id="jobName" placeholder="직업명을 입력하세요">
-                </div>
+          <label for="jobName" class="form-label">직업명</label>
+          <div id="jobName" class="form-control" style="height: auto;">
+            <div v-for="job in jobs" :key="job.jobSq" class="form-check">
+              <input type="checkbox" v-model="selectedJobs" :value="job" class="form-check-input" :id="'job-' + job.jobSq">
+              <label class="form-check-label" :for="'job-' + job.jobSq">{{ job.jobScName }}</label>
+            </div>
+          </div>
+        </div>
                 <div class="col-md-3 mb-3">
                     <label for="cr" class="form-label">경력</label>
                     <select v-model="cr" class="form-control" id="cr">
@@ -43,10 +48,15 @@
             </div>
 
             <div class="row">
-                <div class="col-md-2 mb-3">
-                    <label for="workArea" class="form-label">근무지역</label>
-                    <input type="text" v-model="workArea" class="form-control" id="workArea" placeholder="근무지를 입력하세요">
-                </div>
+                <div class="col-md-3 mb-3">
+          <label for="workArea" class="form-label">근무지역</label>
+          <div id="workArea" class="form-control" style="height: auto;">
+            <div v-for="area in areas" :key="area.areaSq" class="form-check">
+              <input type="checkbox" v-model="selectedWorkAreas" :value="area" class="form-check-input" :id="'area-' + area.areaSq">
+              <label class="form-check-label" :for="'area-' + area.areaSq">{{ area.areaName }}</label>
+            </div>
+          </div>
+        </div>
                 <div class="col-md-2 mb-3">
                     <label for="workForm" class="form-label">근무형태</label>
                     <select v-model="workForm" class="form-control" id="workForm">
@@ -76,7 +86,7 @@
 
             <div class="mb-3">
                 <label for="jbpCntnt" class="form-label">내용</label>
-                <textarea class="form-control" v-model="jbpCntnt" id="jbpCntnt" rows="3" placeholder="내용을 입력하세요"></textarea>
+                <QuillEditorComponent v-model="jbpCntnt" :isReadOnly="false"/>
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
@@ -113,13 +123,20 @@
 
 <script setup>
 /* eslint-disable */
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, isReadonly } from 'vue';
 import { api } from '@/axios.js';
 import { useRouter, useRoute } from 'vue-router';
 import moment from 'moment';
+import QuillEditorComponent from '@/components/common/Editor.vue';
+
 
 const route = useRoute();
 const router = useRouter();
+
+const areas = ref([]);
+const jobs = ref([]);
+const selectedWorkAreas = ref([]);
+const selectedJobs = ref([]);
 
 const jbpTl = ref('');
 const jbpCntnt = ref('');
@@ -145,6 +162,26 @@ const jbpSq = route.params.jbpSq;
 
 const minRegstrStrtDtm = ref(moment().format('YYYY-MM-DD'));
 
+const fetchAreasAndJobs = async () => {
+  try {
+    const areasResponse = await api.$get('/areas');
+    areas.value = areasResponse;
+
+    const jobsResponse = await api.$get('/jobs');
+    jobs.value = jobsResponse;
+
+    boardDetail(); 
+  } catch (error) {
+    console.error('데이터를 가져오는 중 오류가 발생했습니다.', error);
+  }
+};
+
+
+onMounted(() => {
+  console.log('Component mounted');
+  fetchAreasAndJobs();
+});
+
 const boardDetail = () => {
     api.$get(`/board/detail/jobPosting/${jbpSq}`)
     .then(response => {
@@ -152,9 +189,15 @@ const boardDetail = () => {
         jbpCntnt.value = response.jbpCntnt;
         cr.value = response.cr;
         sklName.value = response.sklName;
-        jobName.value = response.jobName;
+        // 직종 정보
+        selectedJobs.value = response.jobName.map(name => {
+        return jobs.value.find(job => job.jobScName === name);
+      });
         edctn.value = response.edctn;
-        workArea.value = response.workArea;
+        // 근무지역 정보
+        selectedWorkAreas.value = response.workArea.map(name => {
+        return areas.value.find(area => area.areaName === name);
+      });
         workForm.value = response.workForm;
         slry.value = response.slry;
         // workHour 분리 후 할당
@@ -178,6 +221,8 @@ onMounted(() => {
     boardDetail();
 });
 
+
+
 const submitPost = () => {
     if (jbpTl.value.trim() === '' || jbpCntnt.value.trim() === '') {
         alert('제목과 내용을 확인하세요.');
@@ -190,9 +235,9 @@ const submitPost = () => {
         jbpCntnt: jbpCntnt.value,
         cr: cr.value,
         sklName: sklName.value,
-        jobName: jobName.value,
+        jobName: selectedJobs.value.map(job => job.jobScName),
         edctn: edctn.value,
-        workArea: workArea.value,
+        workArea: selectedWorkAreas.value.map(area => area.areaName),
         workForm: workForm.value,
         slry: interviewAgreement.value ? '면접 후 협의' : slry.value,
         workHour: `${workStartTime.value} ~ ${workEndTime.value}`,
@@ -226,7 +271,7 @@ const submitPost = () => {
         interviewAgreement.value = false;
 
         // 페이지 이동
-        router.push(`/board/detail/jobPosting/${jbpSq}`); // 적절한 페이지 경로로 이동
+        router.push(`/board/detail/jobPosting/${jbpSq}`); 
     })
     .catch(error => {
         console.error('에러:', error);
