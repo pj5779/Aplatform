@@ -22,12 +22,18 @@ import EnterInfoUpdate from '@/views/fo/enterprise/EnterInfoUpdate.vue'
 import TempTemp from '@/components/fo/enterprise/enterpriseMypage/TempTemp.vue'
 import EnterSignOut from '@/views/fo/enterprise/EnterSignOut.vue'
 import EnterChangePassword from '@/views/fo/enterprise/EnterChangePassword.vue'
+import LoginView from '@/views/fo/common/LoginView.vue';
+import EnterMainView from '@/views/fo/enterprise/EnterMainView.vue'
 
 
 const routes = [
   {
     path: '/',
     component: UserMainView,
+  },
+  {
+    path: '/enter',
+    component: EnterMainView
   },
   {
     path: '/mypage',
@@ -104,6 +110,10 @@ const routes = [
         component : EnterChangePassword,
       }
     ]
+  },
+  {
+    path : '/login',
+    component : LoginView
   }
 ];
 

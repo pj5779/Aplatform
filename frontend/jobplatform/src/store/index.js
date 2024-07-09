@@ -2,12 +2,18 @@ import { createStore } from 'vuex';
 
 const store = createStore({
   state: {
+    userType : 'user',  //일반회원 : user, 기업회원 : enter
+
     member: JSON.parse(sessionStorage.getItem("member")) || null,// 사용자 정보 저장할 상태
 
     enterMember: [] // 배열 형태로 저장
   },
   //commit(함수명,인자)
   mutations: {
+    changeUserType(state, userType){
+      state.userType = userType;
+    },
+
     setEnter(state, payLoad) {
       state.enterMember = payLoad;
 
@@ -25,6 +31,9 @@ const store = createStore({
     }
   },
   getters: {
+    getUserType(state){
+      return state.userType;
+    },
     isLoginMember(state) {
       return state.member !== null;
 
