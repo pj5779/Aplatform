@@ -84,7 +84,7 @@
                                     <nav class="collapse">
                                         <ul class="nav nav-pills" id="mainNav">
                                             <li class="dropdown">
-                                                <router-link to="/" class="dropdown-item dropdown-toggle font-weight-bold">
+                                                <router-link to="/enter" class="dropdown-item dropdown-toggle font-weight-bold">
                                                     HOME
                                                 <i class="fas fa-chevron-down"></i></router-link>
                                             </li>

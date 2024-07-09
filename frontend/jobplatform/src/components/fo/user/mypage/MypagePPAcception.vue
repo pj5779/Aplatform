@@ -237,11 +237,10 @@
     async function submitChecked(){
         let areaAndJobLists = {checkedArea, checkedJob};
         try{
-            const temp = await api.$post("/user/mypage/ppAcception?mbr_sq=1", areaAndJobLists);
+            await api.$post("/user/mypage/ppAcception?mbr_sq=1", areaAndJobLists);
             selectedArea.value = checkedArea.value;
             selectedJob.value = checkedJob.value;
             window.scrollTo({top : 0, behavior: "smooth"});
-            alert(temp + '개 입력 완료');
         }catch(err){
             console.error(err);
         }
