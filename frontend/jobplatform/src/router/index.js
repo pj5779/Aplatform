@@ -86,9 +86,10 @@ const routes = [
   // 송영태
   { path: '/applys/apply-list', name: 'applyListView', component: ApplyListView },
   { path: '/applys/apply-detail', name: 'applyDetailView', component: ApplyDetailView },
-  { path: '/resumes/resume-detail', component: ResumeDetailView },
+  { path: '/resumes/resume-detail/:resSq', name:'resumeDetailView', component: ResumeDetailView },
   { path: '/resumes/resume-insert', component: ResumeInsertView },
   { path: '/resumes/resume-list', component: ResumeListView },
+
   // ㅈㅣ연님 경로
   {  path : '/enter',  // 기업 마이페이지
     component : EntMypageView,

@@ -4,7 +4,8 @@
       <div class="col-sm-9 col-lg-9">
         <div class="call-to-action-content">
           <h3>
-            <strong class="font-weight-extra-bold">{{ props.resumeData.rsm_tl }}</strong>
+            <!-- <router-link class="font-weight-extra-bold" :to="dtlInfo">{{ props.resumeData.rsm_tl }}</router-link> -->
+            <a class="font-weight-extra-bold" @click="toDtlPage()">{{ props.resumeData.rsm_tl }}</a>
           </h3>
         </div>
       </div>
@@ -48,8 +49,22 @@
 
 <script setup>
 import { defineProps } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const props = defineProps(["resumeData"]);
+
+const dtlInfo = {
+  name :'resumeDetailView',
+  params : {
+    resSq : props.resumeData.rsm_sq
+  }
+}
+
+const toDtlPage = () => {
+  
+  router.push(dtlInfo);
+};
 
 // 포멧 함수
 // 날짜 포멧 변경
@@ -58,6 +73,7 @@ const fomatDate = (dateTime) => {
 
   return returnData;
 };
+
 
 </script>
 
