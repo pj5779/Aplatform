@@ -94,9 +94,9 @@
                                                 <i class="fas fa-chevron-down"></i></router-link>
                                             </li>
                                             <li class="dropdown">
-                                                <a class="dropdown-item dropdown-toggle font-weight-bold" href="index.html">
+                                                <router-link to="/enter/recommendResumeList" class="dropdown-item dropdown-toggle font-weight-bold">
                                                     인재리스트
-                                                <i class="fas fa-chevron-down"></i></a>
+                                                <i class="fas fa-chevron-down"></i></router-link>
                                             </li>
                                             <li class="dropdown">
                                                 <router-link to="/enter/mypage" class="dropdown-item dropdown-toggle font-weight-bold ">
