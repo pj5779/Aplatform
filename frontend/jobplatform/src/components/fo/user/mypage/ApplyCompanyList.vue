@@ -67,6 +67,7 @@
           v-for="item in paginatedApplyInfo"
           :key="item.apySq"
           :data="item" 
+          @applyCancelCnt="applyCancelCnt"
           />
       </div>
       <div v-else-if="filteredApplyInfo.length == 0">
@@ -95,7 +96,7 @@ import axios from "axios";
 
 const applyInfo = ref([]); // 사용자 지원정보
 const pageCount = ref(); // 보여줄 총 페이지 수
-const currentPage = ref(0); // 현재 페이지
+const currentPage = ref(1); // 현재 페이지
 
 const select = ref('전체'); // 셀렉트박스 (전체, 진행중, 마감)
 const itemsPerPage = 5; // 한 페이지에 보여줄 지원정보 5개
@@ -125,7 +126,7 @@ onMounted(async() => {
         resumeReadCnt.value = res.data.resumeReadCnt;
         resumeNotReadCnt.value = res.data.resumeNotReadCnt;
         pageCount.value = Math.ceil(res.data.applyInfo.length / itemsPerPage);
-        currentPage.value = 1;
+        // currentPage.value = 1;
       }
   })
   .catch((error) => {
@@ -137,9 +138,9 @@ onMounted(async() => {
 
 const filteredApplyInfo = computed(() =>{  // 공고상태 선택
 if(select.value === '진행중') {
-  return applyInfo.value.filter(item => item.jbpCndtn === '진행중'); // item의 항목중 jbpCndtn이 '진행중'인것만 반환
+  return applyInfo.value.filter(item => item.jbp_cndtn === '진행중'); // item의 항목중 jbpCndtn이 '진행중'인것만 반환
 }else if (select.value === '마감') {
-  return applyInfo.value.filter(item => item.jbpCndtn === '마감'); // item의 항목중 jbpCndtn이 '마감'인것만 반환
+  return applyInfo.value.filter(item => item.jbp_cndtn === '마감'); // item의 항목중 jbpCndtn이 '마감'인것만 반환
 }else{
   return applyInfo.value;
 }
@@ -190,9 +191,14 @@ if(search.value.length == 0){ // 검색어 입력안한경우
   console.log(error);
 });
 
-
-
 };
+
+// 지원취소
+const applyCancelCnt = (data)=>{
+  console.log("emit:"+data);
+  cancelApplyCnt.value = cancelApplyCnt.value + 1;
+  totalApplyCount.value = totalApplyCount.value - 1;
+}
 
 </script>
 
