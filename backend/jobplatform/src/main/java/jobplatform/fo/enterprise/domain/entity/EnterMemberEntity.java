@@ -55,6 +55,9 @@ public class EnterMemberEntity {
 
     @Column(name = "entrprs_adrs", nullable = true)
     private String entrprsAdrs; // 기업_주소
+    
+    @Column(name = "entrprs_zip_code", nullable = true)
+    private String entrprsZipCode; // 우편번호
 
     @Column(name = "entrprs_ceo_name", nullable = true)
     private String entrprsCeoName; // 기업 대표자이름

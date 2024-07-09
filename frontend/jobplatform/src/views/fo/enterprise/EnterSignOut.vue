@@ -34,8 +34,8 @@
                                 <input type="text" class="form-control" v-model="entrprsId" required readonly>
                             </div>
                             <div class="form-group">
-                                <label for="applicant">탈퇴 신청자(필수)</label>
-                                <input type="text" class="form-control" v-model="signOutName" placeholder="탈퇴 신청자 이름을 적어주세요" required>
+                                <label for="applicant">비밀번호(필수)</label>
+                                <input type="password" class="form-control" v-model="entrprsPswrd" placeholder="비밀번호를 입력해주세요" required>
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="agree" v-model="agree" required>
@@ -52,23 +52,32 @@
 
 <script setup>
 
-import { onMounted,ref } from 'vue';
+import { onMounted, ref ,computed} from 'vue';
+import store from '@/store';
 import axios from 'axios';
 
 const entrprsId = ref(''); // 기업회원 아이디
-const signOutName = ref('');//탈퇴신청자
+const entrprsPswrd = ref('');// 기업회원 비밀번호
 const agree = ref(''); // 약관동의
-const entrprsSq = 43;
+const entrprsSq = ref('');
 
 
 onMounted(async() => {
+
+    const test = computed(()=> {
+        return store.getters.enterMember
+    })
+entrprsSq.value = test.value.pk;
+console.log(entrprsSq.value);
+
     try{
     const res = await axios.get('http://localhost:80/enter/getEnterInfo', {
                 params: {
-                    entrprsSq : entrprsSq,
+                    entrprsSq : entrprsSq.value,
                 }
             });
-            entrprsId.value = res.data.entrprsId;
+            entrprsId.value = res.data.entrprs_id;
+            console.log(res.data);
 
     }catch(error){
         console.error(error);
@@ -80,13 +89,18 @@ const handleSubmit = async() => {
     if(confirm("정말 탈퇴하시겠습니까?")==true){ // 탈퇴신청 여부 
 
             const data = {
-            signOutName : signOutName.value,
+            entrprsPswrd : entrprsPswrd.value,
             entrprsSq : entrprsSq
         }
 
         try{
         const res = await axios.post('http://localhost:80/enter/enterSignOut', data);
             console.log(res.data);
+            if(res.data == '비밀번호 불일치'){
+                alert("비밀번호가 일치하지 않습니다.")
+                entrprsPswrd.value = '';
+            }
+
             if(res.data == '탈퇴완료'){
                 alert('탈퇴 되었습니다')
                 location.href = "http://localhost:8080/enter/login";
@@ -96,7 +110,7 @@ const handleSubmit = async() => {
             console.error(error);
         }
     }else{ // 취소
-        signOutName.value = '';
+        entrprsPswrd.value = '';
         return false;
     }
 

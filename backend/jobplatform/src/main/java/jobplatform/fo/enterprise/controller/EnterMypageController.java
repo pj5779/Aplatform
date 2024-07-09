@@ -32,8 +32,10 @@ public class EnterMypageController {
 
 		int entrprsSq = Integer.parseInt(param.get("entrprsSq")); // 기업회원 순번
 
-		EnterInfoDTO enterInfo = enterMypageServie.getEnterpriseInfo(entrprsSq); // 기업회원 개인정보
-
+		Map<String, String> enterInfo = enterMypageServie.getEnterpriseInfo(entrprsSq); // 기업회원 개인정보
+		System.out.println(enterInfo);
+		
+		
 
 		return ResponseEntity.ok(enterInfo);
 	}
@@ -108,15 +110,24 @@ public class EnterMypageController {
 
 		System.out.println(param); // 탈퇴자 정보
 
-		int entrprsSq = Integer.parseInt(param.get("entrprsSq"));
+		int entrprsSp = Integer.parseInt(param.get("entrprsSq"));
+		String entrprsPswrd = param.get("entrprsPswrd");
+		
+		Boolean result = enterMypageServie.passwordMatches(entrprsPswrd, entrprsSp);
+		
+		if(result) { //비밀번호 일치할 경우
+			int result2 = enterMypageServie.enterSignOut(entrprsSp);
 
-		int result = enterMypageServie.enterSignOut(entrprsSq);
-
-		if(result > 0) {
-			return ResponseEntity.ok("탈퇴완료");
+			if(result2 > 0) {
+				return ResponseEntity.ok("탈퇴완료");
+			}else {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정중 오류 발생");
+			}
 		}else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정중 오류 발생");
+			return ResponseEntity.ok("비밀번호 불일치");
 		}
+
+		
 
 	}
 

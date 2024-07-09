@@ -14,14 +14,15 @@
       select mbr_sq from p2_tbl_member_m where mbr_id = #{id}
    </select>
    
-   <!-- 지원정보 -->
-   <select id="getApplyInfo" parameterType="int" resultType="jobplatform.fo.user.domain.vo.ApplyInfoDTO">
+   <!-- 지원정보  jobplatform.fo.user.domain.vo.ApplyInfoDTO -->
+   <select id="getApplyInfo" parameterType="int" resultType="map">
       SELECT 
           a.apy_sq, 
           a.rsm_sq, 
           r.mbr_sq, 
           r.rsm_tl, 
           j.jbp_tl, 
+          j.jbp_sq,
           Date(a.apy_dtm) as apy_dtm,
           j.jbp_cndtn, 
           e.entrprs_name, 
@@ -47,13 +48,14 @@
    </select>
    
    <!-- 검색하여 지원정보 출력 -->
-   <select id="getSearchList" parameterType="map" resultType="jobplatform.fo.user.domain.vo.ApplyInfoDTO">
+   <select id="getSearchList" parameterType="map" resultType="map">
        SELECT 
            a.apy_sq, 
            a.rsm_sq, 
            r.mbr_sq, 
            r.rsm_tl, 
            j.jbp_tl, 
+           j.jbp_sq,
            DATE(a.apy_dtm) AS apy_dtm,
            j.jbp_cndtn, 
            e.entrprs_name, 
@@ -114,7 +116,7 @@
       inner join
          p2_tbl_resume_m as r
          on a.rsm_sq = r.rsm_sq 
-         where a.apy_cndtn!='403' and a.apy_cndtn='401' and r.mbr_sq=#{mbrSq}
+         where a.apy_cndtn !='403' and a.apy_cndtn !='401' and r.mbr_sq=#{mbrSq}
    </select>
    
    <!--이력서 미열람cnt-->
@@ -124,9 +126,13 @@
       inner join
          p2_tbl_resume_m as r
          on a.rsm_sq = r.rsm_sq 
-         where a.apy_cndtn not in ('403','401') and r.mbr_sq=#{mbrSq}
+         where a.apy_cndtn = '401' and r.mbr_sq=#{mbrSq}
    </select>
    
+   <select id="getTest" parameterType="int">
+        select mbr_name from p2_tbl_member_m
+         where mbr_sq=#{mbrSq}
+   </select>
    
    
    

@@ -1,10 +1,12 @@
 package jobplatform.fo.enterprise.service;
 
+import java.util.Map;
+
 import jobplatform.fo.enterprise.domain.dto.EnterInfoDTO;
 
 public interface EnterMypageService {
 
-	EnterInfoDTO getEnterpriseInfo(int entrprsSq); // 기업 정보
+	Map<String, String> getEnterpriseInfo(int entrprsSq); // 기업 정보
 	
 	Integer idRepetitionCheck(String entrprsId); // 기업회원 아이디 중복체크
 	

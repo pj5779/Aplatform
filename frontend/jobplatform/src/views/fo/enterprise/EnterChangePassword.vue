@@ -58,7 +58,8 @@
 
 <script setup>
 
-import { ref } from 'vue';
+import { onMounted , ref , computed} from 'vue';
+import store from '@/store';
 import axios from 'axios';
 
 
@@ -67,11 +68,22 @@ const agree = ref(''); // 유의사항 동의
 const entrprsPswrd = ref(''); // 기존 비밀번호
 const entrprsPswrdChng = ref(''); // 변경할 비밀번호
 const entrprsPswrdChngCheck = ref(''); // 변경할 비밀번호 확인
-const entrprsSp = ref(43); //기업회원순번
+const entrprsSp = ref(''); //기업회원순번
 
 
 const errorEntrprsPswrdChng = ref(''); //변경할 비밀번호 에러
 const errorPswrdConfirm =ref(''); // 비밀번호 형식 에러
+
+onMounted(async() => {
+    const test = computed(()=>{
+
+return store.getters.enterMember
+})
+console.log(test.value.pk);
+entrprsSp.value = test.value.pk;
+})
+
+
 
 // 비밀번호 변경하기
  const handleSubmit = async() => {

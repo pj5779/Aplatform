@@ -27,16 +27,17 @@
 <div class="form-container">
     <div class="col-lg-11">
         <form role="form" class="needs-validation" @submit.prevent="handleSubmit">
-            <div class="form-group row mb-4">
+            <div class="form-group row">
                 <label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">
                     아이디</label>
-                <div class="col-lg-7">
-                    <input class="form-control text-3 h-auto py-2" type="text" name="entrprsId" v-model="entrprsId" required @input="repetitionCheck = 0">
+                <div class="col-lg-9">
+                    <input class="form-control text-3 h-auto py-2" type="text" name="entrprsId" v-model="entrprsId" readonly>
                 </div>
+                <!--아이디 중복체크-->
                 <!-- <div class="col-lg-7" v-if="repetitionCheck == 1">
                     <input class="form-control text-3 h-auto py-2" type="text" name="entrprsId" :value="entrprsId" readonly>
                 </div> -->
-                <div class="col-lg-2" v-if="repetitionCheck == 0">
+                <!-- <div class="col-lg-2" v-if="repetitionCheck == 0">
                     <input class="btn btn-danger text-3 h-auto py-2" 
                     type="button" name="entrprsId" value="중복확인"
                     @click="idRepetitionCheck">
@@ -45,7 +46,7 @@
                     <input class="btn btn-primary text-3 h-auto py-2" 
                     type="button" name="entrprsId" value="사용가능"
                     readonly>
-                </div>
+                </div> -->
 
             </div>
             <div class="form-group row">
@@ -61,13 +62,28 @@
                     <input class="form-control text-3 h-auto py-2" type="url" name="entrprsHp" v-model="entrprsHp">
                 </div>
             </div>
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2">기업 주소</label>
-                <div class="col-lg-9">
-                    <input class="form-control text-3 h-auto py-2" type="text" name="entrprsAdrs" v-model="entrprsAdrs"
-                        placeholder="Street">
+            <div class="form-group row mb-4">
+                <label class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">기업 주소</label>
+                <div class="col-lg-7">
+                    <input class="form-control text-3 h-auto py-2" type="text" name="entrprsAdrs" v-model="zonecode"
+                        placeholder="우편번호">
+                </div>
+                <div class="col-lg-2">
+                    <input class="btn btn-primary text-3 h-auto py-2" 
+                    type="button" name="entrprsId" value="검 색"
+                    @click="openPostcode">
                 </div>
             </div>
+
+            <div class="form-group row">
+                <label
+                    class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 "></label>
+                <div class="col-lg-9">
+                    <input class="form-control text-3 h-auto py-2" type="text" name="entrprsPicName" 
+                    placeholder="상세주소" v-model="entrprsAdrs">
+                </div>
+            </div>
+            
             <div class="form-group row">
                 <label
                     class="col-lg-3 col-form-label form-control-label line-height-9 pt-2 text-2 required">기업 담당자</label>
@@ -117,19 +133,22 @@
 </template>
 
 <script setup>
-import { onMounted , ref } from 'vue';
+import { onMounted , ref , computed} from 'vue';
+import store from '@/store'
 import axios from 'axios';
+// import { useStore } from 'vuex';
 
 const entrprsSq = ref(''); //기업순번
 const entrprsId = ref(''); // 기업아이디
 const entrprsName = ref(''); // 기업명
-const entrprsAdrs = ref(''); // 기업주소
+const zonecode = ref(''); // 우편번호
+const entrprsAdrs = ref(''); // 상세주소
 const entrprsHp = ref(''); // 기업홈페이지
 const entrprsPicName = ref(''); // 담당자 이름
 const entrprsPicEml = ref(''); // 담당자 이메일주소
 const entrprsPicMp = ref(''); //담당자 전화번호
 
-const repetitionCheck = ref(0) //아이디 중복체크 여부 0-사용가능 / 1-사용불가능
+//const repetitionCheck = ref(0) //아이디 중복체크 여부 0-사용가능 / 1-사용불가능
 
 const imgUrl = ref(''); // 이미지 임시url 저장
 
@@ -140,28 +159,51 @@ const file = ref(''); // 파일저장
 const errorEntrprsPicMp = ref(''); // 핸드폰 번호 에러
 
 
+
+
+
+
+
 onMounted(async() => {
+    const test = computed(()=>{
+
+return store.getters.enterMember
+})
+console.log("pk:"+test.value.pk);
+
     try{
     const res = await axios.get('http://localhost:80/enter/getEnterInfo', {
                 params: {
-                    entrprsSq : 1
+                    entrprsSq : test.value.pk
                 }
             });
     console.log(res.data);
-    entrprsSq.value = res.data.entrprsSq;
-    entrprsId.value = res.data.entrprsId;
-    entrprsName.value = res.data.entrprsName;
-    entrprsAdrs.value = res.data.entrprsAdrs;
-    entrprsHp.value = res.data.entrprsHp;
-    entrprsPicName.value = res.data.entrprsPicName;
-    entrprsPicEml.value = res.data.entrprsPicEml;
-    entrprsPicMp.value = res.data.entrprsPicMp;
+    entrprsSq.value = res.data.entrprs_sq;
+    entrprsId.value = res.data.entrprs_id;
+    entrprsName.value = res.data.entrprs_name;
+    entrprsAdrs.value = res.data.entrprs_adrs;
+    entrprsHp.value = res.data.entrprs_hp;
+    entrprsPicName.value = res.data.entrprs_pic_name;
+    entrprsPicEml.value = res.data.entrprs_pic_eml;
+    entrprsPicMp.value = res.data.entrprs_pic_mp;
+    zonecode.value = res.data.entrprs_zip_code;
 
 
     }catch(error){
         console.error(error);
     }
 });
+
+// daum 주소검색 api
+const openPostcode = (()=> {
+    new window.daum.Postcode({
+        oncomplete : (data) => {
+            zonecode.value = data.zonecode;
+            entrprsAdrs.value = data.roadAddress;
+        }
+        
+    }).open();
+})
 
 
 // Save 버튼
@@ -171,10 +213,7 @@ const handleSubmit = async() => {
     return;
   }
 
-  if(repetitionCheck.value == 0){
-    alert('아이디 중복체크 해주세요');
-    return;
-  }
+
 
   if (!/^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/.test(entrprsPicMp.value)) {
     errorEntrprsPicMp.value =
@@ -191,7 +230,9 @@ const handleSubmit = async() => {
       entrprsHp: entrprsHp.value,
       entrprsPicName: entrprsPicName.value,
       entrprsPicEml: entrprsPicEml.value,
-      entrprsPicMp: entrprsPicMp.value
+      entrprsPicMp: entrprsPicMp.value,
+      entrprsZoneCode : zonecode.value
+      
     };
 
     // console test
@@ -234,27 +275,27 @@ const uploadImg = async (e) => {
 
 //아이디 중복확인
 // 아이디중복확인
-const idRepetitionCheck = async() => {
-    console.log("중복확인")
-    if(!entrprsId.value){
-    alert("아이디를 입력해 주세요");
-    return;
-    }
+// const idRepetitionCheck = async() => {
+//     console.log("중복확인")
+//     if(!entrprsId.value){
+//     alert("아이디를 입력해 주세요");
+//     return;
+//     }
       
-    try{
-    const res = await axios.post('http://localhost:80/enter/idRepetitionCheck', {entrprsId : entrprsId.value});
-            console.log(res.data);
-            if(res.data == '사용가능'){
-                repetitionCheck.value = 1;
-            }else{
-                alert('중복된 아이디 입니다.')
-                repetitionCheck.value = 0;
-            }
+//     try{
+//     const res = await axios.post('http://localhost:80/enter/idRepetitionCheck', {entrprsId : entrprsId.value});
+//             console.log(res.data);
+//             if(res.data == '사용가능'){
+//                 repetitionCheck.value = 1;
+//             }else{
+//                 alert('중복된 아이디 입니다.')
+//                 repetitionCheck.value = 0;
+//             }
 
-    }catch(error){
-        console.error(error);
-    }       
-};
+//     }catch(error){
+//         console.error(error);
+//     }       
+// };
 
 
 // 주소검색 api

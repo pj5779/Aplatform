@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jobplatform.fo.enterprise.domain.mapper.EnterpriseMypageMapper">
 	
-	<!--기업회원정보 수정 -> 기업정보 가져오기-->
-	<select id="getEnterpriseInfo" resultType="jobplatform.fo.enterprise.domain.dto.EnterInfoDTO">
+	<!--기업회원정보 수정 -> 기업정보 가져오기 jobplatform.fo.enterprise.domain.dto.EnterInfoDTO-->
+	<select id="getEnterpriseInfo" parameterType="int" resultType="map">
 		select 
 		   entrprs_sq,
 		   entrprs_id,
@@ -12,7 +12,8 @@
 		   entrprs_adrs,
 		   entrprs_pic_name,
 		   entrprs_pic_mp,
-		   entrprs_pic_eml
+		   entrprs_pic_eml,
+		   entrprs_zip_code
 		from p2_tbl_enterprise_member_m 
 		where entrprs_sq =#{entrprsSq};
 		   
@@ -35,7 +36,8 @@
 		entrprs_adrs = #{entrprsAdrs},
 		entrprs_pic_name = #{entrprsPicName},
 		entrprs_pic_mp = #{entrprsPicMp},
-		entrprs_pic_eml = #{entrprsPicEml}
+		entrprs_pic_eml = #{entrprsPicEml},
+		entrprs_zip_code = #{entrprsZoneCode}
 		where
 		entrprs_sq = #{entrprsSq}
 	</update>
