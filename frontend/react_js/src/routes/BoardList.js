@@ -20,6 +20,7 @@ const BoardList = () => {
   });
 
   const getBoardList = async () => {
+    debugger;
     if (search.page === curPage) return; //현재 페이지와 누른 페이지가 같으면 return
 
     const queryString = Object.entries(search)
@@ -30,15 +31,15 @@ const BoardList = () => {
       await axios.get('/board?' + queryString)
     ).data; // 2) 게시글 목록 데이터에 할당
 
-    setBoardList(resp.data); // 3) boardList 변수에 할당
+    setBoardList(resp.data || []); // 3) boardList 변수에 할당
     const pngn = resp.pagination;
 
     const { endPage, nextBlock, prevBlock, startPage, totalPageCnt } = pngn;
-
-    setCurPage(search.page);
-    setPrevBlock(prevBlock);
-    setNextBlock(nextBlock);
-    setLastPage(totalPageCnt);
+    //페이징 셋팅 
+    setCurPage(search.page);    //현재페이지
+    setPrevBlock(prevBlock);    //이전버튼
+    setNextBlock(nextBlock);    //다음버튼
+    setLastPage(totalPageCnt);   //총 페이지
 
     const tmpPages = [];
     for (let i = startPage; i <= endPage; i++) {
