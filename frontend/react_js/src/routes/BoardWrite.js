@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const BoardWrite = () => {
+  //화면이동 객체 선언
   const navigate = useNavigate();
-
+  //변수 선언 (게시글 정보)
   const [board, setBoard] = useState({
     title: '',
     createdBy: '',

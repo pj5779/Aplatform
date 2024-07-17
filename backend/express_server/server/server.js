@@ -39,11 +39,11 @@ app.get('/board', (req, res) => {
       FROM TB_BOARD
       WHERE 1=1
     `;
-  
+    //검색구분, 검색어 쿼리 추가
     if (sk && sv) {
       queryCount += ` AND ${sk.toUpperCase()} LIKE '%${sv}%'`;
     }
-
+    //전체카운트 조회
     db.query(queryCount, (err, countResults) => {
       if (err) return res.status(500).json({ error: err.message });
         
@@ -61,7 +61,7 @@ app.get('/board', (req, res) => {
       }
   
       query += ` ORDER BY IDX DESC LIMIT ${pagination.startIndex}, ${pagination.pageSize}`;
-  
+      //실제 게시물 목록 조회
       db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
         

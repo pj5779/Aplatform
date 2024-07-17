@@ -21,19 +21,19 @@ const BoardUpdate = () => {
       [name]: value,
     });
   };
-
+  //게시물 정보 셋팅 함수
   const getBoard = async () => {
     const resp = await (await axios.get(`/board/${idx}`)).data;
     setBoard(resp.data);
   };
-
+  //게시물 수정 함수
   const updateBoard = async () => {
     await axios.patch(`/board`, board).then((res) => {
       alert('수정되었습니다.');
       navigate('/board/' + idx);
     });
   };
-
+  //게시물 상세보기 로 이동
   const backToDetail = () => {
     navigate('/board/' + idx);
   };
