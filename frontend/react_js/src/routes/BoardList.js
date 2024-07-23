@@ -74,7 +74,7 @@ const BoardList = () => {
   //검색함수
   const onSearch = () => {
     //검색어 없을 시 
-    if (search.sk == ''){
+    if (search.sk === ''){
         alert('검색조건을 선택해주세요!');
         return;
     }else{
