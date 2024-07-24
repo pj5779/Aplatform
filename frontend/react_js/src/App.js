@@ -7,13 +7,14 @@ import BoardDetail from './routes/BoardDetail';
 import BoardWrite from './routes/BoardWrite';
 import BoardUpdate from "./routes/BoardUpdate";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from "./layout/Header";
+// import Header from "./layout/Header";
 import Footer from "./layout/Footer";
+import './App.css';
 
 function App() {
   return (
     <div className="wrapper">
-      <Header />
+      {/* <Header /> */}
       <div role="main" className="main" style={{ minHeight: '700px' }}>
         <Routes>
           <Route path="/" element={<Home />} />
