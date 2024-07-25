@@ -8,7 +8,7 @@ import BoardWrite from './routes/BoardWrite';
 import BoardUpdate from "./routes/BoardUpdate";
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import Header from "./layout/Header";
-import Footer from "./layout/Footer";
+import Footer from "./common/Footer";
 import './App.css';
 
 function App() {

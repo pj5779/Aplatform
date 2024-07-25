@@ -5,7 +5,7 @@ import {BrowserRouter} from "react-router-dom";
 // import MainLayout from './common/Mainlayout';
 import Header from "./common/MainHeader";
 // import './common/MainLayout.css';
-import Footer from "./layout/Footer";
+import Footer from "./common/Footer";
 import './styles/index.css';
 
 

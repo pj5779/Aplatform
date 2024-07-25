@@ -34,7 +34,7 @@ const Board = ({ idx, title, contents, createdBy, createdAt }) => {
           <h2>{title}</h2>
           <div className="post-meta">
             <span>작성자: {createdBy}</span>
-            <span>등록일: {createdAt.slice(0, 10)}</span>
+            <span>등록일: {createdAt ? createdAt.slice(0, 10) : ''}</span>
             <span>조회수: 24</span>
           </div>
           
