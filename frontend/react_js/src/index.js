@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import App from './App';
+import Test from './App';
 import {BrowserRouter} from "react-router-dom";
 // import MainLayout from './common/Mainlayout';
 import Header from "./common/MainHeader";
 // import './common/MainLayout.css';
-// import Footer from "./layout/Footer";
+import Footer from "./layout/Footer";
 import './styles/index.css';
 
 
@@ -14,8 +14,8 @@ root.render(
   <BrowserRouter>
     <Header/>
     <div role="main" className="main" style={{ minHeight: '700px' }}>
-     {/* <App/> */}
+     <Test/>
      </div>
-    {/* <Footer/> */}
+    <Footer/>
   </BrowserRouter>
 );

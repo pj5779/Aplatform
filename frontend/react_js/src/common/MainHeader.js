@@ -46,18 +46,18 @@ const Header = () => {
 
   const changeUserType = (type) => {
     // 서버에 사용자 타입 변경 요청을 보냅니다
-    axios.post('/api/user/change', { userType: type })
-      .then(() => {
+    // axios.post('/api/user/change', { userType: type })
+    //   .then(() => {
         setUserType(type);
         if (type === 'enter') {
           navigate('/enter');
         } else if (type === 'user') {
           navigate('/');
         }
-      })
-      .catch(error => {
-        console.error('Error changing user type:', error);
-      });
+    //   })
+    //   .catch(error => {
+    //     console.error('Error changing user type:', error);
+    //   });
   };
 
   return (
@@ -72,11 +72,11 @@ const Header = () => {
                                       <img alt="Porto" width="100" height="48" data-sticky-width="82" data-sticky-height="40" src="/img/jobs-icon.png"/>
                                   </Link>
                               </div>
-                              <div className="ms-3" style={{cursor: "pointer"}}>일반회원</div>
-                              <div className="ms-3" style={{cursor: "pointer"}}>기업회원</div>
+                              <div className="ms-3" style={{cursor: "pointer"}} onClick={() => changeUserType('user')}>일반회원</div>
+                              <div className="ms-3" style={{cursor: "pointer"}} onClick={() => changeUserType('enter')}>기업회원</div>
                           </div>
                       </div>
-                      <div className="header-column justify-content-end" v-show="userType == 'user'">
+                      <div className="header-column justify-content-end" style={{display: userType ==='user' ? 'block' : 'none'}}>
                           <div className="header-row">
                               <div className="header-nav header-nav-line header-nav-bottom-line header-nav-bottom-line-no-transform header-nav-bottom-line-active-text-dark header-nav-bottom-line-effect-1 order-2 order-lg-1">
                                   <div className="header-nav-main header-nav-main-square header-nav-main-dropdown-no-borders header-nav-main-effect-2 header-nav-main-sub-effect-1">
@@ -88,7 +88,7 @@ const Header = () => {
                                                   <i className="fas fa-chevron-down"></i></Link>
                                               </li>
                                               <li className="dropdown">
-                                                  <Link to="/board/list/jobPosting" className="dropdown-item dropdown-toggle font-weight-bold">
+                                                  <Link to="/user/jobinfo" className="dropdown-item dropdown-toggle font-weight-bold">
                                                       채용정보
                                                   <i className="fas fa-chevron-down"></i></Link>
                                               </li>
@@ -128,7 +128,7 @@ const Header = () => {
                               </div>
                               <div className="header-nav-features header-nav-features-no-border header-nav-features-lg-show-border order-1 order-lg-2">
                                   <div className="header-nav-feature header-nav-features-search d-inline-flex">
-                                      <Link className="nav-link" to="/login">LOGIN</Link>
+                                      <Link className="nav-link" to="/user/login">LOGIN</Link>
                                   </div>
                                   <div className="header-nav-feature header-nav-features-cart d-inline-flex ms-2">
                                       <span className="header-nav-features-toggle text-decoration-none me-3" data-focus="headerSearch" aria-label="Search" >홍길동님</span>
@@ -140,7 +140,7 @@ const Header = () => {
                           </div>
                       </div>
                       {/* <div className="header-column justify-content-end" v-show="userType == 'enter'"> */}
-                      <div className="header-column justify-content-end" style={{display:"none"}}>
+                      <div className="header-column justify-content-end" style={{display: userType === 'enter' ? 'block' : 'none'}}>
                           <div className="header-row">
                               <div className="header-nav header-nav-line header-nav-bottom-line header-nav-bottom-line-no-transform header-nav-bottom-line-active-text-dark header-nav-bottom-line-effect-1 order-2 order-lg-1">
                                   <div className="header-nav-main header-nav-main-square header-nav-main-dropdown-no-borders header-nav-main-effect-2 header-nav-main-sub-effect-1">
@@ -152,12 +152,12 @@ const Header = () => {
                                                   <i className="fas fa-chevron-down"></i></Link>
                                               </li>
                                               <li className="dropdown">
-                                                  <Link to="/board/list/jobPosting" className="dropdown-item dropdown-toggle font-weight-bold">
+                                                  <Link to="/enter/EnterjobPostinglist" className="dropdown-item dropdown-toggle font-weight-bold">
                                                       공고관리
                                                   <i className="fas fa-chevron-down"></i></Link>
                                               </li>
                                               <li className="dropdown">
-                                                  <Link to="/enter/recommendResumeList" className="dropdown-item dropdown-toggle font-weight-bold">
+                                                  <Link to="/enter/EnterrecmndResumeList" className="dropdown-item dropdown-toggle font-weight-bold">
                                                       인재리스트
                                                   <i className="fas fa-chevron-down"></i></Link>
                                               </li>
