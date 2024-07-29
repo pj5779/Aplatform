@@ -36,7 +36,10 @@ import EnterSignUp from './member/EnterMemberRegister';
 import EnterJobPostingForm from './enterprise/EnterJobPostingInsertForm';
 import EnterJobPostingDetail from './enterprise/EnterJobPostingDetail';
 import EnterJobPostingEdit from './enterprise/EnterJobPostingUpdateForm';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import Header from "./layout/Header";
+import Footer from "./common/Footer";
+import './App.css';
 
 function Test() {
   const location = useLocation();
@@ -49,7 +52,6 @@ function Test() {
   const showSidebarEnter = ['/enter/mypage', '/enter/infoUpdate', '/enter/chahgePassword', '/enter/EnterSignOut'].includes(location.pathname);
   // 사이드바 레이아웃 결정
   const isEnterprise = location.pathname.startsWith('/enter');
-
 
   return (
     <>

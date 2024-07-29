@@ -93,12 +93,12 @@ const Header = () => {
                                                   <i className="fas fa-chevron-down"></i></Link>
                                               </li>
                                               <li className="dropdown">
-                                                  <Link className="dropdown-item dropdown-toggle font-weight-bold" to="elements.html">
+                                                  <Link className="dropdown-item dropdown-toggle font-weight-bold" to="/board">
                                                       게시판
                                                   <i className="fas fa-chevron-down"></i></Link>
                                                   <ul className="dropdown-menu">
                                                       <li>
-                                                          <Link className="dropdown-item" to="index.html">
+                                                          <Link className="dropdown-item" to="/board">
                                                               일반게시판
                                                           </Link>
                                                       </li>
